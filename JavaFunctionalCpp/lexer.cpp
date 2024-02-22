@@ -17,5 +17,19 @@ void Lexer::advance() {
 }
 
 SyntaxToken Lexer::lex() {
+	if (isspace(current())) {
+		while (isspace(current())) {
+			advance();
+		}
+	}
+	if (isdigit(current())) {
+		int start = this->index;
+		while (isdigit(current())) {
+			advance();
+		}
+		int length = this->index - start;
+		std::string text = this->program.substr(start, length);
+		return new SyntaxToken(NUMBER_TOKEN, text, start);
+	}
 
 }
