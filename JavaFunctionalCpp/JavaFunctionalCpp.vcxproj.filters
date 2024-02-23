@@ -21,15 +21,12 @@
     <ClCompile Include="lexer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="syntaxtoken.hpp">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="syntaxtoken.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lexer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

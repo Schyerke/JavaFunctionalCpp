@@ -129,10 +129,9 @@
   <ItemGroup>
     <ClCompile Include="lexer.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="syntaxtoken.cpp" />
-    <ClCompile Include="syntaxtoken.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="common.hpp" />
     <ClInclude Include="lexer.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
