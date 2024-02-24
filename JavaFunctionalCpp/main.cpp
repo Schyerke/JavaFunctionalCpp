@@ -15,7 +15,7 @@ void print_tokens(std::vector<SyntaxToken> tokens)
 }
 
 void prettyPrint(AstNode node) {
-
+	if()
 }
 
 int main() {
