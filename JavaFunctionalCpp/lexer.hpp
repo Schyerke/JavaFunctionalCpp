@@ -4,6 +4,7 @@
 enum Token_t
 {
 	NUMBER_TOKEN,
+	NO_OPERATOR_TOKEN,
 	PLUS_TOKEN,
 	MINUS_TOKEN,
 
