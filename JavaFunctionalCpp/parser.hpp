@@ -5,25 +5,6 @@
 #include <vector>
 #include "lexer.hpp"
 
-class Parser
-{
-public:
-	std::vector<SyntaxToken> tokens;
-	size_t index;
-
-	Parser(std::string program);
-	
-	AstNode parse();
-private:
-	SyntaxToken next_token();
-	SyntaxToken peek();
-	SyntaxToken match(Token_t match);
-	SyntaxToken peek();
-	SyntaxToken lookAtHead(int offset);
-	AstNode expression();
-	AstNode parseFactor();
-};
-
 class AstNode
 {
 	
@@ -48,5 +29,23 @@ public:
 	BinaryOperationNode(AstNode left);
 };
 
+
+class Parser
+{
+public:
+	std::vector<SyntaxToken> tokens;
+	size_t index;
+
+	Parser(std::string program);
+
+	AstNode parse();
+private:
+	SyntaxToken next_token();
+	SyntaxToken peek();
+	SyntaxToken match(Token_t match);
+	SyntaxToken lookAtHead(int offset);
+	AstNode expression();
+	AstNode parseFactor();
+};
 
 #endif // !PARSER_HPP

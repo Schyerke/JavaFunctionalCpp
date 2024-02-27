@@ -15,9 +15,14 @@ void print_tokens(std::vector<SyntaxToken> tokens)
 }
 
 void prettyPrint(AstNode node) {
-	if()
-}
+	if (node == nullptr)
+	{
+		return;
+	}
 
+	
+
+}
 int main() {
 	string program = "1 + 2 - 3";
 	
