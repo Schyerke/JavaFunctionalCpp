@@ -5,6 +5,7 @@
 #include <cstring>
 
 #include "parser.hpp"
+#include "cast.hpp"
 
 Parser::Parser(std::string program)
 {
@@ -66,7 +67,7 @@ AstNode Parser::parse()
 AstNode Parser::expression()
 {
 	AstNode left = parseFactor();
-	while (peek().get_token_t() == PLUS_TOKEN)
+	while (peek().get_token_t() == PLUS_TOKEN || peek().get_token_t() == MINUS_TOKEN)
 	{
 		SyntaxToken op = next_token();
 		AstNode right = parseFactor();
@@ -108,10 +109,6 @@ BinaryOperationNode::BinaryOperationNode(AstNode left) {
 }
 
 std::string BinaryOperationNode::get_classname() {
-
-	std::string classname = "Left ";
-	/*classname.append(get_node_classname(left.get()));*/
-
-	//std::string classname = "Left " + " Token " + token_name(op) + " Right " + get_node_classname(right.get());
+	std::string classname = "Left " + get_node_classname(left.get()) + " Token " + token_name(op) + " Right " + get_node_classname(right.get());
 	return classname;
 }
