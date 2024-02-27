@@ -2,8 +2,11 @@
 #define CAST_HPP
 
 #include <iostream>
-#include "lexer.hpp"
+#include "parser.hpp"
 
-std::string get_node_classname(AstNode* node);
+
+using namespace std;
+
+string get_node_classname(AstNode* node);
 
 #endif // !CAST_HPP

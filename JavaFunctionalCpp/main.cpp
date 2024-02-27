@@ -26,6 +26,8 @@ void prettyPrint(AstNode* node) {
 	}
 }
 int main() {
+
+
 	string program = "1 + 2 - 3";
 	
 	Parser parser(program);

@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <cstring>
 
 #include "parser.hpp"
 
@@ -80,10 +81,18 @@ AstNode Parser::parseFactor()
 	return NumberNode::NumberNode(std::stol(token.get_value()));
 }
 
+std::string AstNode::get_classname() {
+	return "AstNode";
+}
 
 NumberNode::NumberNode(long number)
 {
 	this->number = number;
+}
+
+std::string NumberNode::get_classname() {
+	std::string classname = number + " NumberNode\n";
+	return classname;
 }
 
 BinaryOperationNode::BinaryOperationNode(AstNode left, Token_t op, AstNode right)
@@ -96,4 +105,13 @@ BinaryOperationNode::BinaryOperationNode(AstNode left, Token_t op, AstNode right
 BinaryOperationNode::BinaryOperationNode(AstNode left) {
 	this->left = std::make_unique<AstNode>(left);
 	this->op = NO_OPERATOR_TOKEN;
+}
+
+std::string BinaryOperationNode::get_classname() {
+
+	std::string classname = "Left ";
+	/*classname.append(get_node_classname(left.get()));*/
+
+	//std::string classname = "Left " + " Token " + token_name(op) + " Right " + get_node_classname(right.get());
+	return classname;
 }
