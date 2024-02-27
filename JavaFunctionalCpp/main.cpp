@@ -24,16 +24,15 @@ void prettyPrint(AstNode* node) {
 		cout << binaryOperationNode->get_classname();
 		prettyPrint(binaryOperationNode->right.get());
 	}
-	cout << endl;
-	cout << "Finished";
 }
+
 int main() {
 	string program = "1 + 2 - 3";
 	
 	Parser parser(program);
-	AstNode root = parser.parse();
+	AstNode* root = parser.parse();
 
-	prettyPrint(&root);
+	prettyPrint(root);
 
 
 	return 0;

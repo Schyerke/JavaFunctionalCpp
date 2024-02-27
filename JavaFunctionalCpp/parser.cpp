@@ -59,27 +59,27 @@ SyntaxToken Parser::match(Token_t match)
 	return SyntaxToken::SyntaxToken(BAD_TOKEN, "", -1, 0);
 }
 
-AstNode Parser::parse()
+AstNode* Parser::parse()
 {
 	return expression();
 }
 
-AstNode Parser::expression()
+AstNode* Parser::expression()
 {
-	AstNode left = parseFactor();
+	AstNode* left = parseFactor();
 	while (peek().get_token_t() == PLUS_TOKEN || peek().get_token_t() == MINUS_TOKEN)
 	{
 		SyntaxToken op = next_token();
-		AstNode right = parseFactor();
-		left = BinaryOperationNode::BinaryOperationNode(left, op.get_token_t(), right);
+		AstNode* right = parseFactor();
+		left = new BinaryOperationNode(left, op.get_token_t(), right);
 	}
 	return left;
 }
 
-AstNode Parser::parseFactor() 
+AstNode* Parser::parseFactor() 
 {
 	SyntaxToken token = match(NUMBER_TOKEN);
-	return NumberNode::NumberNode(std::stol(token.get_value()));
+	return new NumberNode(stol(token.get_value()));
 }
 
 std::string AstNode::get_classname() {
@@ -92,23 +92,25 @@ NumberNode::NumberNode(long number)
 }
 
 std::string NumberNode::get_classname() {
-	std::string classname = number + " NumberNode\n";
+	std::string classname = number + " NumberNode";
+	classname.append("\n");
 	return classname;
 }
 
-BinaryOperationNode::BinaryOperationNode(AstNode left, Token_t op, AstNode right)
+BinaryOperationNode::BinaryOperationNode(AstNode* left, Token_t op, AstNode* right)
 {
-	this->left = std::make_unique<AstNode>(left);
+	this->left = std::make_unique<AstNode>(*left);
 	this->op = op;
-	this->right = std::make_unique<AstNode>(right);
+	this->right = std::make_unique<AstNode>(*right);
 }
 
-BinaryOperationNode::BinaryOperationNode(AstNode left) {
-	this->left = std::make_unique<AstNode>(left);
+BinaryOperationNode::BinaryOperationNode(AstNode* left) {
+	this->left = std::make_unique<AstNode>(*left);
 	this->op = NO_OPERATOR_TOKEN;
 }
 
 std::string BinaryOperationNode::get_classname() {
 	std::string classname = "Left " + get_node_classname(left.get()) + " Token " + token_name(op) + " Right " + get_node_classname(right.get());
+	classname.append("\n");
 	return classname;
 }
