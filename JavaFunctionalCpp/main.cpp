@@ -3,6 +3,7 @@
 
 #include "lexer.hpp"
 #include "parser.hpp"
+#include "cast.hpp"
 
 using namespace std;
 
@@ -14,14 +15,15 @@ void print_tokens(std::vector<SyntaxToken> tokens)
 	}
 }
 
-void prettyPrint(AstNode node) {
-	if (node == nullptr)
-	{
-		return;
+void prettyPrint(AstNode* node) {
+	if (NumberNode* numberNode = dynamic_cast<NumberNode*>(node)) {
+		cout << numberNode->get_classname();
 	}
-
-	
-
+	if (BinaryOperationNode* binaryOperationNode = dynamic_cast<BinaryOperationNode*>(node)) {
+		prettyPrint(binaryOperationNode->left.get());
+		cout << binaryOperationNode->get_classname();
+		prettyPrint(binaryOperationNode->right.get());
+	}
 }
 int main() {
 	string program = "1 + 2 - 3";
@@ -29,7 +31,7 @@ int main() {
 	Parser parser(program);
 	AstNode root = parser.parse();
 
-	prettyPrint(root);
+	prettyPrint(&root);
 
 
 	return 0;

@@ -1,6 +1,9 @@
 #ifndef LEXER_HPP
 #define LEXER_HPP
 
+#include <iostream>
+#include <map>
+
 enum Token_t
 {
 	NUMBER_TOKEN,
@@ -11,6 +14,8 @@ enum Token_t
 	BAD_TOKEN,
 	END_OF_FILE_TOKEN
 };
+
+std::string token_name(Token_t token);
 
 class SyntaxToken
 {
@@ -32,8 +37,7 @@ public:
 	Lexer(std::string program);
 	char current();
 	void advance();
-	SyntaxToken lex() ;
-
+	SyntaxToken lex();
 private:
 	size_t index = 0;
 	std::string program;
