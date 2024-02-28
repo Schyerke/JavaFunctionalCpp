@@ -17,7 +17,7 @@ BinaryOperationNode::BinaryOperationNode(AstNode* left) {
 }
 
 std::string BinaryOperationNode::get_classname() {
-	std::string classname = "(Left_" + get_node_classname(left.get()) + "_Token_" + token_name(op) + "_Right_" + get_node_classname(right.get()) + ")";
+	std::string classname = "(" + token_name(op) + ")";
 	classname.append("\n");
 	return classname;
 }

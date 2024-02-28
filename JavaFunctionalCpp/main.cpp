@@ -33,7 +33,7 @@ int main() {
 	
 	Parser parser(program);
 	AstNode* root = parser.parse();
-
+	std::cout << std::endl;
 	prettyPrint(root);
 
 
