@@ -1,18 +1,38 @@
 #include <iostream>
 #include <cstring>
+#include <string>
+#include <memory>
 
 using namespace std;
 
+class Animal {
+public:
+	string name;
+	Animal() {
+		name = "Animal";
+	}
+	virtual void eat() {
+		cout << "General animal eating";
+	}
+};
+
+class Dog : public Animal{
+public:
+	Dog() {
+		name = "Dog";
+	}
+	void eat() override {
+		cout << "Dog is eating";
+	}
+};
+
+
 int main() {
+	Dog* dog = new Dog();
 	
-	string s1 = "Hello";
-	string s2 = " world";
-
-	s1.append(s2);
-	cout << s1;
-
-
-
+	unique_ptr<Dog> u = make_unique<Dog>(*dog);
+	cout << u.get()->name;
+	
 
 	return 0;
 }

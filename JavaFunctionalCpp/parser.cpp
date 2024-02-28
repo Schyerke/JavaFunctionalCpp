@@ -82,6 +82,10 @@ AstNode* Parser::parseFactor()
 	return new NumberNode(stol(token.get_value()));
 }
 
+AstNode::AstNode() {
+
+}
+
 std::string AstNode::get_classname() {
 	return "AstNode";
 }

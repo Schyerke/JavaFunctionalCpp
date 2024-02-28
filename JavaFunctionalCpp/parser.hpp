@@ -8,6 +8,7 @@
 class AstNode
 {
 public:
+	AstNode();
 	virtual std::string get_classname();
 };
 

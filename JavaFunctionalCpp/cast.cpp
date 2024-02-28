@@ -9,5 +9,5 @@ string get_node_classname(AstNode* node) {
 	if (BinaryOperationNode* binary = dynamic_cast<BinaryOperationNode*>(node)) {
 		return binary->get_classname();
 	}
-	return string("No Derived Class Found");
+	return "";
 }
