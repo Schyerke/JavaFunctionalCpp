@@ -127,15 +127,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="cast.cpp" />
+    <ClCompile Include="astnode.cpp" />
+    <ClCompile Include="astnodehelper.cpp" />
+    <ClCompile Include="binaryoperationnode.cpp" />
     <ClCompile Include="lexer.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="numbernode.cpp" />
     <ClCompile Include="parser.cpp" />
+    <ClCompile Include="syntaxtoken.cpp" />
+    <ClCompile Include="token.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="cast.hpp" />
+    <ClInclude Include="astnode.hpp" />
+    <ClInclude Include="astnodehelper.hpp" />
+    <ClInclude Include="binaryoperationnode.hpp" />
     <ClInclude Include="lexer.hpp" />
+    <ClInclude Include="numbernode.hpp" />
     <ClInclude Include="parser.hpp" />
+    <ClInclude Include="syntaxtoken.hpp" />
+    <ClInclude Include="token.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="grammar.txt" />

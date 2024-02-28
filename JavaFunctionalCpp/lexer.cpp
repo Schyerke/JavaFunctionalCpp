@@ -1,26 +1,7 @@
 #include <iostream>
 #include <map>
 #include "lexer.hpp"
-
-std::string token_name(Token_t token) {
-	switch (token) {
-	case NUMBER_TOKEN:
-		return "Number Token";
-	case NO_OPERATOR_TOKEN:
-		return "No Operator Token";
-	case PLUS_TOKEN:
-		return "Plus Token";
-	case MINUS_TOKEN:
-		return "Minus Token";
-	case BAD_TOKEN:
-		return "Bad Token";
-	case END_OF_FILE_TOKEN:
-		return "End Of File Token";
-	default:
-		return "No Token Found";
-	}
-	return "No Token Found";
-}
+#include "syntaxtoken.hpp"
 
 Lexer::Lexer(std::string program)
 {
@@ -73,33 +54,4 @@ SyntaxToken Lexer::lex() {
 			return SyntaxToken::SyntaxToken(BAD_TOKEN, "", this->index++, 0);
 	}
 	return SyntaxToken::SyntaxToken(BAD_TOKEN, "", this->index++, 0);
-}
-
-
-SyntaxToken::SyntaxToken(Token_t token_t, std::string value, size_t pos, size_t len)
-{
-	this->token_t = token_t;
-	this->pos = pos;
-	this->len = len;
-	this->value = value;
-}
-
-Token_t SyntaxToken::get_token_t()
-{
-	return this->token_t;
-}
-
-std::string SyntaxToken::get_value()
-{
-	return this->value;
-}
-
-size_t SyntaxToken::get_pos()
-{
-	return this->pos;
-}
-
-size_t SyntaxToken::get_len()
-{
-	return this->len;
 }

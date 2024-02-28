@@ -1,8 +1,10 @@
-#include "cast.hpp"
+#include <iostream>
 
-using namespace std;
+#include "astnode.hpp"
+#include "binaryoperationnode.hpp"
+#include "numbernode.hpp"
 
-string get_node_classname(AstNode* node) {
+std::string get_node_classname(AstNode* node) {
 	if (NumberNode* numberNode = dynamic_cast<NumberNode*>(node)) {
 		return numberNode->get_classname();
 	}

@@ -4,35 +4,7 @@
 #include <iostream>
 #include <vector>
 #include "lexer.hpp"
-
-class AstNode
-{
-public:
-	virtual std::string get_classname();
-};
-
-class NumberNode : public AstNode
-{
-public:
-	long number;
-	NumberNode(long number);
-
-	std::string get_classname();
-};
-
-class BinaryOperationNode : public AstNode
-{
-public:
-	std::unique_ptr<AstNode> left;
-	std::unique_ptr<AstNode> right;
-	Token_t op;
-
-	BinaryOperationNode(AstNode* left, Token_t op, AstNode* right);
-	BinaryOperationNode(AstNode* left);
-
-	std::string get_classname();
-};
-
+#include "astnode.hpp"
 
 class Parser
 {

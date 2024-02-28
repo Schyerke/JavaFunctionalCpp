@@ -4,8 +4,14 @@
 #include <string>
 #include <cstring>
 
+#include "syntaxtoken.hpp"
+#include "token.hpp"
+
+#include "astnode.hpp"
+#include "binaryoperationnode.hpp"
+#include "numbernode.hpp"
+
 #include "parser.hpp"
-#include "cast.hpp"
 
 Parser::Parser(std::string program)
 {
@@ -63,7 +69,7 @@ AstNode* Parser::parse()
 {
 	for (SyntaxToken t : tokens) {
 		std::string s = token_name(t.get_token_t());
-		cout << s << " " << t.get_value() << std::endl;
+		std::cout << s << " " << t.get_value() << std::endl;
 	}
 	return expression();
 }
@@ -84,38 +90,4 @@ AstNode* Parser::parseFactor()
 {
 	SyntaxToken token = match(NUMBER_TOKEN);
 	return new NumberNode(stol(token.get_value()));
-}
-
-std::string AstNode::get_classname() {
-	return "AstNode";
-}
-
-NumberNode::NumberNode(long number)
-{
-	this->number = number;
-}
-
-std::string NumberNode::get_classname() {
-	std::string classname = "(" + number;
-	classname.append("_NumberNode)");
-	classname.append("\n");
-	return classname;
-}
-
-BinaryOperationNode::BinaryOperationNode(AstNode* left, Token_t op, AstNode* right)
-{
-	this->left.reset(left);
-	this->op = op;
-	this->right.reset(right);
-}
-
-BinaryOperationNode::BinaryOperationNode(AstNode* left) {
-	this->left.reset(left);
-	this->op = NO_OPERATOR_TOKEN;
-}
-
-std::string BinaryOperationNode::get_classname() {
-	std::string classname = "(Left_" + get_node_classname(left.get()) + "_Token_" + token_name(op) + "_Right_" + get_node_classname(right.get()) + ")";
-	classname.append("\n");
-	return classname;
 }
