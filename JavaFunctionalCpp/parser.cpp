@@ -104,13 +104,13 @@ std::string NumberNode::get_classname() {
 
 BinaryOperationNode::BinaryOperationNode(AstNode* left, Token_t op, AstNode* right)
 {
-	this->left = std::make_unique<AstNode>(*left);
+	this->left.reset(left);
 	this->op = op;
-	this->right = std::make_unique<AstNode>(*right);
+	this->right.reset(right);
 }
 
 BinaryOperationNode::BinaryOperationNode(AstNode* left) {
-	this->left = std::make_unique<AstNode>(*left);
+	this->left.reset(left);
 	this->op = NO_OPERATOR_TOKEN;
 }
 
