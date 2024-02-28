@@ -8,7 +8,6 @@
 class AstNode
 {
 public:
-	AstNode();
 	virtual std::string get_classname();
 };
 
@@ -48,7 +47,7 @@ private:
 	SyntaxToken next_token();
 	SyntaxToken peek();
 	SyntaxToken match(Token_t match);
-	SyntaxToken lookAtHead(int offset);
+	SyntaxToken lookAhead(int offset);
 	AstNode* expression();
 	AstNode* parseFactor();
 };

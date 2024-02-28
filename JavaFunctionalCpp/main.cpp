@@ -24,6 +24,7 @@ void prettyPrint(AstNode* node) {
 		cout << binaryOperationNode->get_classname();
 		prettyPrint(binaryOperationNode->right.get());
 	}
+	
 }
 
 int main() {

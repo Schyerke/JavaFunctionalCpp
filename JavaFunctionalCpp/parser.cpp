@@ -38,10 +38,10 @@ SyntaxToken Parser::next_token()
 
 SyntaxToken Parser::peek()
 {
-	return lookAtHead(0);
+	return lookAhead(0);
 }
 
-SyntaxToken Parser::lookAtHead(int offset) {
+SyntaxToken Parser::lookAhead(int offset) {
 	size_t index = offset + this->index;
 	if (index < this->tokens.size()) {
 		return this->tokens[index];
@@ -61,6 +61,10 @@ SyntaxToken Parser::match(Token_t match)
 
 AstNode* Parser::parse()
 {
+	for (SyntaxToken t : tokens) {
+		std::string s = token_name(t.get_token_t());
+		cout << s << " " << t.get_value() << std::endl;
+	}
 	return expression();
 }
 
@@ -82,10 +86,6 @@ AstNode* Parser::parseFactor()
 	return new NumberNode(stol(token.get_value()));
 }
 
-AstNode::AstNode() {
-
-}
-
 std::string AstNode::get_classname() {
 	return "AstNode";
 }
@@ -96,7 +96,8 @@ NumberNode::NumberNode(long number)
 }
 
 std::string NumberNode::get_classname() {
-	std::string classname = number + " NumberNode";
+	std::string classname = "(" + number;
+	classname.append("_NumberNode)");
 	classname.append("\n");
 	return classname;
 }
@@ -114,7 +115,7 @@ BinaryOperationNode::BinaryOperationNode(AstNode* left) {
 }
 
 std::string BinaryOperationNode::get_classname() {
-	std::string classname = "Left " + get_node_classname(left.get()) + " Token " + token_name(op) + " Right " + get_node_classname(right.get());
+	std::string classname = "(Left_" + get_node_classname(left.get()) + "_Token_" + token_name(op) + "_Right_" + get_node_classname(right.get()) + ")";
 	classname.append("\n");
 	return classname;
 }
