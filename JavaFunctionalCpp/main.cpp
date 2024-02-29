@@ -7,6 +7,7 @@
 #include "numbernode.hpp"
 #include "binaryoperationnode.hpp"
 #include "syntaxtoken.hpp"
+#include "evaluator.hpp"
 
 void print_tokens(std::vector<SyntaxToken> tokens)
 {
@@ -29,13 +30,14 @@ void prettyPrint(AstNode* node) {
 }
 
 int main() {
-	std::string program = "1 + 2 - 3";
+	std::string program = "5-10";
 	
 	Parser parser(program);
 	AstNode* root = parser.parse();
 	std::cout << std::endl;
-	prettyPrint(root);
-
+	
+	Evaluator* evaluator = new Evaluator();
+	long result = evaluator->evaluate(root);
 
 	return 0;
 }

@@ -1,10 +1,14 @@
+#include "astnode.hpp"
 #ifndef EVALUATOR_HPP
 #define EVALUATOR_HPP
+
+
 
 class Evaluator
 {
 public:
-	// template<T> evaluate?
+	Evaluator();
+	long evaluate(AstNode* node);
 };
 
 

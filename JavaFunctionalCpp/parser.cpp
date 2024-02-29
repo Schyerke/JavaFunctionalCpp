@@ -67,10 +67,6 @@ SyntaxToken Parser::match(Token_t match)
 
 AstNode* Parser::parse()
 {
-	for (SyntaxToken t : tokens) {
-		std::string s = token_name(t.get_token_t());
-		std::cout << s << " " << t.get_value() << std::endl;
-	}
 	return expression();
 }
 
