@@ -130,6 +130,7 @@
     <ClCompile Include="astnode.cpp" />
     <ClCompile Include="astnodehelper.cpp" />
     <ClCompile Include="binaryoperationnode.cpp" />
+    <ClCompile Include="evaluator.cpp" />
     <ClCompile Include="lexer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="numbernode.cpp" />
@@ -141,6 +142,7 @@
     <ClInclude Include="astnode.hpp" />
     <ClInclude Include="astnodehelper.hpp" />
     <ClInclude Include="binaryoperationnode.hpp" />
+    <ClInclude Include="evaluator.hpp" />
     <ClInclude Include="lexer.hpp" />
     <ClInclude Include="numbernode.hpp" />
     <ClInclude Include="parser.hpp" />
