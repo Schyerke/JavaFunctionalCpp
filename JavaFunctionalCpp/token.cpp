@@ -12,6 +12,10 @@ std::string token_name(Token_t token) {
 		return "Plus Token";
 	case MINUS_TOKEN:
 		return "Minus Token";
+	case STAR_TOKEN:
+		return "Star Token";
+	case SLASH_TOKEN:
+		return "Slash Token";
 	case BAD_TOKEN:
 		return "Bad Token";
 	case END_OF_FILE_TOKEN:

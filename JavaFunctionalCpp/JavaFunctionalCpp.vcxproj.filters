@@ -77,5 +77,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="grammar.txt" />
+    <Text Include="todo.txt" />
   </ItemGroup>
 </Project>

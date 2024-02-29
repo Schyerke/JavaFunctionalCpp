@@ -50,6 +50,10 @@ SyntaxToken Lexer::lex() {
 			return SyntaxToken::SyntaxToken(PLUS_TOKEN, "+", this->index++, 1);
 		case '-':
 			return SyntaxToken::SyntaxToken(MINUS_TOKEN, "-", this->index++, 1);
+		case '*':
+			return SyntaxToken::SyntaxToken(STAR_TOKEN, "*", this->index++, 1);
+		case '/':
+			return SyntaxToken::SyntaxToken(SLASH_TOKEN, "/", this->index++, 1);
 		default:
 			return SyntaxToken::SyntaxToken(BAD_TOKEN, "", this->index++, 0);
 	}

@@ -43,7 +43,11 @@ SyntaxToken Parser::next_token()
 	return SyntaxToken::SyntaxToken(END_OF_FILE_TOKEN, "", this->index-1, 0);
 }
 
-SyntaxToken Parser::peek()
+SyntaxToken Parser::peek() {
+	return lookAhead(1);
+}
+
+SyntaxToken Parser::current()
 {
 	return lookAhead(0);
 }
@@ -56,25 +60,32 @@ SyntaxToken Parser::lookAhead(int offset) {
 	return SyntaxToken::SyntaxToken(END_OF_FILE_TOKEN, "", this->index, 0);
 }
 
-SyntaxToken Parser::match(Token_t match)
+SyntaxToken Parser::expect(Token_t expect)
 {
-	if (peek().get_token_t() == match)
+	if (current().get_token_t() == expect)
 	{
 		return next_token();
 	}
-	std::cout << "Unexpected match. Expected " << token_name(match) << "." << std::endl;
+	std::cout << "Unexpected token. Expected " << token_name(expect) << "." << std::endl;
 	return SyntaxToken::SyntaxToken(BAD_TOKEN, "", -1, 0);
+}
+
+bool Parser::match(Token_t match) {
+	if (current().get_token_t() == match) {
+		return true;
+	}
+	return false;
 }
 
 AstNode* Parser::parse()
 {
-	return expression();
+	return parseTerm();
 }
 
-AstNode* Parser::expression()
+AstNode* Parser::parseTerm()
 {
 	AstNode* left = parseFactor();
-	while (peek().get_token_t() == PLUS_TOKEN || peek().get_token_t() == MINUS_TOKEN)
+	while (match(PLUS_TOKEN) || match(MINUS_TOKEN))
 	{
 		SyntaxToken op = next_token();
 		AstNode* right = parseFactor();
@@ -85,7 +96,21 @@ AstNode* Parser::expression()
 
 AstNode* Parser::parseFactor() 
 {
-	SyntaxToken token = match(NUMBER_TOKEN);
+	AstNode* left = parseNumber();
+
+	while (match(STAR_TOKEN) || match(SLASH_TOKEN)) 
+	{
+		SyntaxToken op = next_token();
+		AstNode* right = parseNumber();
+		left = new BinaryOperationNode(left, op.get_token_t(), right);
+	}
+
+	return left;
+}
+
+AstNode* Parser::parseNumber() 
+{
+	SyntaxToken token = expect(NUMBER_TOKEN);
 	if (token.get_token_t() == END_OF_FILE_TOKEN || token.get_token_t() == BAD_TOKEN) {
 		return nullptr;
 	}

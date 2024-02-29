@@ -18,10 +18,13 @@ public:
 private:
 	SyntaxToken next_token();
 	SyntaxToken peek();
-	SyntaxToken match(Token_t match);
+	SyntaxToken current();
+	SyntaxToken expect(Token_t match);
+	bool match(Token_t match);
 	SyntaxToken lookAhead(int offset);
-	AstNode* expression();
+	AstNode* parseTerm();
 	AstNode* parseFactor();
+	AstNode* parseNumber();
 };
 
 #endif // !PARSER_HPP

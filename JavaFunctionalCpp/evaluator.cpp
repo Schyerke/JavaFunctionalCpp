@@ -21,6 +21,10 @@ long Evaluator::evaluate(AstNode* node)
             return left + right;
         case MINUS_TOKEN:
             return left - right;
+        case STAR_TOKEN:
+            return left * right;
+        case SLASH_TOKEN:
+            return (long)(left / right);
         case NO_OPERATOR_TOKEN:
             return left;
         default:
