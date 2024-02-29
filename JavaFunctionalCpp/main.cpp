@@ -30,7 +30,7 @@ void prettyPrint(AstNode* node) {
 }
 
 int main() {
-	std::string program = "5-10";
+	std::string program = "2s";
 	
 	Parser parser(program);
 	AstNode* root = parser.parse();

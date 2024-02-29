@@ -18,11 +18,12 @@ Parser::Parser(std::string program)
 	Lexer lexer(program);
 
 	std::vector<SyntaxToken> tokens;
-
-	while (true)
+	//temp token, it will be overwritten.
+	SyntaxToken token = SyntaxToken::SyntaxToken(NO_OPERATOR_TOKEN, "", 0, 0);
+	while (token.get_token_t() != BAD_TOKEN)
 	{
-		SyntaxToken token = lexer.lex();
-		if (token.get_token_t() == BAD_TOKEN || token.get_token_t() == END_OF_FILE_TOKEN)
+		token = lexer.lex();
+		if (token.get_token_t() == END_OF_FILE_TOKEN)
 		{
 			break;
 		}
@@ -52,7 +53,7 @@ SyntaxToken Parser::lookAhead(int offset) {
 	if (index < this->tokens.size()) {
 		return this->tokens[index];
 	}
-	return this->tokens[this->tokens.size() - 1];
+	return SyntaxToken::SyntaxToken(END_OF_FILE_TOKEN, "", this->index, 0);
 }
 
 SyntaxToken Parser::match(Token_t match)
@@ -61,7 +62,7 @@ SyntaxToken Parser::match(Token_t match)
 	{
 		return next_token();
 	}
-	std::cout << "Unexpected match" << std::endl;
+	std::cout << "Unexpected match. Expected " << token_name(match) << "." << std::endl;
 	return SyntaxToken::SyntaxToken(BAD_TOKEN, "", -1, 0);
 }
 
@@ -85,5 +86,8 @@ AstNode* Parser::expression()
 AstNode* Parser::parseFactor() 
 {
 	SyntaxToken token = match(NUMBER_TOKEN);
+	if (token.get_token_t() == END_OF_FILE_TOKEN || token.get_token_t() == BAD_TOKEN) {
+		return nullptr;
+	}
 	return new NumberNode(stol(token.get_value()));
 }

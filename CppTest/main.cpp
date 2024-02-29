@@ -3,6 +3,8 @@
 #include <string>
 #include <memory>
 
+#include <stdio.h>
+
 using namespace std;
 
 class Animal {
@@ -28,11 +30,7 @@ public:
 
 
 int main() {
-	Dog* dog = new Dog();
-	
-	unique_ptr<Dog> u = make_unique<Dog>(*dog);
-	cout << u.get()->name;
-	
+	printf("HEllo world");
 
 	return 0;
 }
