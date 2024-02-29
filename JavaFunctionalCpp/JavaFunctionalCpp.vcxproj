@@ -148,6 +148,7 @@
     <ClInclude Include="parser.hpp" />
     <ClInclude Include="syntaxtoken.hpp" />
     <ClInclude Include="token.hpp" />
+    <ClInclude Include="unarynode.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="grammar.txt" />
