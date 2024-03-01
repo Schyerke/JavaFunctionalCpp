@@ -17,8 +17,8 @@ public:
 	AstNode* parse();
 private:
 	SyntaxToken next_token();
+	SyntaxToken peekNext();
 	SyntaxToken peek();
-	SyntaxToken current();
 	SyntaxToken expect(Token_t match);
 	bool match(Token_t match);
 	SyntaxToken lookAhead(int offset);

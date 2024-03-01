@@ -43,11 +43,11 @@ SyntaxToken Parser::next_token()
 	return SyntaxToken::SyntaxToken(END_OF_FILE_TOKEN, "", this->index-1, 0);
 }
 
-SyntaxToken Parser::peek() {
+SyntaxToken Parser::peekNext() {
 	return lookAhead(1);
 }
 
-SyntaxToken Parser::current()
+SyntaxToken Parser::peek()
 {
 	return lookAhead(0);
 }
@@ -62,7 +62,7 @@ SyntaxToken Parser::lookAhead(int offset) {
 
 SyntaxToken Parser::expect(Token_t expect)
 {
-	if (current().get_token_t() == expect)
+	if (peek().get_token_t() == expect)
 	{
 		return next_token();
 	}
@@ -71,7 +71,7 @@ SyntaxToken Parser::expect(Token_t expect)
 }
 
 bool Parser::match(Token_t match) {
-	if (current().get_token_t() == match) {
+	if (peek().get_token_t() == match) {
 		return true;
 	}
 	return false;
