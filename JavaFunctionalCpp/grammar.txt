@@ -1,4 +1,11 @@
 
+program => statement* EOF
+
+statement => expressionStatement | printStatement
+
+expressionStatement => expression ";"
+printStatement => "print " expression ";"  //temporary
+
 expression => binary | unary | literal
 
 binary  => expression operator expression
