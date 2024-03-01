@@ -10,6 +10,7 @@
 #include "astnode.hpp"
 #include "binaryexpression.hpp"
 #include "numbernode.hpp"
+#include "unarynode.hpp"
 
 #include "parser.hpp"
 
@@ -96,19 +97,30 @@ AstNode* Parser::parseTerm()
 
 AstNode* Parser::parseFactor() 
 {
-	AstNode* left = parseNumber();
+	AstNode* left = parseUnary();
 
 	while (match(STAR_TOKEN) || match(SLASH_TOKEN)) 
 	{
 		SyntaxToken op = next_token();
-		AstNode* right = parseNumber();
+		AstNode* right = parseUnary();
 		left = new BinaryExpression(left, op.get_token_t(), right);
 	}
 
 	return left;
 }
 
-AstNode* Parser::parseNumber() 
+AstNode* Parser::parseUnary()
+{
+	if (match(MINUS_TOKEN))
+	{
+		SyntaxToken token = peek();
+		AstNode* unary = parseUnary();
+		return new UnaryNode(token.get_token_t(), unary);
+	}
+	return parsePrimary();
+}
+
+AstNode* Parser::parsePrimary() 
 {
 	SyntaxToken token = expect(NUMBER_TOKEN);
 	if (token.get_token_t() == END_OF_FILE_TOKEN || token.get_token_t() == BAD_TOKEN) {

@@ -2,8 +2,8 @@
 expression => binary | unary | literal
 
 binary  => expression operator expression
-unary   => "-" expression
-literal => NUMBER
+unary   => "-" unary | primary
+primary => NUMBER
 
 operator => "+" | "-" | "*" | "/"
 

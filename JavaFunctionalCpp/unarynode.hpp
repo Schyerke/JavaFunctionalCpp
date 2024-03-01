@@ -11,7 +11,7 @@ public:
 	std::unique_ptr<AstNode> left;
 	Token_t token;
 
-	UnaryNode(AstNode* left, Token_t token);
+	UnaryNode(Token_t token, AstNode* left);
 };
 
 

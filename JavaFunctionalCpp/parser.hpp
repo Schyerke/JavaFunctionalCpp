@@ -24,7 +24,8 @@ private:
 	SyntaxToken lookAhead(int offset);
 	AstNode* parseTerm();
 	AstNode* parseFactor();
-	AstNode* parseNumber();
+	AstNode* parseUnary();
+	AstNode* parsePrimary();
 };
 
 #endif // !PARSER_HPP
