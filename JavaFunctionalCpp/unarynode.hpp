@@ -8,10 +8,13 @@
 
 class UnaryNode : public AstNode {
 public:
+	UnaryNode(Token_t token, AstNode* left);
+
+	std::string get_classname();
+
 	std::unique_ptr<AstNode> left;
 	Token_t token;
 
-	UnaryNode(Token_t token, AstNode* left);
 };
 
 

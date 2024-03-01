@@ -113,7 +113,7 @@ AstNode* Parser::parseUnary()
 {
 	if (match(MINUS_TOKEN))
 	{
-		SyntaxToken token = peek();
+		SyntaxToken token = next_token();
 		AstNode* unary = parseUnary();
 		return new UnaryNode(token.get_token_t(), unary);
 	}

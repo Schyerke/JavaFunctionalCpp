@@ -18,6 +18,5 @@ BinaryExpression::BinaryExpression(AstNode* left) {
 
 std::string BinaryExpression::get_classname() {
 	std::string classname = "(" + token_name(op) + ")";
-	classname.append("\n");
 	return classname;
 }

@@ -7,6 +7,8 @@
 #include "numbernode.hpp"
 #include "binaryexpression.hpp"
 #include "syntaxtoken.hpp"
+#include "unarynode.hpp"
+
 #include "evaluator.hpp"
 
 void print_tokens(std::vector<SyntaxToken> tokens)
@@ -21,6 +23,9 @@ void prettyPrint(AstNode* node) {
 	if (NumberNode* numberNode = dynamic_cast<NumberNode*>(node)) {
 		std::cout << numberNode->get_classname();
 	}
+	if (UnaryNode* unaryNode = dynamic_cast<UnaryNode*>(node)) {
+		std::cout << unaryNode->get_classname();
+	}
 	if (BinaryExpression* binaryExpression = dynamic_cast<BinaryExpression*>(node)) {
 		prettyPrint(binaryExpression->left.get());
 		std::cout << binaryExpression->get_classname();
@@ -30,19 +35,18 @@ void prettyPrint(AstNode* node) {
 }
 
 int main() {
-	std::string program = "-1";
+	std::string program = "-10/2+2";
 	
 	Parser parser(program);
 	AstNode* root = parser.parse();
 	std::cout << std::endl;
 
-	prettyPrint(root);
 
-	/*
+	
 	Evaluator* evaluator = new Evaluator();
 	long result = evaluator->evaluate(root);
 	std::cout << std::endl;
-	std::cout << "Result: " << result;*/
+	std::cout << "Result: " << result;
 
 	return 0;
 }

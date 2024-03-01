@@ -1,6 +1,7 @@
 #include "evaluator.hpp"
 #include "numbernode.hpp"
-#include "binaryoperationnode.hpp"
+#include "binaryexpression.hpp"
+#include "unarynode.hpp"
 
 Evaluator::Evaluator()
 {
@@ -8,6 +9,9 @@ Evaluator::Evaluator()
 
 long Evaluator::evaluate(AstNode* node)
 {
+    if (UnaryNode* unaryNode = dynamic_cast<UnaryNode*>(node)) {
+        return -evaluate(unaryNode->left.get());
+    }
     if (NumberNode* numberNode = dynamic_cast<NumberNode*>(node)) {
         return numberNode->number;
     }
