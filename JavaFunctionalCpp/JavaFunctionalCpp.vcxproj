@@ -129,7 +129,7 @@
   <ItemGroup>
     <ClCompile Include="astnode.cpp" />
     <ClCompile Include="astnodehelper.cpp" />
-    <ClCompile Include="binaryoperationnode.cpp" />
+    <ClCompile Include="binaryexpression.cpp" />
     <ClCompile Include="evaluator.cpp" />
     <ClCompile Include="lexer.cpp" />
     <ClCompile Include="main.cpp" />
@@ -137,11 +137,12 @@
     <ClCompile Include="parser.cpp" />
     <ClCompile Include="syntaxtoken.cpp" />
     <ClCompile Include="token.cpp" />
+    <ClCompile Include="unarynode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="astnode.hpp" />
     <ClInclude Include="astnodehelper.hpp" />
-    <ClInclude Include="binaryoperationnode.hpp" />
+    <ClInclude Include="binaryexpression.hpp" />
     <ClInclude Include="evaluator.hpp" />
     <ClInclude Include="lexer.hpp" />
     <ClInclude Include="numbernode.hpp" />

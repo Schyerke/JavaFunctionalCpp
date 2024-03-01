@@ -8,7 +8,7 @@
 #include "token.hpp"
 
 #include "astnode.hpp"
-#include "binaryoperationnode.hpp"
+#include "binaryexpression.hpp"
 #include "numbernode.hpp"
 
 #include "parser.hpp"
@@ -89,7 +89,7 @@ AstNode* Parser::parseTerm()
 	{
 		SyntaxToken op = next_token();
 		AstNode* right = parseFactor();
-		left = new BinaryOperationNode(left, op.get_token_t(), right);
+		left = new BinaryExpression(left, op.get_token_t(), right);
 	}
 	return left;
 }
@@ -102,7 +102,7 @@ AstNode* Parser::parseFactor()
 	{
 		SyntaxToken op = next_token();
 		AstNode* right = parseNumber();
-		left = new BinaryOperationNode(left, op.get_token_t(), right);
+		left = new BinaryExpression(left, op.get_token_t(), right);
 	}
 
 	return left;

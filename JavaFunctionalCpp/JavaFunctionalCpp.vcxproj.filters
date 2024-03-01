@@ -30,7 +30,7 @@
     <ClCompile Include="numbernode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="binaryoperationnode.cpp">
+    <ClCompile Include="binaryexpression.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="astnodehelper.cpp">
@@ -43,6 +43,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="evaluator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="unarynode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -59,7 +62,7 @@
     <ClInclude Include="numbernode.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="binaryoperationnode.hpp">
+    <ClInclude Include="binaryexpression.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="astnodehelper.hpp">

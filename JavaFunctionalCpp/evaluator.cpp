@@ -11,7 +11,7 @@ long Evaluator::evaluate(AstNode* node)
     if (NumberNode* numberNode = dynamic_cast<NumberNode*>(node)) {
         return numberNode->number;
     }
-    if (BinaryOperationNode* binaryOperationNode = dynamic_cast<BinaryOperationNode*>(node)) {
+    if (BinaryExpression* binaryOperationNode = dynamic_cast<BinaryExpression*>(node)) {
         long left = evaluate(binaryOperationNode->left.get());
         long right = evaluate(binaryOperationNode->right.get());
         Token_t op = binaryOperationNode->op;

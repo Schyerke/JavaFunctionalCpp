@@ -1,3 +1,9 @@
 
-expression = number (add number)*
+expression => binary | unary | literal
+
+binary  => expression operator expression
+unary   => "-" expression
+literal => NUMBER
+
+operator => "+" | "-" | "*" | "/"
 
