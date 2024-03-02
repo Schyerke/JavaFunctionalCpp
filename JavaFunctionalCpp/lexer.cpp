@@ -43,6 +43,22 @@ SyntaxToken Lexer::lex() {
 		std::string text = this->program.substr(start, length);
 		return SyntaxToken::SyntaxToken(NUMBER_TOKEN, text, start, length);
 	}
+	if (isalpha(current()))
+	{
+		size_t start = this->index;
+		while (isalpha(current()))
+		{
+			advance();
+		}
+		size_t length = this->index - start;
+		std::string text = this->program.substr(start, length);
+		if (text == display_stmts(PRINT_STMT))
+		{
+			return SyntaxToken::SyntaxToken(PRINT_STMT, "", start);
+		}
+
+		return SyntaxToken::SyntaxToken(BAD_TOKEN, "", this->index++, 0);
+	}
 
 	switch (current())
 	{
@@ -54,6 +70,9 @@ SyntaxToken Lexer::lex() {
 			return SyntaxToken::SyntaxToken(STAR_TOKEN, "*", this->index++, 1);
 		case '/':
 			return SyntaxToken::SyntaxToken(SLASH_TOKEN, "/", this->index++, 1);
+
+		case ';':
+			return SyntaxToken::SyntaxToken(SEMICOLON, ";", this->index++, 1);
 		default:
 			return SyntaxToken::SyntaxToken(BAD_TOKEN, "", this->index++, 0);
 	}

@@ -2,7 +2,6 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <cstring>
 
 #include "syntaxtoken.hpp"
 #include "token.hpp"
@@ -11,6 +10,9 @@
 #include "binaryexpression.hpp"
 #include "numbernode.hpp"
 #include "unarynode.hpp"
+
+#include "printstmtnode.hpp"
+#include "expressionstmtnode.hpp"
 
 #include "parser.hpp"
 
@@ -42,6 +44,15 @@ SyntaxToken Parser::next_token()
 		return this->tokens[this->index++];
 	}
 	return SyntaxToken::SyntaxToken(END_OF_FILE_TOKEN, "", this->index-1, 0);
+}
+
+void Parser::advance()
+{
+	size_t size = this->tokens.size();
+	if (this->index < size)
+	{
+		this->index++;
+	}
 }
 
 SyntaxToken Parser::peekNext() {
@@ -79,6 +90,36 @@ bool Parser::match(Token_t match) {
 }
 
 AstNode* Parser::parse()
+{
+	return parseStatement();
+}
+
+AstNode* Parser::parseStatement()
+{
+	if (match(PRINT_STMT))
+	{
+		return parsePrintStatement();
+	}
+
+	return parseExpressionStatement();
+}
+
+AstNode* Parser::parsePrintStatement()
+{
+	advance();
+	AstNode* expression = parseExpression();
+	expect(SEMICOLON);
+	return new PrintStmtNode(expression);
+}
+
+AstNode* Parser::parseExpressionStatement()
+{
+	AstNode* expression = parseExpression();
+	expect(SEMICOLON);
+	return new ExpressionStmtNode(expression);
+}
+
+AstNode* Parser::parseExpression()
 {
 	return parseTerm();
 }

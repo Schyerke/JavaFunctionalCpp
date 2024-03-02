@@ -35,7 +35,7 @@ void prettyPrint(AstNode* node) {
 }
 
 int main() {
-	std::string program = "-10/2+2";
+	std::string program = "3+2;";
 	
 	Parser parser(program);
 	AstNode* root = parser.parse();

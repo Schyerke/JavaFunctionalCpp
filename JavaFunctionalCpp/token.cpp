@@ -16,6 +16,8 @@ std::string token_name(Token_t token) {
 		return "Star Token";
 	case SLASH_TOKEN:
 		return "Slash Token";
+	case SEMICOLON:
+		return "Semicolon";
 	case BAD_TOKEN:
 		return "Bad Token";
 	case END_OF_FILE_TOKEN:
@@ -24,4 +26,19 @@ std::string token_name(Token_t token) {
 		return "No Token Found";
 	}
 	return "No Token Found";
+}
+
+std::string display_stmts(Token_t stmt)
+{
+	switch (stmt)
+	{
+		case PRINT_STMT:
+			return "print";
+		case SEMICOLON:
+			return ";";
+			
+		default:
+			return "No Statement Found";
+	}
+	return "No Statement Found";
 }

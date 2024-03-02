@@ -12,11 +12,16 @@ enum Token_t
 	STAR_TOKEN,
 	SLASH_TOKEN,
 
+	SEMICOLON,
 
+	//statements
+	PRINT_STMT,
 
 	BAD_TOKEN,
 	END_OF_FILE_TOKEN
 };
 
 std::string token_name(Token_t token);
+std::string display_stmts(Token_t stmt);
+
 #endif // !TOKEN_HPP

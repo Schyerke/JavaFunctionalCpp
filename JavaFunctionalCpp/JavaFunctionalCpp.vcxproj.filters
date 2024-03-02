@@ -13,6 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\expression">
+      <UniqueIdentifier>{47acf7e1-4756-4a7c-9760-ac86fcfcb26c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\expression">
+      <UniqueIdentifier>{37040745-4858-44c8-a1af-3cdf951a77c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\statements">
+      <UniqueIdentifier>{04cddfb6-58b9-4078-884d-cf5e4ab00fb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\statements">
+      <UniqueIdentifier>{f30e5127-f3ac-4d9b-929e-764777f60046}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -27,12 +39,6 @@
     <ClCompile Include="astnode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="numbernode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="binaryexpression.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="astnodehelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -45,8 +51,20 @@
     <ClCompile Include="evaluator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="binaryexpression.cpp">
+      <Filter>Source Files\expression</Filter>
+    </ClCompile>
+    <ClCompile Include="numbernode.cpp">
+      <Filter>Source Files\expression</Filter>
+    </ClCompile>
     <ClCompile Include="unarynode.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\expression</Filter>
+    </ClCompile>
+    <ClCompile Include="printstmtnode.cpp">
+      <Filter>Source Files\statements</Filter>
+    </ClCompile>
+    <ClCompile Include="expressionstmtnode.cpp">
+      <Filter>Source Files\statements</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -57,12 +75,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="astnode.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="numbernode.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="binaryexpression.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="astnodehelper.hpp">
@@ -77,7 +89,19 @@
     <ClInclude Include="evaluator.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="binaryexpression.hpp">
+      <Filter>Header Files\expression</Filter>
+    </ClInclude>
+    <ClInclude Include="numbernode.hpp">
+      <Filter>Header Files\expression</Filter>
+    </ClInclude>
     <ClInclude Include="unarynode.hpp">
+      <Filter>Header Files\expression</Filter>
+    </ClInclude>
+    <ClInclude Include="printstmtnode.hpp">
+      <Filter>Header Files\statements</Filter>
+    </ClInclude>
+    <ClInclude Include="expressionstmtnode.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

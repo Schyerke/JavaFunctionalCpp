@@ -16,7 +16,12 @@ public:
 
 	AstNode* parse();
 private:
+	AstNode* parseStatement();
+	AstNode* parsePrintStatement();
+	AstNode* parseExpressionStatement();
+	AstNode* parseExpression();
 	SyntaxToken next_token();
+	void advance();
 	SyntaxToken peekNext();
 	SyntaxToken peek();
 	SyntaxToken expect(Token_t match);
