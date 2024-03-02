@@ -54,5 +54,5 @@ long Evaluator::evaluate(AstNode* node)
         std::cout << result;
     }
 
-    return -1;
+    return NULL;
 }

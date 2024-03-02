@@ -35,7 +35,7 @@ void prettyPrint(AstNode* node) {
 }
 
 int main() {
-	std::string program = "3+2;";
+	std::string program = "print 3+2;";
 	
 	Parser parser(program);
 	AstNode* root = parser.parse();
@@ -45,6 +45,10 @@ int main() {
 	
 	Evaluator* evaluator = new Evaluator();
 	long result = evaluator->evaluate(root);
+	if (result == NULL)
+	{
+		return 0;
+	}
 	std::cout << std::endl;
 	std::cout << "Result: " << result;
 
