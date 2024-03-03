@@ -28,12 +28,22 @@ std::string token_name(Token_t token) {
 	return "No Token Found";
 }
 
-std::string display_stmts(Token_t stmt)
+std::string display_stmts(Token_t token)
 {
-	switch (stmt)
+	switch (token)
 	{
 		case PRINT_STMT:
 			return "print";
+
+		case EQUAL_EQUAL:
+			return "==";
+		case BANG_EQUAL:
+			return "!=";
+		case AMPERSAND_AMPERSAND:
+			return "&&";
+		case PIPE_PIPE:
+			return "||";
+
 		case SEMICOLON:
 			return ";";
 			

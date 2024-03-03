@@ -1,5 +1,6 @@
 # Expression for +, -
 # parsing * and /
 #unary operator
-
 #print statement
+
+adding ==, !=, &&, ||

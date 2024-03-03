@@ -8,12 +8,25 @@ Lexer::Lexer(std::string program)
 	this->program = program;
 }
 
-char Lexer::current() {
+char Lexer::current()
+{
+	return lookAhead(0);
+}
+
+char Lexer::peekNext()
+{
+	return lookAhead(1);
+}
+
+char Lexer::lookAhead(int offset)
+{
 	size_t size = this->program.size();
-	if (this->index >= size) {
+	size_t index = this->index + offset;
+	if (index >= size)
+	{
 		return '\0';
 	}
-	return program[this->index];
+	return program[index];
 }
 
 void Lexer::advance() {
@@ -70,6 +83,35 @@ SyntaxToken Lexer::lex() {
 			return SyntaxToken::SyntaxToken(STAR_TOKEN, "*", this->index++, 1);
 		case '/':
 			return SyntaxToken::SyntaxToken(SLASH_TOKEN, "/", this->index++, 1);
+
+		case '=':
+			if (peekNext() == '=')
+			{
+				this->index += 2;
+				return SyntaxToken::SyntaxToken(EQUAL_EQUAL, "==", this->index - 2, 2);
+			}
+			break;
+		case '!':
+			if (peekNext() == '=')
+			{
+				this->index += 2;
+				return SyntaxToken::SyntaxToken(BANG_EQUAL, "!=", this->index - 2, 2);
+			}
+			break;
+		case '&':
+			if (peekNext() == '&')
+			{
+				this->index += 2;
+				return SyntaxToken::SyntaxToken(AMPERSAND_AMPERSAND, "&&", this->index - 2, 2);
+			}
+			break;
+		case '|':
+			if (peekNext() == '|')
+			{
+				this->index += 2;
+				return SyntaxToken::SyntaxToken(PIPE_PIPE, "||", this->index - 2, 2);
+			}
+			break;
 
 		case ';':
 			return SyntaxToken::SyntaxToken(SEMICOLON, ";", this->index++, 1);

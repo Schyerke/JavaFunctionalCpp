@@ -12,5 +12,5 @@ binary  => expression operator expression
 unary   => "-" unary | primary
 primary => NUMBER
 
-operator => "+" | "-" | "*" | "/"
+operator => "+" | "-" | "*" | "/" | "==" | "!=" | "&&" | "||" 
 

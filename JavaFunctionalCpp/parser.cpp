@@ -89,6 +89,18 @@ bool Parser::match(Token_t match) {
 	return false;
 }
 
+bool Parser::matchall(std::vector<Token_t> tokens)
+{
+	for (Token_t token : tokens)
+	{
+		if (match(token))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 AstNode* Parser::parse()
 {
 	return parseStatement();
@@ -127,7 +139,7 @@ AstNode* Parser::parseExpression()
 AstNode* Parser::parseTerm()
 {
 	AstNode* left = parseFactor();
-	while (match(PLUS_TOKEN) || match(MINUS_TOKEN))
+	while (matchall({PLUS_TOKEN, MINUS_TOKEN, EQUAL_EQUAL, BANG_EQUAL, AMPERSAND_AMPERSAND}))
 	{
 		SyntaxToken op = next_token();
 		AstNode* right = parseFactor();
@@ -140,7 +152,7 @@ AstNode* Parser::parseFactor()
 {
 	AstNode* left = parseUnary();
 
-	while (match(STAR_TOKEN) || match(SLASH_TOKEN)) 
+	while (matchall({STAR_TOKEN, SLASH_TOKEN}))
 	{
 		SyntaxToken op = next_token();
 		AstNode* right = parseUnary();

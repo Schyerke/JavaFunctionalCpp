@@ -36,6 +36,12 @@ long Evaluator::evaluate(AstNode* node)
                 return left * right;
             case SLASH_TOKEN:
                 return (long)(left / right);
+
+            case EQUAL_EQUAL:
+                return left == right;
+            case BANG_EQUAL:
+                return left != right;
+
             case NO_OPERATOR_TOKEN:
                 return left;
             default:
@@ -54,5 +60,5 @@ long Evaluator::evaluate(AstNode* node)
         std::cout << result;
     }
 
-    return NULL;
+    return LONG_MAX;
 }

@@ -9,10 +9,12 @@
 class Lexer {
 public:
 	Lexer(std::string program);
-	char current();
-	void advance();
 	SyntaxToken lex();
 private:
+	char current();
+	char peekNext();
+	char lookAhead(int offset);
+	void advance();
 	size_t index = 0;
 	std::string program;
 };
