@@ -9,46 +9,82 @@ Evaluator::Evaluator()
 {
 }
 
-long Evaluator::evaluate(AstNode* node)
+Result Evaluator::evaluate(AstNode* node)
 {
     // Expression
     if (UnaryNode* unaryNode = dynamic_cast<UnaryNode*>(node))
     {
-        return -evaluate(unaryNode->left.get());
+        Result result = evaluate(unaryNode->left.get());
+        result.number = -result.number;
+        return result;
     }
     if (NumberNode* numberNode = dynamic_cast<NumberNode*>(node))
     {
-        return numberNode->number;
+        Result result = {};
+        result.resultType = NUMBER;
+        result.number = numberNode->number;
+        return result;
     }
     if (BinaryExpression* binaryOperationNode = dynamic_cast<BinaryExpression*>(node))
     {
-        long left = evaluate(binaryOperationNode->left.get());
-        long right = evaluate(binaryOperationNode->right.get());
+        Result left_r = evaluate(binaryOperationNode->left.get());
+        Result right_r = evaluate(binaryOperationNode->right.get());
         Token_t op = binaryOperationNode->op;
-
-        switch (op)
+        Result result = {};
+        if (left_r.resultType == NUMBER && right_r.resultType == NUMBER)
         {
+            long left = left_r.number;
+            long right = right_r.number;
+            switch (op)
+            {
             case PLUS_TOKEN:
-                return left + right;
+                result.number = left + right;
+                break;
             case MINUS_TOKEN:
-                return left - right;
+                result.number = left - right;
+                break;
             case STAR_TOKEN:
-                return left * right;
+                result.number = left * right;
+                break;
             case SLASH_TOKEN:
-                return (long)(left / right);
+                result.number = (long)(left / right);
+                break;
 
             case EQUAL_EQUAL:
-                return left == right;
+                result.boolean = left == right;
+                result.resultType = BOOLEAN;
+                break;
             case BANG_EQUAL:
-                return left != right;
+                result.boolean = left != right;
+                result.resultType = BOOLEAN;
+                break;
 
-            case NO_OPERATOR_TOKEN:
-                return left;
             default:
                 std::cout << "No operator found (error)";
+            }
         }
+        else if (left_r.resultType == BOOLEAN && right_r.resultType == BOOLEAN) {
+            bool left = left_r.boolean;
+            bool right = right_r.boolean;
+            
+            result.resultType = BOOLEAN;
+            switch (op) {
+            case EQUAL_EQUAL:
+                result.boolean = left == right;
+                break;
+            case BANG_EQUAL:
+                result.boolean = left != right;
+                break;
+            case AMPERSAND_AMPERSAND:
+                result.boolean = left && right;
+                break;
+            case PIPE_PIPE:
+                result.boolean = left || right;
+                break;
+            }
+        }
+        return result;
     }
-
     // Statements
     if (ExpressionStmtNode* exprStmtNode = dynamic_cast<ExpressionStmtNode*>(node))
     {
@@ -56,9 +92,24 @@ long Evaluator::evaluate(AstNode* node)
     }
     if (PrintStmtNode* printStmtNode = dynamic_cast<PrintStmtNode*>(node))
     {
-        long result = evaluate(printStmtNode->expression);
-        std::cout << result;
+        Result result = evaluate(printStmtNode->expression);
+        switch (result.resultType)
+        {
+        case NUMBER:
+            std::cout << result.number;
+            break;
+        case BOOLEAN:
+            if (result.boolean) {
+                std::cout << "true";
+            }
+            else {
+                std::cout << "false";
+            }
+            break;
+        }
     }
-
-    return LONG_MAX;
+    
+    Result result = {};
+    result.resultType = NO_RESULT;
+    return result;
 }

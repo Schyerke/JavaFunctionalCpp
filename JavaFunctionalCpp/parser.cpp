@@ -10,6 +10,7 @@
 #include "binaryexpression.hpp"
 #include "numbernode.hpp"
 #include "unarynode.hpp"
+#include "boolnode.hpp"
 
 #include "printstmtnode.hpp"
 #include "expressionstmtnode.hpp"
@@ -139,7 +140,7 @@ AstNode* Parser::parseExpression()
 AstNode* Parser::parseTerm()
 {
 	AstNode* left = parseFactor();
-	while (matchall({PLUS_TOKEN, MINUS_TOKEN, EQUAL_EQUAL, BANG_EQUAL, AMPERSAND_AMPERSAND}))
+	while (matchall({PLUS_TOKEN, MINUS_TOKEN, EQUAL_EQUAL, BANG_EQUAL, AMPERSAND_AMPERSAND, PIPE_PIPE}))
 	{
 		SyntaxToken op = next_token();
 		AstNode* right = parseFactor();
@@ -175,9 +176,19 @@ AstNode* Parser::parseUnary()
 
 AstNode* Parser::parsePrimary() 
 {
-	SyntaxToken token = expect(NUMBER_TOKEN);
-	if (token.get_token_t() == END_OF_FILE_TOKEN || token.get_token_t() == BAD_TOKEN) {
-		return nullptr;
+	AstNode* primary = nullptr;
+	SyntaxToken token = SyntaxToken::SyntaxToken(BAD_TOKEN, "", -1);
+	if (match(NUMBER_TOKEN)) {
+		token = next_token();
+		primary = new NumberNode(stol(token.get_value()));
 	}
-	return new NumberNode(stol(token.get_value()));
+	else if (match(FALSE_TOKEN)) {
+		advance();
+		primary = new BoolNode(false);
+	}
+	else if (match(TRUE_TOKEN)) {
+		advance();
+		primary = new BoolNode(true);
+	}
+	return primary;
 }

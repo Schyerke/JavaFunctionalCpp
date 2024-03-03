@@ -66,6 +66,9 @@
     <ClCompile Include="expressionstmtnode.cpp">
       <Filter>Source Files\statements</Filter>
     </ClCompile>
+    <ClCompile Include="boolnode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lexer.hpp">
@@ -103,6 +106,9 @@
     </ClInclude>
     <ClInclude Include="expressionstmtnode.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boolnode.hpp">
+      <Filter>Header Files\expression</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

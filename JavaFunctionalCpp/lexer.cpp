@@ -29,7 +29,8 @@ char Lexer::lookAhead(int offset)
 	return program[index];
 }
 
-void Lexer::advance() {
+void Lexer::advance()
+{
 	size_t size = this->program.size();
 	if (this->index < size)
 	{
@@ -37,19 +38,24 @@ void Lexer::advance() {
 	}
 }
 
-SyntaxToken Lexer::lex() {
+SyntaxToken Lexer::lex() 
+{
 	if (current() == '\0')
 	{
 		return SyntaxToken::SyntaxToken(END_OF_FILE_TOKEN, "", this->index, 0);
 	}
-	if (isspace(current())) {
-		while (isspace(current())) {
+	if (isspace(current())) 
+	{
+		while (isspace(current())) 
+		{
 			advance();
 		}
 	}
-	if (isdigit(current())) {
+	if (isdigit(current()))
+	{
 		size_t start = this->index;
-		while (isdigit(current())) {
+		while (isdigit(current())) 
+		{
 			advance();
 		}
 		size_t length = this->index - start;
@@ -68,6 +74,14 @@ SyntaxToken Lexer::lex() {
 		if (text == display_stmts(PRINT_STMT))
 		{
 			return SyntaxToken::SyntaxToken(PRINT_STMT, "", start);
+		}
+		if (text == display_stmts(FALSE_TOKEN))
+		{
+			return SyntaxToken::SyntaxToken(FALSE_TOKEN, display_stmts(FALSE_TOKEN), start, length);
+		}
+		if (text == display_stmts(TRUE_TOKEN))
+		{
+			return SyntaxToken::SyntaxToken(TRUE_TOKEN, display_stmts(TRUE_TOKEN), start, length);
 		}
 
 		return SyntaxToken::SyntaxToken(BAD_TOKEN, "", this->index++, 0);

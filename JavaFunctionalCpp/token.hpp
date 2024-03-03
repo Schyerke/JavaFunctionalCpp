@@ -17,6 +17,9 @@ enum Token_t
 	AMPERSAND_AMPERSAND,
 	PIPE_PIPE,
 
+	FALSE_TOKEN,
+	TRUE_TOKEN,
+
 	SEMICOLON,
 
 	//statements

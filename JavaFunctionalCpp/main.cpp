@@ -35,7 +35,7 @@ void prettyPrint(AstNode* node) {
 }
 
 int main() {
-	std::string program = "3&&2;";
+	std::string program = "true==true;";
 	
 	Parser parser(program);
 	AstNode* root = parser.parse();
@@ -44,13 +44,23 @@ int main() {
 
 	
 	Evaluator* evaluator = new Evaluator();
-	long result = evaluator->evaluate(root);
-	if (result == LONG_MAX)
-	{
-		return 0;
+	Result result = evaluator->evaluate(root);
+	
+	switch (result.resultType) {
+	case NUMBER:
+		std::cout << result.number << std::endl;
+		break;
+	case BOOLEAN:
+		if (result.boolean) {
+			std::cout << "true" << std::endl;
+		}
+		else {
+			std::cout << "false" << std::endl;
+		}
+		break;
 	}
-	std::cout << std::endl;
-	std::cout << "Result: " << result;
+
+
 
 	return 0;
 }

@@ -10,7 +10,7 @@ expression => binary | unary | literal
 
 binary  => expression operator expression
 unary   => "-" unary | primary
-primary => NUMBER
+primary => NUMBER | "true" | "false"
 
 operator => "+" | "-" | "*" | "/" | "==" | "!=" | "&&" | "||" 
 

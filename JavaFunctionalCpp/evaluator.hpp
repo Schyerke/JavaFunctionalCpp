@@ -2,13 +2,25 @@
 #ifndef EVALUATOR_HPP
 #define EVALUATOR_HPP
 
+enum ResultType {
+    BOOLEAN,
+    NUMBER,
+
+    NO_RESULT
+};
+
+struct Result {
+    ResultType resultType;
+    long number;
+    bool boolean;
+};
 
 
 class Evaluator
 {
 public:
 	Evaluator();
-	long evaluate(AstNode* node);
+	Result evaluate(AstNode* node);
 };
 
 
