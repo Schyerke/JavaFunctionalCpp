@@ -69,6 +69,9 @@
     <ClCompile Include="boolnode.cpp">
       <Filter>Source Files\expression</Filter>
     </ClCompile>
+    <ClCompile Include="stringnode.cpp">
+      <Filter>Source Files\expression</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lexer.hpp">
@@ -109,6 +112,9 @@
     </ClInclude>
     <ClInclude Include="expressionstmtnode.hpp">
       <Filter>Header Files\statements</Filter>
+    </ClInclude>
+    <ClInclude Include="stringnode.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

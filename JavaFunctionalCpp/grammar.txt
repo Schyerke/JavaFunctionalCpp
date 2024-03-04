@@ -1,16 +1,19 @@
 
 program => statement* EOF
 
-statement => expressionStatement | printStatement
+statement => expressionStatement | printStatement | intVarDeclearationStatement
 
 expressionStatement => expression ";"
 printStatement => "print " expression ";"  //temporary
+
+//working in progress
+intVarDeclearationStatement => "int" 
 
 expression => binary | unary | literal
 
 binary  => expression operator expression
 unary   => "-" unary | primary
-primary => NUMBER | "true" | "false"
+primary => NUMBER | STRING | "true" | "false"
 
 operator => "+" | "-" | "*" | "/" | "==" | "!=" | "&&" | "||" 
 

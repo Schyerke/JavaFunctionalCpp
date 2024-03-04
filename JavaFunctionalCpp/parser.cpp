@@ -139,7 +139,7 @@ AstNode* Parser::parseExpression()
 
 AstNode* Parser::parseTerm()
 {
-	AstNode* left = parseFactor();
+	AstNode* left = parseFactor();	
 	while (matchall({PLUS_TOKEN, MINUS_TOKEN, EQUAL_EQUAL, BANG_EQUAL, AMPERSAND_AMPERSAND, PIPE_PIPE}))
 	{
 		SyntaxToken op = next_token();
@@ -181,6 +181,11 @@ AstNode* Parser::parsePrimary()
 	if (match(NUMBER_TOKEN)) {
 		token = next_token();
 		primary = new NumberNode(stol(token.get_value()));
+	}
+	if (match(STRING_TOKEN))
+	{
+		token = next_token();
+		primary = new StringNode()
 	}
 	else if (match(FALSE_TOKEN)) {
 		advance();

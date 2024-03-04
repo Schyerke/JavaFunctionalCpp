@@ -4,5 +4,7 @@
 #print statement
 #adding ==, !=, &&, ||
 
-# variables (= operator)
+strings
+
+variables (= operator)
 

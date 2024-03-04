@@ -5,6 +5,7 @@
 enum ResultType {
     BOOLEAN,
     NUMBER,
+    STRING,
 
     NO_RESULT
 };
@@ -12,6 +13,7 @@ enum ResultType {
 struct Result {
     ResultType resultType;
     long number;
+    std::string str;
     bool boolean;
 };
 

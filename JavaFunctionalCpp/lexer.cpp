@@ -84,7 +84,7 @@ SyntaxToken Lexer::lex()
 			return SyntaxToken::SyntaxToken(TRUE_TOKEN, display_stmts(TRUE_TOKEN), start, length);
 		}
 
-		return SyntaxToken::SyntaxToken(BAD_TOKEN, "", this->index++, 0);
+		return SyntaxToken::SyntaxToken(STRING_TOKEN, text, start, length);
 	}
 
 	switch (current())

@@ -138,6 +138,7 @@
     <ClCompile Include="numbernode.cpp" />
     <ClCompile Include="parser.cpp" />
     <ClCompile Include="printstmtnode.cpp" />
+    <ClCompile Include="stringnode.cpp" />
     <ClCompile Include="syntaxtoken.cpp" />
     <ClCompile Include="token.cpp" />
     <ClCompile Include="unarynode.cpp" />
@@ -153,6 +154,7 @@
     <ClInclude Include="numbernode.hpp" />
     <ClInclude Include="parser.hpp" />
     <ClInclude Include="printstmtnode.hpp" />
+    <ClInclude Include="stringnode.hpp" />
     <ClInclude Include="syntaxtoken.hpp" />
     <ClInclude Include="token.hpp" />
     <ClInclude Include="unarynode.hpp" />
