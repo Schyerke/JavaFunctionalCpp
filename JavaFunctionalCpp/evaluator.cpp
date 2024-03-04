@@ -2,6 +2,7 @@
 #include "numbernode.hpp"
 #include "binaryexpression.hpp"
 #include "unarynode.hpp"
+#include "boolnode.hpp"
 #include "expressionstmtnode.hpp"
 #include "printstmtnode.hpp"
 
@@ -23,6 +24,13 @@ Result Evaluator::evaluate(AstNode* node)
         Result result = {};
         result.resultType = NUMBER;
         result.number = numberNode->number;
+        return result;
+    }
+    if (BoolNode* boolNode = dynamic_cast<BoolNode*>(node))
+    {
+        Result result = {};
+        result.resultType = BOOLEAN;
+        result.boolean = boolNode->value;
         return result;
     }
     if (BinaryExpression* binaryOperationNode = dynamic_cast<BinaryExpression*>(node))
@@ -85,6 +93,7 @@ Result Evaluator::evaluate(AstNode* node)
         }
         return result;
     }
+
     // Statements
     if (ExpressionStmtNode* exprStmtNode = dynamic_cast<ExpressionStmtNode*>(node))
     {

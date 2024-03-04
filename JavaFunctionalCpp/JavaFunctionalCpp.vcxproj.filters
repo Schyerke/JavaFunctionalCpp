@@ -67,7 +67,7 @@
       <Filter>Source Files\statements</Filter>
     </ClCompile>
     <ClCompile Include="boolnode.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\expression</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

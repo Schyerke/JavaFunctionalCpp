@@ -35,13 +35,11 @@ void prettyPrint(AstNode* node) {
 }
 
 int main() {
-	std::string program = "true==true;";
+	std::string program = "false!=true;";
 	
 	Parser parser(program);
 	AstNode* root = parser.parse();
 	std::cout << std::endl;
-
-
 	
 	Evaluator* evaluator = new Evaluator();
 	Result result = evaluator->evaluate(root);
