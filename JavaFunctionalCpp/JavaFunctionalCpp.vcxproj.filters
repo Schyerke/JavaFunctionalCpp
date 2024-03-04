@@ -104,11 +104,11 @@
     <ClInclude Include="printstmtnode.hpp">
       <Filter>Header Files\statements</Filter>
     </ClInclude>
-    <ClInclude Include="expressionstmtnode.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="boolnode.hpp">
       <Filter>Header Files\expression</Filter>
+    </ClInclude>
+    <ClInclude Include="expressionstmtnode.hpp">
+      <Filter>Header Files\statements</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

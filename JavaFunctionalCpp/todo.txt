@@ -2,5 +2,7 @@
 # parsing * and /
 #unary operator
 #print statement
+#adding ==, !=, &&, ||
 
-adding ==, !=, &&, ||
+# variables (= operator)
+
