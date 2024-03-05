@@ -4,9 +4,7 @@
 #print statement
 #adding ==, !=, &&, ||
 #source file
-
-
-strings
+#strings
 
 variables (= operator)
 
@@ -15,8 +13,9 @@ variables (= operator)
 ==================
 BUGS
 
-
-
+input: ais // identifier
+output: Semicolon missing, expected End Of File Token (wtf)
+expected: "Semicolon missing"
 
 ==================
 FIXED BUG

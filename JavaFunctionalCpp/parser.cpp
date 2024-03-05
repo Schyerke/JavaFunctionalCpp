@@ -115,7 +115,10 @@ AstNode* Parser::parseStatement()
 	{
 		return parsePrintStatement();
 	}
-
+	if (match({ INT_TYPE }))
+	{
+		varDeclearationStatement();
+	}
 	return parseExpressionStatement();
 }
 
@@ -125,6 +128,13 @@ AstNode* Parser::parsePrintStatement()
 	AstNode* expression = parseExpression();
 	expect(SEMICOLON);
 	return new PrintStmtNode(expression);
+}
+
+AstNode* Parser::varDeclearationStatement()
+{
+	SyntaxToken dataType = expect(INT_TYPE);
+	SyntaxToken identifier = expect(IDENTIFIER_TOKEN);
+
 }
 
 AstNode* Parser::parseExpressionStatement()

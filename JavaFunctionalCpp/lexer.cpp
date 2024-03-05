@@ -73,6 +73,7 @@ SyntaxToken Lexer::lex()
 		{
 			return SyntaxToken::SyntaxToken(PRINT_STMT, "", start);
 		}
+
 		if (text == display_stmts(FALSE_TOKEN))
 		{
 			return SyntaxToken::SyntaxToken(FALSE_TOKEN, display_stmts(FALSE_TOKEN), start, length);
@@ -80,6 +81,11 @@ SyntaxToken Lexer::lex()
 		if (text == display_stmts(TRUE_TOKEN))
 		{
 			return SyntaxToken::SyntaxToken(TRUE_TOKEN, display_stmts(TRUE_TOKEN), start, length);
+		}
+
+		if (text == display_vartype(INT_TYPE))
+		{
+			return SyntaxToken::SyntaxToken(INT_TYPE, display_vartype(INT_TYPE), start, length);
 		}
 
 		return SyntaxToken::SyntaxToken(IDENTIFIER_TOKEN, text, start, length);
@@ -136,9 +142,9 @@ SyntaxToken Lexer::lex()
 				}
 				int length = this->index - start;
 				std::string text = this->program.substr(start, length);
+				advance(); // deleting the last "
 				return SyntaxToken::SyntaxToken(STRING_LITERAL_TOKEN, text, start, length);
 			}
-
 			break;
 		case ';':
 			return SyntaxToken::SyntaxToken(SEMICOLON, ";", this->index++, 1);

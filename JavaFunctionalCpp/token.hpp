@@ -25,6 +25,9 @@ enum Token_t
 
 	SEMICOLON,
 
+	//variable types
+	INT_TYPE,
+
 	//statements
 	PRINT_STMT,
 
@@ -33,6 +36,7 @@ enum Token_t
 };
 
 std::string token_name(Token_t token);
+std::string display_vartype(Token_t varType);
 std::string display_stmts(Token_t stmt);
 
 #endif // !TOKEN_HPP

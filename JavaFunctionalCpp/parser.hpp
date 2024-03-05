@@ -18,6 +18,7 @@ public:
 private:
 	AstNode* parseStatement();
 	AstNode* parsePrintStatement();
+	AstNode* varDeclearationStatement();
 	AstNode* parseExpressionStatement();
 	AstNode* parseExpression();
 	SyntaxToken next_token();

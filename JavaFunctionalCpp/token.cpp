@@ -31,6 +31,16 @@ std::string token_name(Token_t token) {
 	return "No Token Found";
 }
 
+std::string display_vartype(Token_t varType) 
+{
+	switch (varType) 
+	{
+	case INT_TYPE:
+		return "int";
+	}
+	return "Invalid Data Type";
+}
+
 std::string display_stmts(Token_t token)
 {
 	switch (token)
