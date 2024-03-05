@@ -9,3 +9,11 @@ strings
 
 variables (= operator)
 
+
+
+==================
+BUGS
+
+input: "3+2-1";
+output: "false";
+expected: "4"

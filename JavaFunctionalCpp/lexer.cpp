@@ -40,16 +40,14 @@ void Lexer::advance()
 
 SyntaxToken Lexer::lex() 
 {
+	char curr = current();
 	if (current() == '\0')
 	{
 		return SyntaxToken::SyntaxToken(END_OF_FILE_TOKEN, "", this->index, 0);
 	}
-	if (isspace(current())) 
+	while (isspace(current()))
 	{
-		while (isspace(current())) 
-		{
-			advance();
-		}
+		advance();
 	}
 	if (isdigit(current()))
 	{
@@ -104,18 +102,6 @@ SyntaxToken Lexer::lex()
 				this->index += 2;
 				return SyntaxToken::SyntaxToken(EQUAL_EQUAL, "==", this->index - 2, 2);
 			}
-			if (isalpha(peekNext()))
-			{
-				advance();
-				int start = this->index;
-				while (isalpha(current()) && current() != '"')
-				{
-					advance();
-				}
-				int length = this->index - start;
-				std::string text = this->program.substr(start, length);
-				return SyntaxToken::SyntaxToken(STRING_LITERAL_TOKEN, text, start, length);
-			}
 			break;
 		case '!':
 			if (peekNext() == '=')
@@ -139,6 +125,21 @@ SyntaxToken Lexer::lex()
 			}
 			break;
 
+		case '"':
+			if (isalpha(peekNext()))
+			{
+				advance();
+				int start = this->index;
+				while ((isalpha(current()) || isspace(current())) && current() != '"')
+				{
+					advance();
+				}
+				int length = this->index - start;
+				std::string text = this->program.substr(start, length);
+				return SyntaxToken::SyntaxToken(STRING_LITERAL_TOKEN, text, start, length);
+			}
+
+			break;
 		case ';':
 			return SyntaxToken::SyntaxToken(SEMICOLON, ";", this->index++, 1);
 		default:

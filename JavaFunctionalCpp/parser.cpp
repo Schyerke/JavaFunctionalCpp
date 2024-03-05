@@ -81,7 +81,7 @@ SyntaxToken Parser::expect(Token_t expect)
 	{
 		return next_token();
 	}
-	std::cout << "Unexpected token. Expected " << token_name(expect) << "." << std::endl;
+	std::cout << "Unexpected " << token_name(expect) << " expected " << token_name(peek().get_token_t()) << std::endl;
 	return SyntaxToken::SyntaxToken(BAD_TOKEN, "", -1, 0);
 }
 

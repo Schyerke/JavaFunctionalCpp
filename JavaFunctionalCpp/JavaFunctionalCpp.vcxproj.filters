@@ -127,4 +127,9 @@
     <Text Include="grammar.txt" />
     <Text Include="todo.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="main.jpp">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>

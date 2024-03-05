@@ -1,5 +1,7 @@
 #include <iostream>
+#include <fstream>
 #include <vector>
+#include <string>
 
 #include "lexer.hpp"
 #include "parser.hpp"
@@ -35,7 +37,10 @@ void prettyPrint(AstNode* node) {
 }
 
 int main() {
-	std::string program = " \"hello\"; ";
+	std::string program;
+
+	std::ifstream srcfile("main.jpp");
+	while (std::getline(srcfile, program));
 
 	Parser parser(program);
 	AstNode* root = parser.parse();
