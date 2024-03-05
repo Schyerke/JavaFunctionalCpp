@@ -5,6 +5,8 @@
 #include "boolnode.hpp"
 #include "expressionstmtnode.hpp"
 #include "printstmtnode.hpp"
+#include "stringnode.hpp"
+#include "identifiernode.hpp"
 
 Evaluator::Evaluator()
 {
@@ -24,6 +26,20 @@ Result Evaluator::evaluate(AstNode* node)
         Result result = {};
         result.resultType = NUMBER;
         result.number = numberNode->number;
+        return result;
+    }
+    if (StringNode* stringNode = dynamic_cast<StringNode*>(node))
+    {
+        Result result = {};
+        result.resultType = STRING;
+        result.str = stringNode->value;
+        return result;
+    }
+    if (IdentifierNode* identifierNode = dynamic_cast<IdentifierNode*>(node))
+    {
+        Result result = {};
+        result.resultType = IDENTIFER;
+        result.identifier = identifierNode->identifier;
         return result;
     }
     if (BoolNode* boolNode = dynamic_cast<BoolNode*>(node))

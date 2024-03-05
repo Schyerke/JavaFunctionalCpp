@@ -6,7 +6,8 @@
 enum Token_t
 {
 	NUMBER_TOKEN,
-	STRING_TOKEN,
+	STRING_LITERAL_TOKEN, // something like "hello world" (with "")
+	IDENTIFIER_TOKEN,
 
 	NO_OPERATOR_TOKEN,
 	PLUS_TOKEN,

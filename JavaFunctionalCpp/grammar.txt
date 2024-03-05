@@ -7,13 +7,14 @@ expressionStatement => expression ";"
 printStatement => "print " expression ";"  //temporary
 
 //working in progress
-intVarDeclearationStatement => "int" 
+intVarDeclearationStatement => "int" variable_name
 
 expression => binary | unary | literal
 
 binary  => expression operator expression
 unary   => "-" unary | primary
-primary => NUMBER | STRING | "true" | "false"
+primary => NUMBER | STRING | IDENTIFIER | "true" | "false"
+variable_name => IDENTIFIER
 
 operator => "+" | "-" | "*" | "/" | "==" | "!=" | "&&" | "||" 
 

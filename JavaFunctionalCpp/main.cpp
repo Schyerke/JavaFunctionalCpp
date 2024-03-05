@@ -35,8 +35,8 @@ void prettyPrint(AstNode* node) {
 }
 
 int main() {
-	std::string program = "false!=true;";
-	
+	std::string program = " \"hello\"; ";
+
 	Parser parser(program);
 	AstNode* root = parser.parse();
 	std::cout << std::endl;
@@ -47,6 +47,12 @@ int main() {
 	switch (result.resultType) {
 	case NUMBER:
 		std::cout << result.number << std::endl;
+		break;
+	case STRING:
+		std::cout << "STRING " + result.str;
+		break;
+	case IDENTIFER:
+		std::cout << "IDENTIFIER: " + result.identifier;
 		break;
 	case BOOLEAN:
 		if (result.boolean) {

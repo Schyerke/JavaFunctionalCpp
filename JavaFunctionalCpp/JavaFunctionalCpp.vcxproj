@@ -133,6 +133,7 @@
     <ClCompile Include="boolnode.cpp" />
     <ClCompile Include="evaluator.cpp" />
     <ClCompile Include="expressionstmtnode.cpp" />
+    <ClCompile Include="identifiernode.cpp" />
     <ClCompile Include="lexer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="numbernode.cpp" />
@@ -150,6 +151,7 @@
     <ClInclude Include="boolnode.hpp" />
     <ClInclude Include="evaluator.hpp" />
     <ClInclude Include="expressionstmtnode.hpp" />
+    <ClInclude Include="identifiernode.hpp" />
     <ClInclude Include="lexer.hpp" />
     <ClInclude Include="numbernode.hpp" />
     <ClInclude Include="parser.hpp" />

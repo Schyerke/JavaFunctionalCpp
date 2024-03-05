@@ -84,7 +84,7 @@ SyntaxToken Lexer::lex()
 			return SyntaxToken::SyntaxToken(TRUE_TOKEN, display_stmts(TRUE_TOKEN), start, length);
 		}
 
-		return SyntaxToken::SyntaxToken(STRING_TOKEN, text, start, length);
+		return SyntaxToken::SyntaxToken(IDENTIFIER_TOKEN, text, start, length);
 	}
 
 	switch (current())
@@ -103,6 +103,18 @@ SyntaxToken Lexer::lex()
 			{
 				this->index += 2;
 				return SyntaxToken::SyntaxToken(EQUAL_EQUAL, "==", this->index - 2, 2);
+			}
+			if (isalpha(peekNext()))
+			{
+				advance();
+				int start = this->index;
+				while (isalpha(current()) && current() != '"')
+				{
+					advance();
+				}
+				int length = this->index - start;
+				std::string text = this->program.substr(start, length);
+				return SyntaxToken::SyntaxToken(STRING_LITERAL_TOKEN, text, start, length);
 			}
 			break;
 		case '!':

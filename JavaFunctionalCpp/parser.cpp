@@ -11,6 +11,8 @@
 #include "numbernode.hpp"
 #include "unarynode.hpp"
 #include "boolnode.hpp"
+#include "stringnode.hpp"
+#include "identifiernode.hpp"
 
 #include "printstmtnode.hpp"
 #include "expressionstmtnode.hpp"
@@ -182,10 +184,15 @@ AstNode* Parser::parsePrimary()
 		token = next_token();
 		primary = new NumberNode(stol(token.get_value()));
 	}
-	if (match(STRING_TOKEN))
+	if (match(STRING_LITERAL_TOKEN))
 	{
 		token = next_token();
-		primary = new StringNode()
+		primary = new StringNode(token.get_value());
+	}
+	if (match(IDENTIFIER_TOKEN)) 
+	{
+		token = next_token();
+		primary = new IdentifierNode(token.get_value());
 	}
 	else if (match(FALSE_TOKEN)) {
 		advance();

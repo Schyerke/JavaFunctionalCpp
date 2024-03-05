@@ -7,5 +7,5 @@ StringNode::StringNode(std::string value)
 
 std::string StringNode::get_classname()
 {
-	return this->value;
+	return "String " + this->value;
 }

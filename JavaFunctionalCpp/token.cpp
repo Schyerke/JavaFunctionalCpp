@@ -6,7 +6,7 @@ std::string token_name(Token_t token) {
 	switch (token) {
 	case NUMBER_TOKEN:
 		return "Number Token";
-	case STRING_TOKEN:
+	case STRING_LITERAL_TOKEN:
 		return "String Token";
 
 	case NO_OPERATOR_TOKEN:
