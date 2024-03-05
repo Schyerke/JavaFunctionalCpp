@@ -59,6 +59,7 @@ Result Evaluator::evaluate(AstNode* node)
         {
             long left = left_r.number;
             long right = right_r.number;
+            result.resultType = NUMBER;
             switch (op)
             {
             case PLUS_TOKEN:
