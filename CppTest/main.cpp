@@ -3,9 +3,13 @@
 #include <string>
 #include <memory>
 
+#include <stdbool.h>
+
 #include <stdio.h>
 
 using namespace std;
+
+
 
 class Animal {
 public:
@@ -30,7 +34,11 @@ public:
 
 
 int main() {
-	printf("HEllo world");
+	
+	for (int i = 0; i < 5; i++)
+	{
+		std::cout << "Tu invece?" << std::endl;
+	}
 
 	return 0;
 }
