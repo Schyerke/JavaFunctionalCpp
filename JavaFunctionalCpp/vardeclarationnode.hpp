@@ -3,7 +3,14 @@
 
 #include "astnode.hpp"
 #include "token.hpp"
+#include "data_type.hpp"
 
+struct Variable
+{
+	DataType dtType;
+	std::string identifier;
+	std::string value;
+};
 
 class VarDeclarationNode : public AstNode {
 public:
