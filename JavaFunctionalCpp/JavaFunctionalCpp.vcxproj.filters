@@ -78,6 +78,9 @@
     <ClCompile Include="environment.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="variable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lexer.hpp">
@@ -128,7 +131,7 @@
     <ClInclude Include="environment.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="data_type.hpp">
+    <ClInclude Include="variable.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

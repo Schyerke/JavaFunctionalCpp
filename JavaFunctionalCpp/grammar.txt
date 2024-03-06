@@ -14,7 +14,7 @@ expression => binary | unary | literal
 
 binary  => expression operator expression
 unary   => "-" unary | primary
-primary => NUMBER | STRING | IDENTIFIER | "true" | "false"
+primary => NUMBER | STRING | "true" | "false"
 variable_name => IDENTIFIER
 
 operator => "+" | "-" | "*" | "/" | "==" | "!=" | "&&" | "||" 

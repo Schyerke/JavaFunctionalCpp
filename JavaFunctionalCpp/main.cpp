@@ -50,16 +50,13 @@ int main() {
 	Result result = evaluator->evaluate(root);
 	
 	switch (result.resultType) {
-	case NUMBER:
+	case RT_NUMBER:
 		std::cout << result.number << std::endl;
 		break;
-	case STRING:
+	case RT_STRING:
 		std::cout << "STRING " + result.str;
 		break;
-	case IDENTIFER:
-		std::cout << "IDENTIFIER: " + result.identifier;
-		break;
-	case BOOLEAN:
+	case RT_BOOLEAN:
 		if (result.boolean) {
 			std::cout << "true" << std::endl;
 		}

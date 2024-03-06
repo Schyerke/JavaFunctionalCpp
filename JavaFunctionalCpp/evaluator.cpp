@@ -6,10 +6,11 @@
 #include "expressionstmtnode.hpp"
 #include "printstmtnode.hpp"
 #include "stringnode.hpp"
-#include "identifiernode.hpp"
+#include "vardeclarationnode.hpp"
 
-Evaluator::Evaluator()
+Evaluator::Evaluator(Enviroment env)
 {
+    this->env = env;
 }
 
 Result Evaluator::evaluate(AstNode* node)
@@ -24,28 +25,36 @@ Result Evaluator::evaluate(AstNode* node)
     if (NumberNode* numberNode = dynamic_cast<NumberNode*>(node))
     {
         Result result = {};
-        result.resultType = NUMBER;
+        result.resultType = RT_NUMBER;
         result.number = numberNode->number;
         return result;
     }
     if (StringNode* stringNode = dynamic_cast<StringNode*>(node))
     {
         Result result = {};
-        result.resultType = STRING;
+        result.resultType = RT_STRING;
         result.str = stringNode->value;
         return result;
     }
-    if (IdentifierNode* identifierNode = dynamic_cast<IdentifierNode*>(node))
+    if (VarDeclarationNode* varDec = dynamic_cast<VarDeclarationNode*>(node))
     {
         Result result = {};
-        result.resultType = IDENTIFER;
-        result.identifier = identifierNode->identifier;
+        result.resultType = RT_VARIABLE;
+        
+        Variable variable;
+        variable.dtType = tokent2datatype(varDec->variableType);
+        variable.identifier = varDec->identifier;
+        variable.value = varDec->value; // default value is "" (empty)
+        result.variable = variable;
+
+        env.set(variable);
+
         return result;
     }
     if (BoolNode* boolNode = dynamic_cast<BoolNode*>(node))
     {
         Result result = {};
-        result.resultType = BOOLEAN;
+        result.resultType = RT_BOOLEAN;
         result.boolean = boolNode->value;
         return result;
     }
@@ -55,11 +64,11 @@ Result Evaluator::evaluate(AstNode* node)
         Result right_r = evaluate(binaryOperationNode->right.get());
         Token_t op = binaryOperationNode->op;
         Result result = {};
-        if (left_r.resultType == NUMBER && right_r.resultType == NUMBER)
+        if (left_r.resultType == RT_NUMBER && right_r.resultType == RT_NUMBER)
         {
             long left = left_r.number;
             long right = right_r.number;
-            result.resultType = NUMBER;
+            result.resultType = RT_NUMBER;
             switch (op)
             {
             case PLUS_TOKEN:
@@ -77,22 +86,22 @@ Result Evaluator::evaluate(AstNode* node)
 
             case EQUAL_EQUAL:
                 result.boolean = left == right;
-                result.resultType = BOOLEAN;
+                result.resultType = RT_BOOLEAN;
                 break;
             case BANG_EQUAL:
                 result.boolean = left != right;
-                result.resultType = BOOLEAN;
+                result.resultType = RT_BOOLEAN;
                 break;
 
             default:
                 std::cout << "No operator found (error)";
             }
         }
-        else if (left_r.resultType == BOOLEAN && right_r.resultType == BOOLEAN) {
+        else if (left_r.resultType == RT_BOOLEAN && right_r.resultType == RT_BOOLEAN) {
             bool left = left_r.boolean;
             bool right = right_r.boolean;
             
-            result.resultType = BOOLEAN;
+            result.resultType = RT_BOOLEAN;
             switch (op) {
             case EQUAL_EQUAL:
                 result.boolean = left == right;
@@ -121,10 +130,10 @@ Result Evaluator::evaluate(AstNode* node)
         Result result = evaluate(printStmtNode->expression);
         switch (result.resultType)
         {
-        case NUMBER:
+        case RT_NUMBER:
             std::cout << result.number;
             break;
-        case BOOLEAN:
+        case RT_BOOLEAN:
             if (result.boolean) {
                 std::cout << "true";
             }
@@ -136,6 +145,11 @@ Result Evaluator::evaluate(AstNode* node)
     }
     
     Result result = {};
-    result.resultType = NO_RESULT;
+    result.resultType = RT_NO_RESULT;
     return result;
+}
+
+Enviroment Evaluator::get_env()
+{
+    return this->env;
 }

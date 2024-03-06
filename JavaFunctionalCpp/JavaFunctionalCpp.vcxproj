@@ -144,13 +144,14 @@
     <ClCompile Include="syntaxtoken.cpp" />
     <ClCompile Include="token.cpp" />
     <ClCompile Include="unarynode.cpp" />
+    <ClCompile Include="variable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="astnode.hpp" />
     <ClInclude Include="astnodehelper.hpp" />
     <ClInclude Include="binaryexpression.hpp" />
     <ClInclude Include="boolnode.hpp" />
-    <ClInclude Include="data_type.hpp" />
+    <ClInclude Include="variable.hpp" />
     <ClInclude Include="environment.hpp" />
     <ClInclude Include="evaluator.hpp" />
     <ClInclude Include="expressionstmtnode.hpp" />

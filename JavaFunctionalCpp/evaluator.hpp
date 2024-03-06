@@ -1,21 +1,23 @@
-#include "astnode.hpp"
 #ifndef EVALUATOR_HPP
 #define EVALUATOR_HPP
 
-enum ResultType {
-    BOOLEAN,
-    NUMBER,
-    STRING,
-    IDENTIFER,
+#include "astnode.hpp"
+#include "environment.hpp"
 
-    NO_RESULT
+enum ResultType {
+    RT_BOOLEAN,
+    RT_NUMBER,
+    RT_STRING,
+    RT_VARIABLE,
+
+    RT_NO_RESULT
 };
 
 struct Result {
     ResultType resultType;
     long number;
     std::string str;
-    std::string identifier;
+    Variable variable;
     bool boolean;
 };
 
@@ -23,8 +25,11 @@ struct Result {
 class Evaluator
 {
 public:
-	Evaluator();
+	Evaluator(Enviroment env);
 	Result evaluate(AstNode* node);
+    Enviroment get_env();
+private:
+    Enviroment env;
 };
 
 
