@@ -9,37 +9,30 @@
 
 using namespace std;
 
-
-
-class Animal {
+class Person
+{
 public:
 	string name;
-	Animal() {
-		name = "Animal";
-	}
-	virtual void eat() {
-		cout << "General animal eating";
-	}
+	string surname;
+
+	Person(string name, string surname);
 };
 
-class Dog : public Animal{
-public:
-	Dog() {
-		name = "Dog";
-	}
-	void eat() override {
-		cout << "Dog is eating";
-	}
-};
+Person::Person(string name, string surname)
+{
+	this->name = name;
+	this->surname = surname;
+}
 
 
 int main() {
 	
-	for (int i = 0; i < 5; i++)
-	{
-		std::cout << "Tu invece?" << std::endl;
-	}
+	unique_ptr<Person> person = make_unique<Person>("Stefano", "Male");
 
+	cout << person->name << endl;
+	cout << person->surname;
+
+	
 	return 0;
 }
 

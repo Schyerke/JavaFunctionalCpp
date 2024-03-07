@@ -51,7 +51,7 @@ int main() {
 	
 	std::unique_ptr<Evaluator> evaluator = std::make_unique<Evaluator>();
 	
-	Result result = evaluator->evaluate(root.release());
+	Result result = evaluator->evaluate(std::move(root));
 	
 	switch (result.resultType) {
 	case RT_NUMBER:

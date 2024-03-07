@@ -132,15 +132,15 @@ SyntaxToken Lexer::lex()
 			break;
 
 		case '"':
-			if (isalpha(peekNext()))
+			if (isalpha(peekNext()) || peekNext() == '"')
 			{
 				advance();
-				int start = this->index;
+				size_t start = this->index;
 				while ((isalpha(current()) || isspace(current())) && current() != '"')
 				{
 					advance();
 				}
-				int length = this->index - start;
+				size_t length = this->index - start;
 				std::string text = this->program.substr(start, length);
 				advance(); // deleting the last "
 				return SyntaxToken::SyntaxToken(STRING_LITERAL_TOKEN, text, start, length);

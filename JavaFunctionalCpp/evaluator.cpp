@@ -62,8 +62,8 @@ Result Evaluator::evaluate(std::unique_ptr<AstNode> root)
     }
     if (BinaryExpression* binaryOperationNode = dynamic_cast<BinaryExpression*>(node))
     {
-        Result left_r = evaluate(binaryOperationNode->left.get());
-        Result right_r = evaluate(binaryOperationNode->right.get());
+        Result left_r = evaluate(std::make_unique<AstNode>(binaryOperationNode->left.get()));
+        Result right_r = evaluate(std::make_unique<AstNode>(binaryOperationNode->right.get()));
         Token_t op = binaryOperationNode->op;
         Result result = {};
         if (left_r.resultType == RT_NUMBER && right_r.resultType == RT_NUMBER)
@@ -125,11 +125,11 @@ Result Evaluator::evaluate(std::unique_ptr<AstNode> root)
     // Statements
     if (ExpressionStmtNode* exprStmtNode = dynamic_cast<ExpressionStmtNode*>(node))
     {
-        return evaluate(std::make_unique<ExpressionStmtNode>(exprStmtNode->expression));
+        return evaluate(std::make_unique<AstNode>(exprStmtNode->expression));
     }
     if (PrintStmtNode* printStmtNode = dynamic_cast<PrintStmtNode*>(node))
     {
-        Result result = evaluate(printStmtNode->expression);
+        Result result = evaluate(std::make_unique<ExpressionStmtNode>(printStmtNode->expression));
         switch (result.resultType)
         {
         case RT_NUMBER:
