@@ -176,7 +176,7 @@ AstNode* Parser::parseFactor()
 	return left;
 }
 
-AstNode* Parser::parseUnary()
+std::unique_ptr<AstNode> Parser::parseUnary()
 {
 	if (match(MINUS_TOKEN))
 	{
@@ -187,26 +187,26 @@ AstNode* Parser::parseUnary()
 	return parsePrimary();
 }
 
-AstNode* Parser::parsePrimary() 
+std::unique_ptr<AstNode> Parser::parsePrimary() 
 {
-	AstNode* primary = nullptr;
+	std::unique_ptr<AstNode> primary;
 	SyntaxToken token = SyntaxToken::SyntaxToken(BAD_TOKEN, "", -1);
 	if (match(NUMBER_TOKEN)) {
 		token = next_token();
-		primary = new NumberNode(stol(token.get_value()));
+		primary.reset(new NumberNode(stol(token.get_value())));
 	}
 	if (match(STRING_LITERAL_TOKEN))
 	{
 		token = next_token();
-		primary = new StringNode(token.get_value());
+		primary.reset(new StringNode(token.get_value()));
 	}
 	else if (match(FALSE_TOKEN)) {
 		advance();
-		primary = new BoolNode(false);
+		primary.reset(new BoolNode(false));
 	}
 	else if (match(TRUE_TOKEN)) {
 		advance();
-		primary = new BoolNode(true);
+		primary.reset(new BoolNode(true));
 	}
 	return primary;
 }

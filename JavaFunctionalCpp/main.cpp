@@ -43,7 +43,9 @@ int main() {
 	while (std::getline(srcfile, program));
 
 	Parser parser(program);
-	AstNode* root = parser.parse();
+	std::unique_ptr<AstNode> root;
+	root.reset(parser.parse());
+
 	std::cout << std::endl;
 
 	Enviroment env;
