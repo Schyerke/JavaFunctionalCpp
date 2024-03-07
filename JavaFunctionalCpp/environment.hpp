@@ -8,9 +8,10 @@
 
 class Enviroment {
 public:
+	Enviroment();
+
 	Variable get(std::string identifier);
 	void set(Variable variable);
-
 
 private:
 	std::unordered_map<std::string, Variable> variables;

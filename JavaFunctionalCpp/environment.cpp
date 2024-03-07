@@ -1,5 +1,9 @@
 #include "environment.hpp"
 
+Enviroment::Enviroment()
+{
+}
+
 Variable Enviroment::get(std::string identifier)
 {
     Variable var = this->variables[identifier];

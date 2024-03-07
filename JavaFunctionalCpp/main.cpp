@@ -45,8 +45,11 @@ int main() {
 	Parser parser(program);
 	AstNode* root = parser.parse();
 	std::cout << std::endl;
+
+	Enviroment env;
 	
-	Evaluator* evaluator = new Evaluator();
+	std::unique_ptr<Evaluator> evaluator = std::make_unique<Evaluator>();
+	
 	Result result = evaluator->evaluate(root);
 	
 	switch (result.resultType) {

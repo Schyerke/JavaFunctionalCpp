@@ -134,7 +134,8 @@ AstNode* Parser::varDeclearationStatement()
 {
 	SyntaxToken dataType = expect(INT_TYPE);
 	SyntaxToken identifier = expect(IDENTIFIER_TOKEN);
-
+	
+	return new VarDeclarationNode(dataType.get_token_t(), identifier.get_value());
 }
 
 AstNode* Parser::parseExpressionStatement()
