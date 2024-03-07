@@ -14,13 +14,8 @@ public:
 
 	Parser(std::string program);
 
-	AstNode* parse();
+	std::unique_ptr<AstNode> parse();
 private:
-	AstNode* parseStatement();
-	AstNode* parsePrintStatement();
-	AstNode* varDeclearationStatement();
-	AstNode* parseExpressionStatement();
-	AstNode* parseExpression();
 	SyntaxToken next_token();
 	void advance();
 	SyntaxToken peekNext();
@@ -29,10 +24,15 @@ private:
 	bool match(Token_t match);
 	bool matchall(std::vector<Token_t> tokens);
 	SyntaxToken lookAhead(int offset);
-	AstNode* parseTerm();
-	AstNode* parseFactor();
-	AstNode* parseUnary();
-	AstNode* parsePrimary();
+	std::unique_ptr<AstNode> parseStatement();
+	std::unique_ptr<AstNode> parsePrintStatement();
+	std::unique_ptr<AstNode> varDeclearationStatement();
+	std::unique_ptr<AstNode> parseExpressionStatement();
+	std::unique_ptr<AstNode> parseExpression();
+	std::unique_ptr<AstNode> parseTerm();
+	std::unique_ptr<AstNode> parseFactor();
+	std::unique_ptr<AstNode> parseUnary();
+	std::unique_ptr<AstNode> parsePrimary();
 };
 
 #endif // !PARSER_HPP

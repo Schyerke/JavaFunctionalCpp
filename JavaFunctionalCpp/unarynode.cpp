@@ -1,10 +1,10 @@
 #include "unarynode.hpp"
 #include "astnodehelper.hpp"
 
-UnaryNode::UnaryNode(Token_t token, AstNode* left)
+UnaryNode::UnaryNode(Token_t token, std::unique_ptr<AstNode> left)
 {
 	this->token = token;
-	this->left.reset(left);
+	this->left = std::move(left);
 }
 
 std::string UnaryNode::get_classname()

@@ -13,8 +13,8 @@ public:
 	std::unique_ptr<AstNode> right;
 	Token_t op;
 
-	BinaryExpression(AstNode* left, Token_t op, AstNode* right);
-	BinaryExpression(AstNode* left);
+	BinaryExpression(std::unique_ptr<AstNode> left, Token_t op, std::unique_ptr<AstNode> right);
+	BinaryExpression(std::unique_ptr<AstNode> left);
 
 	std::string get_classname();
 };

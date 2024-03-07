@@ -6,9 +6,9 @@
 class ExpressionStmtNode : public AstNode
 {
 public:
-	AstNode* expression;
+	std::unique_ptr<AstNode> expression;
 
-	ExpressionStmtNode(AstNode* expression);
+	ExpressionStmtNode(std::unique_ptr<AstNode> expression);
 };
 
 

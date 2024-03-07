@@ -6,9 +6,9 @@
 class PrintStmtNode : public AstNode
 {
 public:
-	AstNode* expression;
+	std::unique_ptr<AstNode> expression;
 
-	PrintStmtNode(AstNode* expression);
+	PrintStmtNode(std::unique_ptr<AstNode> expression);
 };
 
 

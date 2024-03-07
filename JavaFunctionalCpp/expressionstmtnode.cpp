@@ -1,6 +1,6 @@
 #include "expressionstmtnode.hpp"
 
-ExpressionStmtNode::ExpressionStmtNode(AstNode* expression)
+ExpressionStmtNode::ExpressionStmtNode(std::unique_ptr<AstNode> expression)
 {
-	this->expression = expression;
+	this->expression = std::move(expression);
 }

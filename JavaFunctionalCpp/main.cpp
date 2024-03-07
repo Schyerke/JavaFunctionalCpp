@@ -43,8 +43,7 @@ int main() {
 	while (std::getline(srcfile, program));
 
 	Parser parser(program);
-	std::unique_ptr<AstNode> root;
-	root.reset(parser.parse());
+	std::unique_ptr<AstNode> root = std::move(parser.parse());
 
 	std::cout << std::endl;
 
@@ -52,7 +51,7 @@ int main() {
 	
 	std::unique_ptr<Evaluator> evaluator = std::make_unique<Evaluator>();
 	
-	Result result = evaluator->evaluate(root);
+	Result result = evaluator->evaluate(root.release());
 	
 	switch (result.resultType) {
 	case RT_NUMBER:
