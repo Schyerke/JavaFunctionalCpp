@@ -127,7 +127,7 @@ std::unique_ptr<AstNode> Parser::parsePrintStatement()
 	advance();
 	std::unique_ptr<AstNode> expression = parseExpression();
 	expect(SEMICOLON);
-	return std::make_unique<AstNode>(new PrintStmtNode(std::move(expression)));
+	return std::make_unique<PrintStmtNode>(std::move(expression));
 }
 
 std::unique_ptr<AstNode> Parser::varDeclearationStatement()
@@ -135,14 +135,14 @@ std::unique_ptr<AstNode> Parser::varDeclearationStatement()
 	SyntaxToken dataType = expect(INT_TYPE);
 	SyntaxToken identifier = expect(IDENTIFIER_TOKEN);
 	
-	return std::make_unique<AstNode>(new VarDeclarationNode(dataType.get_token_t(), identifier.get_value()));
+	return std::make_unique<VarDeclarationNode>(dataType.get_token_t(), identifier.get_value());
 }
 
 std::unique_ptr<AstNode> Parser::parseExpressionStatement()
 {
 	std::unique_ptr<AstNode> expression = parseExpression();
 	expect(SEMICOLON);
-	return std::make_unique<AstNode>(new ExpressionStmtNode(std::move(expression)));
+	return std::make_unique<ExpressionStmtNode>(std::move(expression));
 }
 
 std::unique_ptr<AstNode> Parser::parseExpression()
@@ -157,7 +157,7 @@ std::unique_ptr<AstNode> Parser::parseTerm()
 	{
 		SyntaxToken op = next_token();
 		std::unique_ptr<AstNode> right = parseFactor();
-		left = std::make_unique<AstNode>(new BinaryExpression(std::move(left), op.get_token_t(), std::move(right)));
+		left = std::make_unique<BinaryExpression>(std::move(left), op.get_token_t(), std::move(right));
 	}
 	return left;
 }
@@ -170,7 +170,7 @@ std::unique_ptr<AstNode> Parser::parseFactor()
 	{
 		SyntaxToken op = next_token();
 		std::unique_ptr<AstNode> right = parseUnary();
-		left = std::make_unique<AstNode>(new BinaryExpression(std::move(left), op.get_token_t(), std::move(right)));
+		left = std::make_unique<BinaryExpression>(std::move(left), op.get_token_t(), std::move(right));
 	}
 
 	return left;
@@ -182,31 +182,31 @@ std::unique_ptr<AstNode> Parser::parseUnary()
 	{
 		SyntaxToken token = next_token();
 		std::unique_ptr<AstNode> unary = parseUnary();
-		return std::make_unique<AstNode>(new UnaryNode(token.get_token_t(), std::move(unary)));
+		return std::make_unique<UnaryNode>(token.get_token_t(), std::move(unary));
 	}
 	return parsePrimary();
 }
 
 std::unique_ptr<AstNode> Parser::parsePrimary() 
 {
-	std::unique_ptr<AstNode> primary;
+	std::unique_ptr<AstNode> primary; // null pointer
 	SyntaxToken token = SyntaxToken::SyntaxToken(BAD_TOKEN, "", -1);
 	if (match(NUMBER_TOKEN)) {
 		token = next_token();
-		primary.reset(new NumberNode(stol(token.get_value())));
+		return std::make_unique<NumberNode>(stol(token.get_value()));
 	}
 	if (match(STRING_LITERAL_TOKEN))
 	{
 		token = next_token();
-		primary.reset(new StringNode(token.get_value()));
+		return std::make_unique<StringNode>(token.get_value());
 	}
 	else if (match(FALSE_TOKEN)) {
 		advance();
-		primary.reset(new BoolNode(false));
+		return std::make_unique<BoolNode>(false);
 	}
 	else if (match(TRUE_TOKEN)) {
 		advance();
-		primary.reset(new BoolNode(true));
+		return std::make_unique<BoolNode>(true);
 	}
 	return primary;
 }

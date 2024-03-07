@@ -13,12 +13,14 @@ Evaluator::Evaluator(Enviroment env)
     this->env = env;
 }
 
-Result Evaluator::evaluate(AstNode* node)
+Result Evaluator::evaluate(std::unique_ptr<AstNode> root)
 {
+
+    AstNode* node = root.get();
     // Expression
     if (UnaryNode* unaryNode = dynamic_cast<UnaryNode*>(node))
     {
-        Result result = evaluate(unaryNode->left.get());
+        Result result = evaluate(std::make_unique<NumberNode>(unaryNode->left.get()));
         result.number = -result.number;
         return result;
     }
@@ -123,7 +125,7 @@ Result Evaluator::evaluate(AstNode* node)
     // Statements
     if (ExpressionStmtNode* exprStmtNode = dynamic_cast<ExpressionStmtNode*>(node))
     {
-        return evaluate(exprStmtNode->expression);
+        return evaluate(std::make_unique<ExpressionStmtNode>(exprStmtNode->expression));
     }
     if (PrintStmtNode* printStmtNode = dynamic_cast<PrintStmtNode*>(node))
     {

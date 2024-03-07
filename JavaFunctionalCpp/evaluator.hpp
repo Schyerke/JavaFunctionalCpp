@@ -26,7 +26,7 @@ class Evaluator
 {
 public:
 	Evaluator(Enviroment env);
-	Result evaluate(AstNode* node);
+	Result evaluate(std::unique_ptr<AstNode> node);
     Enviroment get_env();
 private:
     Enviroment env;
