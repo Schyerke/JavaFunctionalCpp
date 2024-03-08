@@ -136,7 +136,6 @@
     <ClCompile Include="evaluator.cpp" />
     <ClCompile Include="expressionstmtnode.cpp" />
     <ClCompile Include="interpret.cpp" />
-    <ClCompile Include="interpreter_algorithm.hpp" />
     <ClCompile Include="vardeclarationnode.cpp" />
     <ClCompile Include="lexer.cpp" />
     <ClCompile Include="main.cpp" />

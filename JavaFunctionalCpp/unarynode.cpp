@@ -11,3 +11,8 @@ std::string UnaryNode::get_classname()
 {
 	return "(" + token_name(this->token) + " " + get_node_classname(this->left.get()) + ")";
 }
+
+std::any UnaryNode::accept(Visitor& visitor)
+{
+	visitor.visitUnaryNode()
+}

@@ -2,10 +2,9 @@
 #include <cstring>
 #include <string>
 #include <memory>
+#include <any>
 
-#include <stdbool.h>
 
-#include <stdio.h>
 
 using namespace std;
 
@@ -22,16 +21,18 @@ Person::Person(string name, string surname)
 {
 	this->name = name;
 	this->surname = surname;
+};
+
+std::any visit(std::any a) {
+	return "hello";
 }
 
-
 int main() {
+	std::any s = visit(2);
 	
-	unique_ptr<Person> person = make_unique<Person>("Stefano", "Male");
+	const char* w = std::any_cast<const char*>(s);
 
-	cout << person->name << endl;
-	cout << person->surname;
-
+	cout << w;
 	
 	return 0;
 }
