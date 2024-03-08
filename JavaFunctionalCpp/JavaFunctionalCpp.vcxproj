@@ -104,6 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -135,6 +136,7 @@
     <ClCompile Include="evaluator.cpp" />
     <ClCompile Include="expressionstmtnode.cpp" />
     <ClCompile Include="interpret.cpp" />
+    <ClCompile Include="interpreter_algorithm.hpp" />
     <ClCompile Include="vardeclarationnode.cpp" />
     <ClCompile Include="lexer.cpp" />
     <ClCompile Include="main.cpp" />
@@ -152,6 +154,7 @@
     <ClInclude Include="astnodehelper.hpp" />
     <ClInclude Include="binaryexpression.hpp" />
     <ClInclude Include="boolnode.hpp" />
+    <ClInclude Include="interpret.hpp" />
     <ClInclude Include="variable.hpp" />
     <ClInclude Include="environment.hpp" />
     <ClInclude Include="evaluator.hpp" />
@@ -165,6 +168,7 @@
     <ClInclude Include="syntaxtoken.hpp" />
     <ClInclude Include="token.hpp" />
     <ClInclude Include="unarynode.hpp" />
+    <ClInclude Include="visitor.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="grammar.txt" />
