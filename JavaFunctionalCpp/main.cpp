@@ -11,6 +11,8 @@
 #include "syntaxtoken.hpp"
 #include "unarynode.hpp"
 
+#include "interpret.hpp"
+
 #include "evaluator.hpp"
 
 void print_tokens(std::vector<SyntaxToken> tokens)
@@ -47,30 +49,9 @@ int main() {
 
 	std::cout << std::endl;
 
-	Enviroment env;
+	Interpreter interpreter;
+	std::any result = interpreter.interpret(std::move(root));
 	
-	std::unique_ptr<Evaluator> evaluator = std::make_unique<Evaluator>();
-	
-	Result result = evaluator->evaluate(std::move(root));
-	
-	switch (result.resultType) {
-	case RT_NUMBER:
-		std::cout << result.number << std::endl;
-		break;
-	case RT_STRING:
-		std::cout << "STRING " + result.str;
-		break;
-	case RT_BOOLEAN:
-		if (result.boolean) {
-			std::cout << "true" << std::endl;
-		}
-		else {
-			std::cout << "false" << std::endl;
-		}
-		break;
-	}
-
-
 
 	return 0;
 }

@@ -14,5 +14,5 @@ std::string UnaryNode::get_classname()
 
 std::any UnaryNode::accept(Visitor& visitor)
 {
-	visitor.visitUnaryNode()
+	return visitor.visitUnaryNode(*this);
 }

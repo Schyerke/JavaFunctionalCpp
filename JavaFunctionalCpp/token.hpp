@@ -8,6 +8,8 @@ enum Token_t
 	NUMBER_TOKEN,
 	STRING_LITERAL_TOKEN, // something like "hello world" (with "")
 	IDENTIFIER_TOKEN,
+	FALSE_TOKEN,
+	TRUE_TOKEN,
 
 	NO_OPERATOR_TOKEN,
 	PLUS_TOKEN,
@@ -19,9 +21,6 @@ enum Token_t
 	BANG_EQUAL,
 	AMPERSAND_AMPERSAND,
 	PIPE_PIPE,
-
-	FALSE_TOKEN,
-	TRUE_TOKEN,
 
 	SEMICOLON,
 

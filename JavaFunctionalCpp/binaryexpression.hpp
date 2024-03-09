@@ -17,6 +17,7 @@ public:
 	BinaryExpression(std::unique_ptr<AstNode> left);
 
 	std::string get_classname();
+	std::any accept(Visitor& visitor);
 };
 
 #endif // !BINARY_EXPRESSION_HPP

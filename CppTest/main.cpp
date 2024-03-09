@@ -3,6 +3,7 @@
 #include <string>
 #include <memory>
 #include <any>
+#include <variant>
 
 
 
@@ -14,6 +15,7 @@ public:
 	string name;
 	string surname;
 
+	Person(Person& p);
 	Person(string name, string surname);
 };
 
@@ -23,17 +25,24 @@ Person::Person(string name, string surname)
 	this->surname = surname;
 };
 
-std::any visit(std::any a) {
-	return "hello";
+Person::Person(Person& p)
+{
+	cout << "I'm being called";
+}
+
+template<typename T>
+T evaluate(T left, T right)
+{
+	return left + right;
 }
 
 int main() {
-	std::any s = visit(2);
 	
-	const char* w = std::any_cast<const char*>(s);
+	bool s = true;
+	cout << s;
 
-	cout << w;
-	
+
+
 	return 0;
 }
 

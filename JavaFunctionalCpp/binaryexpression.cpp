@@ -20,3 +20,8 @@ std::string BinaryExpression::get_classname() {
 	std::string classname = "(" + token_name(op) + ")";
 	return classname;
 }
+
+std::any BinaryExpression::accept(Visitor& visitor)
+{
+	return visitor.visitBinaryExpression(*this);
+}

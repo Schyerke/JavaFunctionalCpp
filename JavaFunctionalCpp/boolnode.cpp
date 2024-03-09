@@ -11,3 +11,8 @@ std::string BoolNode::get_classname()
 	if (this->value) result = "true";
 	return result;
 }
+
+std::any BoolNode::accept(Visitor& visitor)
+{
+	return visitor.visitBoolNode(*this);
+}

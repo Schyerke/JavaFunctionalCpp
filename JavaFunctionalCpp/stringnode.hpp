@@ -11,6 +11,7 @@ public:
 
 	StringNode(std::string value);
 	std::string get_classname();
+	std::any accept(Visitor& visitor);
 };
 
 
