@@ -1,5 +1,4 @@
-#ifndef INTERPRET_HPP
-#define INTERPRET_HPP
+#pragma once
 
 #include <iostream>
 #include <any>
@@ -34,5 +33,3 @@ private:
 };
 
 
-
-#endif // !INTERPRET_HPP

@@ -1,5 +1,4 @@
-#ifndef STRING_NODE_HPP
-#define STRING_NODE_HPP
+#pragma once
 
 #include <iostream>
 #include "astnode.hpp"
@@ -13,5 +12,3 @@ public:
 	std::any accept(Visitor& visitor);
 };
 
-
-#endif // !STRING_NODE_HPP

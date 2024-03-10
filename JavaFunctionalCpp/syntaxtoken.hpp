@@ -1,5 +1,4 @@
-#ifndef SYNTAXTOKEN_HPP
-#define SYNTAXTOKEN_HPP
+#pragma once
 
 #include <iostream>
 
@@ -20,4 +19,3 @@ private:
 	size_t len;
 };
 
-#endif // !SYNTAXTOKEN_HPP

@@ -1,5 +1,4 @@
-#ifndef VISITOR_HPP
-#define VISITOR_HPP
+#pragma once
 
 #include <any>
 #include <iostream>
@@ -27,4 +26,3 @@ public:
 	virtual std::any visitVarDeclarationStmt(VarDeclarationNode& varDeclarationNode) = 0;
 };
 
-#endif // !VISITOR_HPP

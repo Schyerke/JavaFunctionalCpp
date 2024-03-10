@@ -1,5 +1,4 @@
-#ifndef IDENTIFIER_NODE_HPP
-#define IDENTIFIER_NODE_HPP
+#pragma once
 
 #include "astnode.hpp"
 #include "token.hpp"
@@ -9,13 +8,10 @@ class VarDeclarationNode : public AstNode {
 public:
 	Token_t variableType;
 	std::string identifier;
-	std::string value = "";
-	VarDeclarationNode(Token_t variableType, std::string identifier);
-	VarDeclarationNode(Token_t variableType, std::string identifier, std::string value);
+	std::unique_ptr<AstNode> expression;
+	VarDeclarationNode(Token_t variableType, std::string identifier, std::unique_ptr<AstNode> expression);
 
 	std::any accept(Visitor& visitor);
 
 };
 
-
-#endif // !IDENTIFIER_NODE_HPP

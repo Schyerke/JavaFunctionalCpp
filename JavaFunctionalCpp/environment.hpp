@@ -1,5 +1,4 @@
-#ifndef ENVIRONMENT_HPP
-#define ENVIRONMENT_HPP
+#pragma once
 
 #include <iostream>
 #include <unordered_map>
@@ -17,5 +16,3 @@ private:
 	std::unordered_map<std::string, Variable> variables;
 };
 
-
-#endif // !ENVIRONMENT_HPP

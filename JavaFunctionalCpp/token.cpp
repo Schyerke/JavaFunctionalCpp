@@ -53,6 +53,9 @@ std::string display_stmts(Token_t token)
 		case TRUE_TOKEN:
 			return "true";
 
+		case EQUAL_TOKEN:
+			return "=";
+
 		case EQUAL_EQUAL:
 			return "==";
 		case BANG_EQUAL:

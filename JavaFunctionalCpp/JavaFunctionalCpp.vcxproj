@@ -132,6 +132,7 @@
     <ClCompile Include="boolnode.cpp" />
     <ClCompile Include="environment.cpp" />
     <ClCompile Include="expressionstmtnode.cpp" />
+    <ClCompile Include="identifiernode.cpp" />
     <ClCompile Include="interpret.cpp" />
     <ClCompile Include="vardeclarationnode.cpp" />
     <ClCompile Include="lexer.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="astnode.hpp" />
     <ClInclude Include="binaryexpression.hpp" />
     <ClInclude Include="boolnode.hpp" />
+    <ClInclude Include="identifiernode.hpp" />
     <ClInclude Include="interpret.hpp" />
     <ClInclude Include="variable.hpp" />
     <ClInclude Include="environment.hpp" />

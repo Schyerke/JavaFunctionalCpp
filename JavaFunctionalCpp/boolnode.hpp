@@ -1,6 +1,4 @@
-#ifndef BOOL_NODE_HPP
-#define BOOL_NODE_HPP
-
+#pragma once
 #include "astnode.hpp"
 
 class BoolNode : public AstNode {
@@ -10,4 +8,3 @@ public:
 	std::any accept(Visitor& visitor);
 };
 
-#endif // !BOOL_NODE_HPP

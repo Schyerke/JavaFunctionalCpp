@@ -1,6 +1,4 @@
-#ifndef LEXER_HPP
-#define LEXER_HPP
-
+#pragma once
 #include <iostream>
 #include <map>
 
@@ -20,4 +18,3 @@ private:
 };
 
 
-#endif // !LEXER_HPP

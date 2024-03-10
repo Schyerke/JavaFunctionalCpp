@@ -107,7 +107,7 @@ SyntaxToken Lexer::lex()
 				this->index += 2;
 				return SyntaxToken::SyntaxToken(EQUAL_EQUAL, "==", this->index - 2, 2);
 			}
-			break;
+			return SyntaxToken::SyntaxToken(EQUAL_TOKEN, "=", this->index++, 1);
 		case '!':
 			if (peekNext() == '=')
 			{

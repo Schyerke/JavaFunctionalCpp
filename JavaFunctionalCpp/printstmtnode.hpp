@@ -1,5 +1,4 @@
-#ifndef PRINT_STMT_NODE_HPP
-#define PRINT_STMT_NODE_HPP
+#pragma once
 
 #include "astnode.hpp"
 
@@ -13,5 +12,3 @@ public:
 };
 
 
-
-#endif // !PRINT_STMT_NODE_HPP

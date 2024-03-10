@@ -1,8 +1,9 @@
-#ifndef PARSER_HPP
-#define PARSER_HPP
+#pragma once
 
 #include <iostream>
 #include <vector>
+#include <optional>
+
 #include "lexer.hpp"
 #include "astnode.hpp"
 
@@ -22,6 +23,7 @@ private:
 	SyntaxToken peekNext();
 	SyntaxToken peek();
 	SyntaxToken expect(Token_t match);
+	std::optional<SyntaxToken> expect_optional(Token_t expect);
 	bool match(Token_t match);
 	bool matchany(std::vector<Token_t> tokens);
 	SyntaxToken lookAhead(int offset);
@@ -36,4 +38,3 @@ private:
 	std::unique_ptr<AstNode> parsePrimary();
 };
 
-#endif // !PARSER_HPP

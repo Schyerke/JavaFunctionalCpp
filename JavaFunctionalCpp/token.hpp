@@ -1,5 +1,4 @@
-#ifndef TOKEN_HPP
-#define TOKEN_HPP
+#pragma once
 
 #include <iostream>
 
@@ -16,6 +15,8 @@ enum Token_t
 	MINUS_TOKEN,
 	STAR_TOKEN,
 	SLASH_TOKEN,
+
+	EQUAL_TOKEN,
 
 	EQUAL_EQUAL,
 	BANG_EQUAL,
@@ -37,5 +38,3 @@ enum Token_t
 std::string token_name(Token_t token);
 std::string display_vartype(Token_t varType);
 std::string display_stmts(Token_t stmt);
-
-#endif // !TOKEN_HPP

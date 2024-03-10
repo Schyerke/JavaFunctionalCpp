@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <optional>
 
 #include "syntaxtoken.hpp"
 #include "token.hpp"
@@ -94,6 +95,15 @@ SyntaxToken Parser::expect(Token_t expect)
 	return SyntaxToken::SyntaxToken(BAD_TOKEN, "", -1, 0);
 }
 
+std::optional<SyntaxToken> Parser::expect_optional(Token_t expect)
+{
+	if (peek().get_token_t() == expect)
+	{
+		return next_token();
+	}
+	return std::nullopt;
+}
+
 bool Parser::match(Token_t match) {
 	if (peek().get_token_t() == match) {
 		return true;
@@ -149,8 +159,15 @@ std::unique_ptr<AstNode> Parser::varDeclearationStatement()
 {
 	SyntaxToken dataType = expect(INT_TYPE);
 	SyntaxToken identifier = expect(IDENTIFIER_TOKEN);
+
+	std::unique_ptr<AstNode> expression;
+	if (expect_optional(EQUAL_TOKEN))
+	{
+		expression = std::move(parseExpression());
+	}
+	expect(SEMICOLON);
 	
-	return std::make_unique<VarDeclarationNode>(dataType.get_token_t(), identifier.get_value());
+	return std::make_unique<VarDeclarationNode>(dataType.get_token_t(), identifier.get_value(), std::move(expression));
 }
 
 std::unique_ptr<AstNode> Parser::parseExpressionStatement()
@@ -222,6 +239,11 @@ std::unique_ptr<AstNode> Parser::parsePrimary()
 	else if (match(TRUE_TOKEN)) {
 		advance();
 		return std::make_unique<BoolNode>(true);
+	}
+	else if (match(IDENTIFIER_TOKEN))
+	{
+		token = next_token();
+		return std::make_unique<
 	}
 	return primary;
 }

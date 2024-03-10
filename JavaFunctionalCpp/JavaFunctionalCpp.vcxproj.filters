@@ -75,6 +75,9 @@
     <ClCompile Include="interpret.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="identifiernode.cpp">
+      <Filter>Source Files\expression</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lexer.hpp">
@@ -126,6 +129,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="stringnode.hpp">
+      <Filter>Header Files\expression</Filter>
+    </ClInclude>
+    <ClInclude Include="identifiernode.hpp">
       <Filter>Header Files\expression</Filter>
     </ClInclude>
   </ItemGroup>

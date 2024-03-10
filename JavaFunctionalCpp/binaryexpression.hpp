@@ -1,6 +1,4 @@
-#ifndef BINARY_EXPRESSION_HPP
-#define BINARY_EXPRESSION_HPP
-
+#pragma once
 #include <iostream>
 
 #include "lexer.hpp"
@@ -18,5 +16,3 @@ public:
 
 	std::any accept(Visitor& visitor);
 };
-
-#endif // !BINARY_EXPRESSION_HPP

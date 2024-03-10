@@ -1,5 +1,4 @@
-#ifndef DATA_TYPE_HPP
-#define DATA_TYPE_HPP
+#pragma once
 
 #include <iostream>
 #include "token.hpp"
@@ -13,11 +12,10 @@ enum DataType
 
 struct Variable
 {
-	DataType dtType;
+	DataType dtType = DT_NOT_VALID;
 	std::string identifier;
 	std::string value;
 };
 
 DataType tokent2datatype(Token_t token);
 
-#endif // !DATA_TYPE_HPP

@@ -1,5 +1,4 @@
-#ifndef UNARYNODE_HPP
-#define UNARYNODE_HPP
+#pragma once
 
 #include <iostream>
 
@@ -17,5 +16,3 @@ public:
 
 };
 
-
-#endif // !UNARYNODE_HPP

@@ -6,6 +6,8 @@
 #source file
 #strings
 
+print with strings
+
 variables (= operator)
 
 
