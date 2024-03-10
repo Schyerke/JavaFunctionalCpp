@@ -40,7 +40,6 @@ void Lexer::advance()
 
 SyntaxToken Lexer::lex() 
 {
-	char curr = current();
 	if (current() == '\0')
 	{
 		return SyntaxToken::SyntaxToken(END_OF_FILE_TOKEN, "", this->index, 0);
@@ -73,7 +72,7 @@ SyntaxToken Lexer::lex()
 		{
 			return SyntaxToken::SyntaxToken(PRINT_STMT, "", start);
 		}
-
+		
 		if (text == display_stmts(FALSE_TOKEN))
 		{
 			return SyntaxToken::SyntaxToken(FALSE_TOKEN, display_stmts(FALSE_TOKEN), start, length);

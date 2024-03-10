@@ -22,7 +22,7 @@ private:
 	SyntaxToken peek();
 	SyntaxToken expect(Token_t match);
 	bool match(Token_t match);
-	bool matchall(std::vector<Token_t> tokens);
+	bool matchany(std::vector<Token_t> tokens);
 	SyntaxToken lookAhead(int offset);
 	std::unique_ptr<AstNode> parseStatement();
 	std::unique_ptr<AstNode> parsePrintStatement();

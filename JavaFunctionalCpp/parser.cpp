@@ -92,7 +92,7 @@ bool Parser::match(Token_t match) {
 	return false;
 }
 
-bool Parser::matchall(std::vector<Token_t> tokens)
+bool Parser::matchany(std::vector<Token_t> tokens)
 {
 	for (Token_t token : tokens)
 	{
@@ -153,7 +153,7 @@ std::unique_ptr<AstNode> Parser::parseExpression()
 std::unique_ptr<AstNode> Parser::parseTerm()
 {
 	std::unique_ptr<AstNode> left = parseFactor();	
-	while (matchall({PLUS_TOKEN, MINUS_TOKEN, EQUAL_EQUAL, BANG_EQUAL, AMPERSAND_AMPERSAND, PIPE_PIPE}))
+	while (matchany({PLUS_TOKEN, MINUS_TOKEN, EQUAL_EQUAL, BANG_EQUAL, AMPERSAND_AMPERSAND, PIPE_PIPE}))
 	{
 		SyntaxToken op = next_token();
 		std::unique_ptr<AstNode> right = parseFactor();
@@ -166,7 +166,7 @@ std::unique_ptr<AstNode> Parser::parseFactor()
 {
 	std::unique_ptr<AstNode> left = parseUnary();
 
-	while (matchall({STAR_TOKEN, SLASH_TOKEN}))
+	while (matchany({STAR_TOKEN, SLASH_TOKEN}))
 	{
 		SyntaxToken op = next_token();
 		std::unique_ptr<AstNode> right = parseUnary();
