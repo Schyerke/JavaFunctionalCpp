@@ -10,6 +10,11 @@
 #include "printstmtnode.hpp"
 #include "vardeclarationnode.hpp"
 
+Interpreter::Interpreter(Enviroment env)
+{
+    this->env = env;
+}
+
 std::any Interpreter::interpret(std::unique_ptr<AstNode> root)
 {
     return root->accept(*this);
@@ -108,6 +113,12 @@ std::any Interpreter::visitPrintStmt(PrintStmtNode& printStmtNode)
 
 std::any Interpreter::visitVarDeclarationStmt(VarDeclarationNode& varDeclarationNode)
 {
+    Variable var;
+    var.dtType = tokent2datatype(varDeclarationNode.variableType);
+    var.identifier = varDeclarationNode.identifier;
+    var.value = "";
+    this->env.set(var);
+    
     return std::any();
 }
 

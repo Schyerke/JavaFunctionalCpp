@@ -14,9 +14,10 @@ public:
 
 	Parser(std::string program);
 
-	std::unique_ptr<AstNode> parse();
+	std::vector<std::unique_ptr<AstNode>> parse();
 private:
 	SyntaxToken next_token();
+	bool isAtEnd();
 	void advance();
 	SyntaxToken peekNext();
 	SyntaxToken peek();

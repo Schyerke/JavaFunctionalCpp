@@ -22,21 +22,39 @@ void print_tokens(std::vector<SyntaxToken> tokens)
 	}
 }
 
-int main() {
-	std::string program;
+auto read_file(std::string_view path) -> std::string
+{
+	constexpr auto read_size = std::size_t(4096);
+	auto stream = std::ifstream(path.data());
+	stream.exceptions(std::ios_base::badbit);
 
-	std::ifstream srcfile("main.jpp");
-	while (std::getline(srcfile, program));
+	if (not stream)
+	{
+		throw std::ios_base::failure("file does not exist");
+	}
+
+	auto out = std::string();
+	auto buf = std::string(read_size, '\0');
+	while (stream.read(&buf[0], read_size))
+	{
+		out.append(buf, 0, stream.gcount());
+	}
+	out.append(buf, 0, stream.gcount());
+	return out;
+}
+
+int main() {
+	std::string program = read_file("main.jpp");
 
 	Parser parser(program);
-	std::unique_ptr<AstNode> root = std::move(parser.parse());
+	std::vector<std::unique_ptr<AstNode>> statements = std::move(parser.parse());
 
-	std::cout << std::endl;
-
-	Interpreter interpreter;
-	std::any result = interpreter.interpret(std::move(root));
+	Enviroment env;
+	Interpreter interpreter(env);
+	for (std::unique_ptr<AstNode>& stmt : statements)
+	{
+		interpreter.interpret(std::move(stmt));
+	}
 	
-	std::cout << std::any_cast<long>(result);
-
 	return 0;
 }

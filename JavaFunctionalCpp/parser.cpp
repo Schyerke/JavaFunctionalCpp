@@ -49,6 +49,15 @@ SyntaxToken Parser::next_token()
 	return SyntaxToken::SyntaxToken(END_OF_FILE_TOKEN, "", this->index-1, 0);
 }
 
+bool Parser::isAtEnd()
+{
+	if (this->index >= this->tokens.size())
+	{
+		return true;
+	}
+	return false;
+}
+
 void Parser::advance()
 {
 	size_t size = this->tokens.size();
@@ -104,9 +113,15 @@ bool Parser::matchany(std::vector<Token_t> tokens)
 	return false;
 }
 
-std::unique_ptr<AstNode> Parser::parse()
+std::vector<std::unique_ptr<AstNode>> Parser::parse()
 {
-	return parseStatement();
+	std::vector<std::unique_ptr<AstNode>> statements;
+	while (!isAtEnd())
+	{
+		std::unique_ptr<AstNode> statement = parseStatement();
+		statements.push_back(std::move(statement));
+	}
+	return statements;
 }
 
 std::unique_ptr<AstNode> Parser::parseStatement()
@@ -117,7 +132,7 @@ std::unique_ptr<AstNode> Parser::parseStatement()
 	}
 	if (match({ INT_TYPE }))
 	{
-		varDeclearationStatement();
+		return varDeclearationStatement();
 	}
 	return parseExpressionStatement();
 }
