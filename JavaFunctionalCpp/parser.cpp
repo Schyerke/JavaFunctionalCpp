@@ -227,7 +227,7 @@ std::unique_ptr<AstNode> Parser::parsePrimary()
 		token = next_token();
 		return std::make_unique<NumberNode>(stol(token.get_value()));
 	}
-	if (match(STRING_LITERAL_TOKEN))
+	if (matchany({STRING_LITERAL_TOKEN, IDENTIFIER_TOKEN}))
 	{
 		token = next_token();
 		return std::make_unique<StringNode>(token.get_value());
@@ -239,11 +239,6 @@ std::unique_ptr<AstNode> Parser::parsePrimary()
 	else if (match(TRUE_TOKEN)) {
 		advance();
 		return std::make_unique<BoolNode>(true);
-	}
-	else if (match(IDENTIFIER_TOKEN))
-	{
-		token = next_token();
-		return std::make_unique<
 	}
 	return primary;
 }
