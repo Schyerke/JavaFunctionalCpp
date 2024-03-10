@@ -78,6 +78,9 @@
     <ClCompile Include="identifiernode.cpp">
       <Filter>Source Files\expression</Filter>
     </ClCompile>
+    <ClCompile Include="varassignmentstmtnode.cpp">
+      <Filter>Source Files\statements</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lexer.hpp">
@@ -133,6 +136,9 @@
     </ClInclude>
     <ClInclude Include="identifiernode.hpp">
       <Filter>Header Files\expression</Filter>
+    </ClInclude>
+    <ClInclude Include="varassignmentstmtnode.hpp">
+      <Filter>Header Files\statements</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

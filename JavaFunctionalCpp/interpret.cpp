@@ -10,6 +10,7 @@
 #include "expressionstmtnode.hpp"
 #include "printstmtnode.hpp"
 #include "vardeclarationnode.hpp"
+#include "varassignmentstmtnode.hpp"
 
 Interpreter::Interpreter(Enviroment env)
 {
@@ -18,7 +19,15 @@ Interpreter::Interpreter(Enviroment env)
 
 std::any Interpreter::interpret(std::unique_ptr<AstNode> root)
 {
-    return root->accept(*this);
+    try
+    {
+        return root->accept(*this);
+    }
+    catch (std::invalid_argument& e)
+    {
+        std::cout << e.what() << std::endl;
+    }
+    return std::any();
 }
 
 template<typename T>
@@ -126,6 +135,14 @@ std::any Interpreter::visitVarDeclarationStmt(VarDeclarationNode& varDeclaration
     var.value = varDeclarationNode.expression->accept(*this);
     this->env.set(var);
     
+    return std::any();
+}
+
+std::any Interpreter::visitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmentNode)
+{
+    std::string identifier = varAssignmentNode.identifier;
+    std::any expression = varAssignmentNode.expression->accept(*this);
+    this->env.assign(identifier, expression);
     return std::any();
 }
 

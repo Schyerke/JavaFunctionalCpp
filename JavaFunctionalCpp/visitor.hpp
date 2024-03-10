@@ -13,6 +13,7 @@ class UnaryNode;
 class ExpressionStmtNode;
 class PrintStmtNode;
 class VarDeclarationNode;
+class VarAssignmentStmtNode;
 
 class Visitor {
 public:
@@ -26,5 +27,6 @@ public:
 	virtual std::any visitExpressionStmt(ExpressionStmtNode& expressionStmtNode) = 0;
 	virtual std::any visitPrintStmt(PrintStmtNode& printStmtNode) = 0;
 	virtual std::any visitVarDeclarationStmt(VarDeclarationNode& varDeclarationNode) = 0;
+	virtual std::any visitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmentNode) = 0;
 };
 

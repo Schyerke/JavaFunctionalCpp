@@ -30,6 +30,7 @@ private:
 	std::unique_ptr<AstNode> parseStatement();
 	std::unique_ptr<AstNode> parsePrintStatement();
 	std::unique_ptr<AstNode> varDeclearationStatement();
+	std::unique_ptr<AstNode> varAssignmentStatement();
 	std::unique_ptr<AstNode> parseExpressionStatement();
 	std::unique_ptr<AstNode> parseExpression();
 	std::unique_ptr<AstNode> parseTerm();

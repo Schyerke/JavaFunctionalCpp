@@ -15,6 +15,7 @@
 #include "stringnode.hpp"
 #include "identifiernode.hpp"
 #include "vardeclarationnode.hpp"
+#include "varassignmentstmtnode.hpp"
 
 #include "printstmtnode.hpp"
 #include "expressionstmtnode.hpp"
@@ -92,7 +93,7 @@ SyntaxToken Parser::expect(Token_t expect)
 	{
 		return next_token();
 	}
-	std::cout << "Unexpected " << token_name(expect) << " expected " << token_name(peek().get_token_t()) << std::endl;
+	std::cout << "Expected " << token_name(expect) << " token"<< std::endl;
 	return SyntaxToken::SyntaxToken(BAD_TOKEN, "", -1, 0);
 }
 
@@ -141,9 +142,13 @@ std::unique_ptr<AstNode> Parser::parseStatement()
 	{
 		return parsePrintStatement();
 	}
-	if (match({ INT_TYPE }))
+	if (match(INT_TYPE))
 	{
 		return varDeclearationStatement();
+	}
+	if (match(IDENTIFIER_TOKEN))
+	{
+		return varAssignmentStatement();
 	}
 	return parseExpressionStatement();
 }
@@ -169,6 +174,14 @@ std::unique_ptr<AstNode> Parser::varDeclearationStatement()
 	expect(SEMICOLON);
 	
 	return std::make_unique<VarDeclarationNode>(dataType.get_token_t(), identifier.get_value(), std::move(expression));
+}
+
+std::unique_ptr<AstNode> Parser::varAssignmentStatement()
+{
+	SyntaxToken identifier = expect(IDENTIFIER_TOKEN);
+	expect(EQUAL_TOKEN);
+	std::unique_ptr<AstNode> expression = parseExpression();
+	return std::make_unique<VarAssignmentStmtNode>(identifier.get_value(), std::move(expression));
 }
 
 std::unique_ptr<AstNode> Parser::parseExpressionStatement()

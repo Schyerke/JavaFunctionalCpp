@@ -26,6 +26,7 @@ private:
 	std::any visitExpressionStmt(ExpressionStmtNode& expressionStmtNode);
 	std::any visitPrintStmt(PrintStmtNode& printStmtNode);
 	std::any visitVarDeclarationStmt(VarDeclarationNode& varDeclarationNode);
+	std::any visitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmentNode);
 
 	template<typename T> 
 	std::any eva_num(T left, Token_t op, T right);

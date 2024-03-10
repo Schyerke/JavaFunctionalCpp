@@ -1,13 +1,13 @@
 
 program => statement* EOF
 
-statement => expressionStatement | printStatement | varDeclearationStatement
+statement => expressionStatement | printStatement | varDeclearationStatement | varAssignmentStatement
 
 expressionStatement => expression ";"
-printStatement => "print " expression ";"  //temporary
+printStatement => "print " expression ";"
+varDeclearationStatement => varType IDENTIFIER ("=" expression)? ";"
+varAssignmentStatement => IDENTIFIER "=" expression ";"
 
-//working in progress
-varDeclearationStatement => varType IDENTIFIER ("=" expression)?
 varType => "int"
 
 expression => binary | unary | literal
