@@ -63,11 +63,11 @@ std::any Interpreter::visitStringNode(StringNode& stringNode)
 std::any Interpreter::visitUnaryNode(UnaryNode& unaryNode)
 {
     std::any unary_expr = unaryNode.left->accept(*this);
-    if (unary_expr.type().name() == "int")
+    if (unary_expr.type() == typeid(int))
     {
         return -std::any_cast<int>(unary_expr);
     }
-    if (unary_expr.type().name() == "long")
+    if (unary_expr.type() == typeid(long))
     {
         return -std::any_cast<long>(unary_expr);
     }
