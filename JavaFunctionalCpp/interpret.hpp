@@ -20,6 +20,7 @@ private:
 	std::any visitBoolNode(BoolNode& boolNode);
 	std::any visitNumberNode(NumberNode& numberNode);
 	std::any visitStringNode(StringNode& stringNode);
+	std::any visitIdentifierNode(IdentifierNode& identifierNode);
 	std::any visitUnaryNode(UnaryNode& unaryNode);
 
 	std::any visitExpressionStmt(ExpressionStmtNode& expressionStmtNode);

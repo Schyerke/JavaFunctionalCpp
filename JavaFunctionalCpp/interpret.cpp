@@ -5,6 +5,7 @@
 #include "boolnode.hpp"
 #include "unarynode.hpp"
 #include "stringnode.hpp"
+#include "identifiernode.hpp"
 
 #include "expressionstmtnode.hpp"
 #include "printstmtnode.hpp"
@@ -65,6 +66,12 @@ std::any Interpreter::visitStringNode(StringNode& stringNode)
     return stringNode.value;
 }
 
+std::any Interpreter::visitIdentifierNode(IdentifierNode& identifierNode)
+{
+    Variable var = this->env.get(identifierNode.identifier);
+    return var.value;
+}
+
 std::any Interpreter::visitUnaryNode(UnaryNode& unaryNode)
 {
     std::any unary_expr = unaryNode.left->accept(*this);
@@ -116,7 +123,7 @@ std::any Interpreter::visitVarDeclarationStmt(VarDeclarationNode& varDeclaration
     Variable var;
     var.dtType = tokent2datatype(varDeclarationNode.variableType);
     var.identifier = varDeclarationNode.identifier;
-    var.value = "";
+    var.value = varDeclarationNode.expression->accept(*this);
     this->env.set(var);
     
     return std::any();

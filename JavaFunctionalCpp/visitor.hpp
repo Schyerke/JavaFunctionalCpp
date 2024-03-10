@@ -7,6 +7,7 @@ class BinaryExpression;
 class BoolNode;
 class NumberNode;
 class StringNode;
+class IdentifierNode;
 class UnaryNode;
 
 class ExpressionStmtNode;
@@ -19,6 +20,7 @@ public:
 	virtual std::any visitBoolNode(BoolNode& boolNode) = 0;
 	virtual std::any visitNumberNode(NumberNode& numberNode) = 0;
 	virtual std::any visitStringNode(StringNode& stringNode) = 0;
+	virtual std::any visitIdentifierNode(IdentifierNode& identifierNode) = 0;
 	virtual std::any visitUnaryNode(UnaryNode& unaryNode) = 0;
 
 	virtual std::any visitExpressionStmt(ExpressionStmtNode& expressionStmtNode) = 0;

@@ -7,7 +7,7 @@ expressionStatement => expression ";"
 printStatement => "print " expression ";"  //temporary
 
 //working in progress
-varDeclearationStatement => varType IDENTIFIER
+varDeclearationStatement => varType IDENTIFIER ("=" expression)?
 varType => "int"
 
 expression => binary | unary | literal
