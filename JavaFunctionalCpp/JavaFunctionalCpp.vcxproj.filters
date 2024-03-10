@@ -36,19 +36,10 @@
     <ClCompile Include="parser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="astnode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="astnodehelper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="syntaxtoken.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="token.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="evaluator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="binaryexpression.cpp">
@@ -95,16 +86,10 @@
     <ClInclude Include="astnode.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="astnodehelper.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="syntaxtoken.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="token.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="evaluator.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="binaryexpression.hpp">
@@ -125,9 +110,6 @@
     <ClInclude Include="expressionstmtnode.hpp">
       <Filter>Header Files\statements</Filter>
     </ClInclude>
-    <ClInclude Include="stringnode.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="vardeclarationnode.hpp">
       <Filter>Header Files\statements</Filter>
     </ClInclude>
@@ -142,6 +124,9 @@
     </ClInclude>
     <ClInclude Include="visitor.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stringnode.hpp">
+      <Filter>Header Files\expression</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -5,13 +5,6 @@ BoolNode::BoolNode(bool value)
 	this->value = value;
 }
 
-std::string BoolNode::get_classname()
-{
-	std::string result = "false";
-	if (this->value) result = "true";
-	return result;
-}
-
 std::any BoolNode::accept(Visitor& visitor)
 {
 	return visitor.visitBoolNode(*this);

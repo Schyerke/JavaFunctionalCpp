@@ -13,7 +13,6 @@
 
 #include "interpret.hpp"
 
-#include "evaluator.hpp"
 
 void print_tokens(std::vector<SyntaxToken> tokens)
 {
@@ -21,21 +20,6 @@ void print_tokens(std::vector<SyntaxToken> tokens)
 	{
 		std::cout << token.get_token_t() << " " << token.get_value() << std::endl;
 	}
-}
-
-void prettyPrint(AstNode* node) {
-	if (NumberNode* numberNode = dynamic_cast<NumberNode*>(node)) {
-		std::cout << numberNode->get_classname();
-	}
-	if (UnaryNode* unaryNode = dynamic_cast<UnaryNode*>(node)) {
-		std::cout << unaryNode->get_classname();
-	}
-	if (BinaryExpression* binaryExpression = dynamic_cast<BinaryExpression*>(node)) {
-		prettyPrint(binaryExpression->left.get());
-		std::cout << binaryExpression->get_classname();
-		prettyPrint(binaryExpression->right.get());
-	}
-	
 }
 
 int main() {
@@ -52,6 +36,7 @@ int main() {
 	Interpreter interpreter;
 	std::any result = interpreter.interpret(std::move(root));
 	
+	std::cout << std::any_cast<long>(result);
 
 	return 0;
 }

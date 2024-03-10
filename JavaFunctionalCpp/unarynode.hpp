@@ -10,7 +10,6 @@ class UnaryNode : public AstNode {
 public:
 	UnaryNode(Token_t token, std::unique_ptr<AstNode> left);
 
-	std::string get_classname();
 	std::any accept(Visitor& visitor);
 
 	std::unique_ptr<AstNode> left;

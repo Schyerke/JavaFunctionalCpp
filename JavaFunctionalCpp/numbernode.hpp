@@ -9,5 +9,4 @@ public:
 	NumberNode(long number);
 
 	std::any accept(Visitor& visitor);
-	std::string get_classname();
 };

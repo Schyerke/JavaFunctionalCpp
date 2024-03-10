@@ -4,6 +4,8 @@
 #include <iostream>
 #include <any>
 #include "visitor.hpp"
+#include "astnode.hpp"
+#include "token.hpp"
 
 class Interpreter : public Visitor {
 public:
@@ -14,6 +16,10 @@ public:
 	std::any visitNumberNode(NumberNode& numberNode);
 	std::any visitStringNode(StringNode& stringNode);
 	std::any visitUnaryNode(UnaryNode& unaryNode);
+
+	std::any visitExpressionStmt(ExpressionStmtNode& expressionStmtNode);
+	std::any visitPrintStmt(PrintStmtNode& printStmtNode);
+	std::any visitVarDeclarationStmt(VarDeclarationNode& varDeclarationNode);
 
 	template<typename T> 
 	std::any eva_num(T left, Token_t op, T right);

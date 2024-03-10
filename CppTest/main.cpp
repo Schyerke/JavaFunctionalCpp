@@ -36,12 +36,17 @@ T evaluate(T left, T right)
 	return left + right;
 }
 
+std::any w()
+{
+	std::string s = "hello";
+	return s;
+}
+
 int main() {
-	
-	bool s = true;
-	cout << s;
+	cout << w().type().name();
 
-
+	if (w().type() == typeid(std::string))
+		cout << "Vero";
 
 	return 0;
 }

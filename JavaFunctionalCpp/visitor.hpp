@@ -4,11 +4,15 @@
 #include <any>
 #include <iostream>
 
-#include "numbernode.hpp"
-#include "unarynode.hpp"
-#include "binaryexpression.hpp"
-#include "stringnode.hpp"
-#include "boolnode.hpp"
+class BinaryExpression;
+class BoolNode;
+class NumberNode;
+class StringNode;
+class UnaryNode;
+
+class ExpressionStmtNode;
+class PrintStmtNode;
+class VarDeclarationNode;
 
 class Visitor {
 public:
@@ -17,6 +21,10 @@ public:
 	virtual std::any visitNumberNode(NumberNode& numberNode) = 0;
 	virtual std::any visitStringNode(StringNode& stringNode) = 0;
 	virtual std::any visitUnaryNode(UnaryNode& unaryNode) = 0;
+
+	virtual std::any visitExpressionStmt(ExpressionStmtNode& expressionStmtNode) = 0;
+	virtual std::any visitPrintStmt(PrintStmtNode& printStmtNode) = 0;
+	virtual std::any visitVarDeclarationStmt(VarDeclarationNode& varDeclarationNode) = 0;
 };
 
 #endif // !VISITOR_HPP

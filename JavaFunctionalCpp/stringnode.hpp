@@ -10,7 +10,6 @@ public:
 	std::string value;
 
 	StringNode(std::string value);
-	std::string get_classname();
 	std::any accept(Visitor& visitor);
 };
 

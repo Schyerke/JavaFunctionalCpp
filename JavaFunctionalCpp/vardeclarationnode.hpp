@@ -13,7 +13,8 @@ public:
 	VarDeclarationNode(Token_t variableType, std::string identifier);
 	VarDeclarationNode(Token_t variableType, std::string identifier, std::string value);
 
-	std::string get_classname();
+	std::any accept(Visitor& visitor);
+
 };
 
 

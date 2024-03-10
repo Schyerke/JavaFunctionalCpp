@@ -13,9 +13,8 @@ VarDeclarationNode::VarDeclarationNode(Token_t variableType, std::string identif
 	this->value = value;
 }
 
-std::string VarDeclarationNode::get_classname()
+std::any VarDeclarationNode::accept(Visitor& visitor)
 {
-	return "Identifier " + this->identifier;
+	return visitor.visitVarDeclarationStmt(*this);
 }
-
 

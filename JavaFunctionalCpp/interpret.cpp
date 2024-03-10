@@ -1,5 +1,15 @@
 #include "interpret.hpp"
 
+#include "numbernode.hpp"
+#include "binaryexpression.hpp"
+#include "boolnode.hpp"
+#include "unarynode.hpp"
+#include "stringnode.hpp"
+
+#include "expressionstmtnode.hpp"
+#include "printstmtnode.hpp"
+#include "vardeclarationnode.hpp"
+
 std::any Interpreter::interpret(std::unique_ptr<AstNode> root)
 {
     return root->accept(*this);
@@ -24,6 +34,7 @@ std::any Interpreter::eva_num(T left, Token_t op, T right)
         case BANG_EQUAL:
             return left != right;
     }
+    return std::any();
 }
 
 template<typename T>
@@ -36,6 +47,7 @@ std::any Interpreter::eva_bool(T left, Token_t op, T right)
         case PIPE_PIPE:
             return left || right;
     }
+    return std::any();
 }
 
 std::any Interpreter::visitNumberNode(NumberNode& numberNode)
@@ -45,7 +57,7 @@ std::any Interpreter::visitNumberNode(NumberNode& numberNode)
 
 std::any Interpreter::visitStringNode(StringNode& stringNode)
 {
-    return std::any();
+    return stringNode.value;
 }
 
 std::any Interpreter::visitUnaryNode(UnaryNode& unaryNode)
@@ -59,6 +71,44 @@ std::any Interpreter::visitUnaryNode(UnaryNode& unaryNode)
     {
         return -std::any_cast<long>(unary_expr);
     }
+    return std::any();
+}
+
+std::any Interpreter::visitExpressionStmt(ExpressionStmtNode& expressionStmtNode)
+{
+    return expressionStmtNode.expression->accept(*this);
+}
+
+std::any Interpreter::visitPrintStmt(PrintStmtNode& printStmtNode)
+{
+    std::any expr_result = printStmtNode.expression->accept(*this);
+    if (expr_result.type() == typeid(bool))
+    {
+        bool r = std::any_cast<bool>(expr_result);
+        std::cout << r ? "true" : "false";
+    }
+    if (expr_result.type() == typeid(int))
+    {
+        std::cout << std::any_cast<int>(expr_result);
+    }
+    if (expr_result.type() == typeid(long))
+    {
+        std::cout << std::any_cast<long>(expr_result);
+    }
+    if (expr_result.type() == typeid(std::string))
+    {
+        std::cout << std::any_cast<std::string>(expr_result);
+    }
+    if (expr_result.type() == typeid(char const*))
+    {
+        std::cout << std::any_cast<char const*>(expr_result);
+    }
+    return std::any();
+}
+
+std::any Interpreter::visitVarDeclarationStmt(VarDeclarationNode& varDeclarationNode)
+{
+    return std::any();
 }
 
 std::any Interpreter::visitBinaryExpression(BinaryExpression& binaryExpression)
@@ -67,22 +117,23 @@ std::any Interpreter::visitBinaryExpression(BinaryExpression& binaryExpression)
     std::any right_t = binaryExpression.right->accept(*this);
     Token_t op = binaryExpression.op;
 
-    if (left_t.type().name() == "int" && right_t.type().name() == "int")
+    if (left_t.type() == typeid(int) && right_t.type() == typeid(int))
     {
         return eva_num(std::any_cast<int>(left_t), op, std::any_cast<int>(right_t));
     }
-    if (left_t.type().name() == "long" && right_t.type().name() == "long")
+    if (left_t.type() == typeid(long) && right_t.type() == typeid(long))
     {
         return eva_num(std::any_cast<long>(left_t), op, std::any_cast<long>(right_t));
     }
-    if (left_t.type().name() == "bool" && right_t.type().name() == "bool")
+    if (left_t.type() == typeid(bool) && right_t.type() == typeid(bool))
     {
         return eva_bool(std::any_cast<bool>(left_t), op, std::any_cast<bool>(right_t));
     }
+    return std::any();
 }
 
 std::any Interpreter::visitBoolNode(BoolNode& boolNode)
 {
-    return std::any();
+    return boolNode.value;
 }
 

@@ -7,7 +7,6 @@ class BoolNode : public AstNode {
 public:
 	bool value;
 	BoolNode(bool value);
-	std::string get_classname();
 	std::any accept(Visitor& visitor);
 };
 
