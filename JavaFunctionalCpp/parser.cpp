@@ -181,6 +181,7 @@ std::unique_ptr<AstNode> Parser::varAssignmentStatement()
 	SyntaxToken identifier = expect(IDENTIFIER_TOKEN);
 	expect(EQUAL_TOKEN);
 	std::unique_ptr<AstNode> expression = parseExpression();
+	expect(SEMICOLON);
 	return std::make_unique<VarAssignmentStmtNode>(identifier.get_value(), std::move(expression));
 }
 
