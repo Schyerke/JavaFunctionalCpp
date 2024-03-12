@@ -5,6 +5,7 @@
 #include "visitor.hpp"
 #include "astnode.hpp"
 #include "token.hpp"
+#include "varassignmentstmtnode.hpp"
 
 #include "environment.hpp"
 
@@ -32,6 +33,10 @@ private:
 	std::any eva_num(T left, Token_t op, T right);
 	template<typename T>
 	std::any eva_bool(T left, Token_t op, T right);
+	template<typename T>
+	std::any num_add(std::any value, T num);
+	template<typename T>
+	std::any eva_assign(T left, AssignmentType at, T right);
 };
 
 

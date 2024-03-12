@@ -65,6 +65,31 @@ std::any Interpreter::eva_bool(T left, Token_t op, T right)
     return std::any();
 }
 
+template<typename T>
+std::any Interpreter::num_add(std::any value, T num)
+{
+    if (value.type() == typeid(short))
+    {
+        return std::any_cast<short>(value) + num;
+    }
+    if (value.type() == typeid(int))
+    {
+        return std::any_cast<int>(value) + num;
+    }
+    if (value.type() == typeid(long))
+    {
+        return std::any_cast<long>(value) + num;
+    }
+    if (value.type() == typeid(double))
+    {
+        return std::any_cast<double>(value) + num;
+    }
+    if (value.type() == typeid(float))
+    {
+        return std::any_cast<float>(value) + num;
+    }
+}
+
 std::any Interpreter::visitNumberNode(NumberNode& numberNode)
 {
     return numberNode.number;
@@ -138,11 +163,34 @@ std::any Interpreter::visitVarDeclarationStmt(VarDeclarationNode& varDeclaration
     return std::any();
 }
 
+template<typename T>
+std::any Interpreter::eva_assign(T left, AssignmentType at, T right)
+{
+    switch (at)
+    {
+        case PLUS_PLUS_TOKEN:
+            
+            break;
+        case MINUS_MINUS_TOKEN:
+            this->env.assign(identifier, num_add<int>(this->env.get(identifier), -1));
+            break;
+        case PLUS_EQUAL:
+            std::any expression = varAssignmentNode.expression->accept(*this);
+            this->env.assign(identifier, num_add<int>(this->env.get(identifier), ));
+
+        case AT_NO_OP:
+            std::any expression = varAssignmentNode.expression->accept(*this);
+            this->env.assign(identifier, expression);
+            break;
+    }
+    return std::any();
+}
+
 std::any Interpreter::visitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmentNode)
 {
     std::string identifier = varAssignmentNode.identifier;
-    std::any expression = varAssignmentNode.expression->accept(*this);
-    this->env.assign(identifier, expression);
+    
+    
     return std::any();
 }
 

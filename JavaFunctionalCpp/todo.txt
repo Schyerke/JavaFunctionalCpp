@@ -6,10 +6,13 @@
 #source file
 #strings
 #print with strings
+#variables (= operator)
 
-variables (= operator)
+operatore ++, --, +=, -=, *=, /=
 
+opeatore +++ (incremento di 2)
 
+binding statico
 
 ==================
 BUGS

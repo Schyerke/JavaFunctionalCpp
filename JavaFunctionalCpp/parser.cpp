@@ -179,6 +179,35 @@ std::unique_ptr<AstNode> Parser::varDeclearationStatement()
 std::unique_ptr<AstNode> Parser::varAssignmentStatement()
 {
 	SyntaxToken identifier = expect(IDENTIFIER_TOKEN);
+
+	if (identifier.get_token_t() == NUMBER_TOKEN)
+	{
+		if (expect_optional(PLUS_PLUS_TOKEN))
+		{
+			return std::make_unique<VarAssignmentStmtNode>(identifier.get_value(), nullptr, AT_PLUS_PLUS);
+		}
+		if (expect_optional(MINUS_MINUS_TOKEN))
+		{
+			return std::make_unique<VarAssignmentStmtNode>(identifier.get_value(), nullptr, MINUS_MINUS_TOKEN);
+		}
+		if (expect_optional(PLUS_EQUAL))
+		{
+			return std::make_unique<VarAssignmentStmtNode>(identifier.get_value(), nullptr, PLUS_EQUAL);
+		}
+		if (expect_optional(MINUS_EQUAL))
+		{
+			return std::make_unique<VarAssignmentStmtNode>(identifier.get_value(), nullptr, MINUS_EQUAL);
+		}
+		if (expect_optional(STAR_EQUAL))
+		{
+			return std::make_unique<VarAssignmentStmtNode>(identifier.get_value(), nullptr, STAR_EQUAL);
+		}
+		if (expect_optional(SLASH_EQUAL))
+		{
+			return std::make_unique<VarAssignmentStmtNode>(identifier.get_value(), nullptr, SLASH_EQUAL);
+		}
+	}
+
 	expect(EQUAL_TOKEN);
 	std::unique_ptr<AstNode> expression = parseExpression();
 	expect(SEMICOLON);
