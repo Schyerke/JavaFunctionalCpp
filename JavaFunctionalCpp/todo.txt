@@ -7,8 +7,7 @@
 #strings
 #print with strings
 #variables (= operator)
-
-operatore ++, --, +=, -=, *=, /=
+#operatore ++, --, +=, -=, *=, /=
 
 opeatore +++ (incremento di 2)
 
