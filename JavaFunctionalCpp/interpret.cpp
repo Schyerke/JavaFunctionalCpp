@@ -163,33 +163,11 @@ std::any Interpreter::visitVarDeclarationStmt(VarDeclarationNode& varDeclaration
     return std::any();
 }
 
-template<typename T>
-std::any Interpreter::eva_assign(T left, AssignmentType at, T right)
-{
-    switch (at)
-    {
-        case PLUS_PLUS_TOKEN:
-            
-            break;
-        case MINUS_MINUS_TOKEN:
-            this->env.assign(identifier, num_add<int>(this->env.get(identifier), -1));
-            break;
-        case PLUS_EQUAL_TOKEN:
-            std::any expression = varAssignmentNode.expression->accept(*this);
-            this->env.assign(identifier, num_add<int>(this->env.get(identifier), ));
-
-        case AT_NO_OP:
-            std::any expression = varAssignmentNode.expression->accept(*this);
-            this->env.assign(identifier, expression);
-            break;
-    }
-    return std::any();
-}
-
 std::any Interpreter::visitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmentNode)
 {
     std::string identifier = varAssignmentNode.identifier;
-    
+    std::any value = varAssignmentNode.expression->accept(*this);
+    this->env.assign(identifier, value);
     
     return std::any();
 }
