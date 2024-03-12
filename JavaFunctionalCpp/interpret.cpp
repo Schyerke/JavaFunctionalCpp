@@ -44,9 +44,9 @@ std::any Interpreter::eva_num(T left, Token_t op, T right)
         case SLASH_TOKEN:
             return (T)(left / right);
 
-        case EQUAL_EQUAL:
+        case EQUAL_EQUAL_TOKEN:
             return left == right;
-        case BANG_EQUAL:
+        case BANG_EQUAL_TOKEN:
             return left != right;
     }
     return std::any();
@@ -57,9 +57,9 @@ std::any Interpreter::eva_bool(T left, Token_t op, T right)
 {
     switch (op)
     {
-        case AMPERSAND_AMPERSAND:
+        case AMPERSAND_AMPERSAND_TOKEN:
             return left && right;
-        case PIPE_PIPE:
+        case PIPE_PIPE_TOKEN:
             return left || right;
     }
     return std::any();
@@ -174,7 +174,7 @@ std::any Interpreter::eva_assign(T left, AssignmentType at, T right)
         case MINUS_MINUS_TOKEN:
             this->env.assign(identifier, num_add<int>(this->env.get(identifier), -1));
             break;
-        case PLUS_EQUAL:
+        case PLUS_EQUAL_TOKEN:
             std::any expression = varAssignmentNode.expression->accept(*this);
             this->env.assign(identifier, num_add<int>(this->env.get(identifier), ));
 

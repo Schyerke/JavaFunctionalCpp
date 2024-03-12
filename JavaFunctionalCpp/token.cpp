@@ -19,7 +19,7 @@ std::string token_name(Token_t token) {
 		return "Star Token";
 	case SLASH_TOKEN:
 		return "Slash Token";
-	case SEMICOLON:
+	case SEMICOLON_TOKEN:
 		return "Semicolon";
 	case BAD_TOKEN:
 		return "Bad Token";
@@ -56,16 +56,16 @@ std::string display_stmts(Token_t token)
 		case EQUAL_TOKEN:
 			return "=";
 
-		case EQUAL_EQUAL:
+		case EQUAL_EQUAL_TOKEN:
 			return "==";
-		case BANG_EQUAL:
+		case BANG_EQUAL_TOKEN:
 			return "!=";
-		case AMPERSAND_AMPERSAND:
+		case AMPERSAND_AMPERSAND_TOKEN:
 			return "&&";
-		case PIPE_PIPE:
+		case PIPE_PIPE_TOKEN:
 			return "||";
 
-		case SEMICOLON:
+		case SEMICOLON_TOKEN:
 			return ";";
 			
 		default:

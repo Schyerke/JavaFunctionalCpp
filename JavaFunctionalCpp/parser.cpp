@@ -157,7 +157,7 @@ std::unique_ptr<AstNode> Parser::parsePrintStatement()
 {
 	advance();
 	std::unique_ptr<AstNode> expression = parseExpression();
-	expect(SEMICOLON);
+	expect(SEMICOLON_TOKEN);
 	return std::make_unique<PrintStmtNode>(std::move(expression));
 }
 
@@ -171,7 +171,7 @@ std::unique_ptr<AstNode> Parser::varDeclearationStatement()
 	{
 		expression = std::move(parseExpression());
 	}
-	expect(SEMICOLON);
+	expect(SEMICOLON_TOKEN);
 	
 	return std::make_unique<VarDeclarationNode>(dataType.get_token_t(), identifier.get_value(), std::move(expression));
 }
@@ -190,34 +190,34 @@ std::unique_ptr<AstNode> Parser::varAssignmentStatement()
 		{
 			return std::make_unique<VarAssignmentStmtNode>(identifier.get_value(), nullptr, MINUS_MINUS_TOKEN);
 		}
-		if (expect_optional(PLUS_EQUAL))
+		if (expect_optional(PLUS_EQUAL_TOKEN))
 		{
-			return std::make_unique<VarAssignmentStmtNode>(identifier.get_value(), nullptr, PLUS_EQUAL);
+			return std::make_unique<VarAssignmentStmtNode>(identifier.get_value(), nullptr, PLUS_EQUAL_TOKEN);
 		}
-		if (expect_optional(MINUS_EQUAL))
+		if (expect_optional(MINUS_EQUAL_TOKEN))
 		{
-			return std::make_unique<VarAssignmentStmtNode>(identifier.get_value(), nullptr, MINUS_EQUAL);
+			return std::make_unique<VarAssignmentStmtNode>(identifier.get_value(), nullptr, MINUS_EQUAL_TOKEN);
 		}
-		if (expect_optional(STAR_EQUAL))
+		if (expect_optional(STAR_EQUAL_TOKEN))
 		{
-			return std::make_unique<VarAssignmentStmtNode>(identifier.get_value(), nullptr, STAR_EQUAL);
+			return std::make_unique<VarAssignmentStmtNode>(identifier.get_value(), nullptr, STAR_EQUAL_TOKEN);
 		}
-		if (expect_optional(SLASH_EQUAL))
+		if (expect_optional(SLASH_EQUAL_TOKEN))
 		{
-			return std::make_unique<VarAssignmentStmtNode>(identifier.get_value(), nullptr, SLASH_EQUAL);
+			return std::make_unique<VarAssignmentStmtNode>(identifier.get_value(), nullptr, SLASH_EQUAL_TOKEN);
 		}
 	}
 
 	expect(EQUAL_TOKEN);
 	std::unique_ptr<AstNode> expression = parseExpression();
-	expect(SEMICOLON);
+	expect(SEMICOLON_TOKEN);
 	return std::make_unique<VarAssignmentStmtNode>(identifier.get_value(), std::move(expression));
 }
 
 std::unique_ptr<AstNode> Parser::parseExpressionStatement()
 {
 	std::unique_ptr<AstNode> expression = parseExpression();
-	expect(SEMICOLON);
+	expect(SEMICOLON_TOKEN);
 	return std::make_unique<ExpressionStmtNode>(std::move(expression));
 }
 
@@ -229,7 +229,7 @@ std::unique_ptr<AstNode> Parser::parseExpression()
 std::unique_ptr<AstNode> Parser::parseTerm()
 {
 	std::unique_ptr<AstNode> left = parseFactor();	
-	while (matchany({PLUS_TOKEN, MINUS_TOKEN, EQUAL_EQUAL, BANG_EQUAL, AMPERSAND_AMPERSAND, PIPE_PIPE}))
+	while (matchany({PLUS_TOKEN, MINUS_TOKEN, EQUAL_EQUAL_TOKEN, BANG_EQUAL_TOKEN, AMPERSAND_AMPERSAND_TOKEN, PIPE_PIPE_TOKEN}))
 	{
 		SyntaxToken op = next_token();
 		std::unique_ptr<AstNode> right = parseFactor();

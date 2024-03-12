@@ -101,7 +101,7 @@ SyntaxToken Lexer::lex()
 			if (peekNext() == '=')
 			{
 				this->index += 2;
-				return SyntaxToken(PLUS_EQUAL, "+=", this->index - 2, 2);
+				return SyntaxToken(PLUS_EQUAL_TOKEN, "+=", this->index - 2, 2);
 			}
 			return SyntaxToken(PLUS_TOKEN, "+", this->index++, 1);
 		case '-':
@@ -113,21 +113,21 @@ SyntaxToken Lexer::lex()
 			if (peekNext() == '=')
 			{
 				this->index += 2;
-				return SyntaxToken(MINUS_EQUAL, "-=", this->index - 2, 2);
+				return SyntaxToken(MINUS_EQUAL_TOKEN, "-=", this->index - 2, 2);
 			}
 			return SyntaxToken(MINUS_TOKEN, "-", this->index++, 1);
 		case '*':
 			if (peekNext() == '=')
 			{
 				this->index += 2;
-				return SyntaxToken(STAR_EQUAL, "*=", this->index - 2, 2);
+				return SyntaxToken(STAR_EQUAL_TOKEN, "*=", this->index - 2, 2);
 			}
 			return SyntaxToken(STAR_TOKEN, "*", this->index++, 1);
 		case '/':
 			if (peekNext() == '=')
 			{
 				this->index += 2;
-				return SyntaxToken(SLASH_EQUAL, "/=", this->index - 2, 2);
+				return SyntaxToken(SLASH_EQUAL_TOKEN, "/=", this->index - 2, 2);
 			}
 			return SyntaxToken(SLASH_TOKEN, "/", this->index++, 1);
 
@@ -135,28 +135,28 @@ SyntaxToken Lexer::lex()
 			if (peekNext() == '=')
 			{
 				this->index += 2;
-				return SyntaxToken(EQUAL_EQUAL, "==", this->index - 2, 2);
+				return SyntaxToken(EQUAL_EQUAL_TOKEN, "==", this->index - 2, 2);
 			}
 			return SyntaxToken(EQUAL_TOKEN, "=", this->index++, 1);
 		case '!':
 			if (peekNext() == '=')
 			{
 				this->index += 2;
-				return SyntaxToken(BANG_EQUAL, "!=", this->index - 2, 2);
+				return SyntaxToken(BANG_EQUAL_TOKEN, "!=", this->index - 2, 2);
 			}
 			break;
 		case '&':
 			if (peekNext() == '&')
 			{
 				this->index += 2;
-				return SyntaxToken(AMPERSAND_AMPERSAND, "&&", this->index - 2, 2);
+				return SyntaxToken(AMPERSAND_AMPERSAND_TOKEN, "&&", this->index - 2, 2);
 			}
 			break;
 		case '|':
 			if (peekNext() == '|')
 			{
 				this->index += 2;
-				return SyntaxToken(PIPE_PIPE, "||", this->index - 2, 2);
+				return SyntaxToken(PIPE_PIPE_TOKEN, "||", this->index - 2, 2);
 			}
 			break;
 
@@ -176,7 +176,7 @@ SyntaxToken Lexer::lex()
 			}
 			break;
 		case ';':
-			return SyntaxToken(SEMICOLON, ";", this->index++, 1);
+			return SyntaxToken(SEMICOLON_TOKEN, ";", this->index++, 1);
 		default:
 			return SyntaxToken(BAD_TOKEN, "", this->index++, 0);
 	}
