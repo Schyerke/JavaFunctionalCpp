@@ -186,6 +186,12 @@ std::unique_ptr<AstNode> Parser::varAssignmentStatement()
 		expect(SEMICOLON_TOKEN);
 		return std::make_unique<VarAssignmentStmtNode>(identifier.get_value(), std::move(ppt));
 	}
+	if (expect_optional(TRIPLE_PLUS_TOKEN))
+	{
+		std::unique_ptr<AstNode> ppt = std::make_unique<BinaryExpression>(std::make_unique<IdentifierNode>(identifier.get_value()), PLUS_TOKEN, std::make_unique<NumberNode>(2));
+		expect(SEMICOLON_TOKEN);
+		return std::make_unique<VarAssignmentStmtNode>(identifier.get_value(), std::move(ppt));
+	}
 	if (expect_optional(MINUS_MINUS_TOKEN))
 	{
 		std::unique_ptr<AstNode> ppt = std::make_unique<BinaryExpression>(std::make_unique<IdentifierNode>(identifier.get_value()), MINUS_TOKEN, std::make_unique<NumberNode>(1));

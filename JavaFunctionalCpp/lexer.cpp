@@ -93,6 +93,11 @@ SyntaxToken Lexer::lex()
 	switch (current())
 	{
 		case '+':
+			if (peekNext() == '+' && lookAhead(2) == '+')
+			{
+				this->index += 3;
+				return SyntaxToken(TRIPLE_PLUS_TOKEN, "+++", this->index - 3, 3);
+			}
 			if (peekNext() == '+')
 			{
 				this->index += 2;

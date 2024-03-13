@@ -8,10 +8,11 @@
 #print with strings
 #variables (= operator)
 #operatore ++, --, +=, -=, *=, /=
-
-opeatore +++ (incremento di 2)
+#opeatore +++ (incremento di 2)
 
 binding statico
+
+adding new data types (double, short, long, char)
 
 ==================
 BUGS
