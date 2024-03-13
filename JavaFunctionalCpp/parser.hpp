@@ -17,7 +17,10 @@ public:
 	Parser(std::string program);
 
 	std::vector<std::unique_ptr<AstNode>> parse();
+	std::vector<std::string> get_error_reports();
 private:
+	void report(std::string error);
+	std::vector<std::string> error_reports;
 
 	SyntaxToken next_token();
 	bool isAtEnd();
@@ -39,5 +42,7 @@ private:
 	std::unique_ptr<AstNode> parseFactor();
 	std::unique_ptr<AstNode> parseUnary();
 	std::unique_ptr<AstNode> parsePrimary();
+
+	
 };
 
