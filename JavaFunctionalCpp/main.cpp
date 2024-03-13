@@ -14,11 +14,11 @@
 #include "interpret.hpp"
 
 
-void print_tokens(std::vector<SyntaxToken> tokens)
+void print_errors(std::vector<std::string> errors)
 {
-	for (SyntaxToken& token : tokens)
+	for (std::string& error : errors)
 	{
-		std::cout << token.get_token_t() << " " << token.get_value() << std::endl;
+		std::cout << error << std::endl;
 	}
 }
 
@@ -48,6 +48,14 @@ int main() {
 
 	Parser parser(program);
 	std::vector<std::unique_ptr<AstNode>> statements = std::move(parser.parse());
+
+	std::vector<std::string> error_reports = parser.get_error_reports();
+
+	if (!error_reports.empty())
+	{
+		print_errors(error_reports);
+		return 64;
+	}
 
 	Enviroment env;
 	Interpreter interpreter(env);

@@ -54,7 +54,9 @@ SyntaxToken Parser::next_token()
 
 bool Parser::isAtEnd()
 {
-	if (this->index >= this->tokens.size())
+	if (this->index >= this->tokens.size() || 
+		this->tokens[this->index].get_token_t() == BAD_TOKEN || 
+		this->tokens[this->index].get_token_t() == END_OF_FILE_TOKEN)
 	{
 		return true;
 	}
@@ -93,7 +95,7 @@ SyntaxToken Parser::expect(Token_t expect)
 	{
 		return next_token();
 	}
-	std::cout << "Expected " << token_name(expect) << " token"<< std::endl;
+	report("Expected " + token_name(expect) + " token");
 	return SyntaxToken::SyntaxToken(BAD_TOKEN, "", -1, 0);
 }
 
@@ -136,6 +138,16 @@ std::vector<std::unique_ptr<AstNode>> Parser::parse()
 	return statements;
 }
 
+void Parser::report(std::string error)
+{
+	this->error_reports.push_back(error);
+}
+
+std::vector<std::string> Parser::get_error_reports()
+{
+	return this->error_reports;
+}
+
 std::unique_ptr<AstNode> Parser::parseStatement()
 {
 	if (match(PRINT_STMT))
@@ -170,6 +182,7 @@ std::unique_ptr<AstNode> Parser::varDeclearationStatement()
 	if (expect_optional(EQUAL_TOKEN))
 	{
 		expression = std::move(parseExpression());
+		
 	}
 	expect(SEMICOLON_TOKEN);
 	

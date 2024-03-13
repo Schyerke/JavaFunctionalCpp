@@ -149,6 +149,10 @@ std::any Interpreter::visitPrintStmt(PrintStmtNode& printStmtNode)
     {
         std::cout << std::any_cast<char const*>(expr_result);
     }
+    if (expr_result.type() == typeid(nullptr))
+    {
+        std::cout << "null";
+    }
     return std::any();
 }
 
@@ -157,7 +161,14 @@ std::any Interpreter::visitVarDeclarationStmt(VarDeclarationNode& varDeclaration
     Variable var;
     var.dtType = tokent2datatype(varDeclarationNode.variableType);
     var.identifier = varDeclarationNode.identifier;
-    var.value = varDeclarationNode.expression->accept(*this);
+    if (varDeclarationNode.expression != nullptr)
+    {
+        var.value = varDeclarationNode.expression->accept(*this);
+    }
+    else
+    {
+        var.value = nullptr;
+    }
     this->env.set(var);
     
     return std::any();

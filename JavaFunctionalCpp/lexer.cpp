@@ -44,7 +44,7 @@ SyntaxToken Lexer::lex()
 	{
 		return SyntaxToken(END_OF_FILE_TOKEN, "", this->index, 0);
 	}
-	while (isspace(current()))
+	while (isspace(current()) || current() == '\n')
 	{
 		advance();
 	}

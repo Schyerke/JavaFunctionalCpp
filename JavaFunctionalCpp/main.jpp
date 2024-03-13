@@ -1,3 +1,2 @@
-int w =3;
-w+++;
-print w;
+int a = 3;
+print a;
