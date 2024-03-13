@@ -11,11 +11,11 @@
 
 class Interpreter : public Visitor {
 public:
-	Interpreter(Enviroment env);
+	Interpreter(Enviroment& env);
 	std::any interpret(std::unique_ptr<AstNode> root);
 
 private:
-	Enviroment env;
+	Enviroment& env;
 
 	std::any visitBinaryExpression(BinaryExpression& binaryExpression);
 	std::any visitBoolNode(BoolNode& boolNode);

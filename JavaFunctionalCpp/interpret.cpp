@@ -12,9 +12,9 @@
 #include "vardeclarationnode.hpp"
 #include "varassignmentstmtnode.hpp"
 
-Interpreter::Interpreter(Enviroment env)
+Interpreter::Interpreter(Enviroment& env) : env(env)
 {
-    this->env = env;
+    
 }
 
 std::any Interpreter::interpret(std::unique_ptr<AstNode> root)

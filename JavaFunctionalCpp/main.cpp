@@ -45,7 +45,7 @@ auto read_file(std::string_view path) -> std::string
 
 int main() {
 	std::string program = read_file("main.jpp");
-
+	
 	Parser parser(program);
 	std::vector<std::unique_ptr<AstNode>> statements = std::move(parser.parse());
 

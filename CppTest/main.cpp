@@ -15,38 +15,31 @@ public:
 	string name;
 	string surname;
 
-	Person(Person& p);
-	Person(string name, string surname);
 };
 
-Person::Person(string name, string surname)
-{
-	this->name = name;
-	this->surname = surname;
-};
 
-Person::Person(Person& p)
+void f1(Person& person)
 {
-	cout << "I'm being called";
+	Person& p1 = person;
+	p1.name = "f1";
 }
 
-template<typename T>
-T evaluate(T left, T right)
+void f2(Person& person)
 {
-	return left + right;
-}
-
-std::any w()
-{
-	std::string s = "hello";
-	return s;
+	Person& p2 = person;
+	p2.name = "f2";
 }
 
 int main() {
-	cout << w().type().name();
+	Person person;
+	person.name = "First";
 
-	if (w().type() == typeid(std::string))
-		cout << "Vero";
+	cout << person.name << endl;
+	f1(person);
+	cout << person.name << endl;
+	f2(person);
+	cout << person.name << endl;
+
 
 	return 0;
 }

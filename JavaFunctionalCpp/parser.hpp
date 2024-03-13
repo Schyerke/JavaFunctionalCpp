@@ -6,6 +6,7 @@
 
 #include "lexer.hpp"
 #include "astnode.hpp"
+#include "environment.hpp"
 
 class Parser
 {
@@ -17,6 +18,7 @@ public:
 
 	std::vector<std::unique_ptr<AstNode>> parse();
 private:
+
 	SyntaxToken next_token();
 	bool isAtEnd();
 	void advance();
