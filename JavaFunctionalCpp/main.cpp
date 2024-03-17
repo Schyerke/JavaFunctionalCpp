@@ -11,6 +11,7 @@
 #include "syntaxtoken.hpp"
 #include "unarynode.hpp"
 
+#include "semantic.hpp"
 #include "interpret.hpp"
 
 
@@ -43,9 +44,10 @@ auto read_file(std::string_view path) -> std::string
 	return out;
 }
 
-int main() {
+int main()
+{
 	std::string program = read_file("main.jpp");
-	
+
 	Parser parser(program);
 	std::vector<std::unique_ptr<AstNode>> statements = std::move(parser.parse());
 
@@ -54,6 +56,15 @@ int main() {
 	if (!error_reports.empty())
 	{
 		print_errors(error_reports);
+		return 64;
+	}
+
+	Enviroment sem_env;
+	Semantic semantic = Semantic(sem_env);
+	std::vector<std::string> semantic_errors = semantic.analyse(statements);
+	if (not semantic_errors.empty())
+	{
+		print_errors(semantic_errors);
 		return 64;
 	}
 

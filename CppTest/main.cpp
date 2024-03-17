@@ -31,15 +31,22 @@ void f2(Person& person)
 }
 
 int main() {
-	Person person;
-	person.name = "First";
-
-	cout << person.name << endl;
-	f1(person);
-	cout << person.name << endl;
-	f2(person);
-	cout << person.name << endl;
-
+	for (int i = 0; i < 1000; i++)
+	{
+		for (int j = 0; j < 1000; j++)
+		{
+			for (int k = 0; k < 1000; k++)
+			{
+				if (i == 500)
+				{
+					cout << "wtf" << endl;
+					goto l;
+				}
+			}
+		}
+	}
+l:	
+	cout << "Finisehd";
 
 	return 0;
 }

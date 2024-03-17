@@ -134,6 +134,7 @@
     <ClCompile Include="expressionstmtnode.cpp" />
     <ClCompile Include="identifiernode.cpp" />
     <ClCompile Include="interpret.cpp" />
+    <ClCompile Include="semantic.cpp" />
     <ClCompile Include="varassignmentstmtnode.cpp" />
     <ClCompile Include="vardeclarationnode.cpp" />
     <ClCompile Include="lexer.cpp" />
@@ -153,6 +154,7 @@
     <ClInclude Include="boolnode.hpp" />
     <ClInclude Include="identifiernode.hpp" />
     <ClInclude Include="interpret.hpp" />
+    <ClInclude Include="semantic.hpp" />
     <ClInclude Include="varassignmentstmtnode.hpp" />
     <ClInclude Include="variable.hpp" />
     <ClInclude Include="environment.hpp" />
