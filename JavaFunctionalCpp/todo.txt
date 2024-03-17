@@ -10,6 +10,7 @@
 #operatore ++, --, +=, -=, *=, /=
 #opeatore +++ (incremento di 2)
 
+NumberNode.value should be std::variant or std::any (worse)
 binding statico
 
 adding new data types (double, short, long, char)
