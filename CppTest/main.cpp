@@ -28,9 +28,14 @@ void f2(Person& person)
 	p2.name = "f2";
 }
 
+void f5(int s)
+{
+	cout << s;
+}
+
 int main() {
-
-
+	std::variant<int, std::string> w = 3;
+	std::get<int>(w);
 
 
 	
