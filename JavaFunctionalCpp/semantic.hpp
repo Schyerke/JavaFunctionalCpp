@@ -10,7 +10,7 @@ public:
 	Enviroment env;
 	Semantic(Enviroment env);
 
-	std::vector<std::string> analyse(std::vector<std::unique_ptr<AstNode>> statements);
+	std::vector<std::string> analyse(std::vector<std::unique_ptr<AstNode>>& statements);
 
 
 private:

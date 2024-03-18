@@ -1,3 +1,6 @@
+
+#include <variant>
+
 #include "interpret.hpp"
 
 #include "numbernode.hpp"
@@ -92,7 +95,13 @@ std::any Interpreter::num_add(std::any value, T num)
 
 std::any Interpreter::visitNumberNode(NumberNode& numberNode)
 {
-    return numberNode.number;
+    NUMBER_DT nn = numberNode.number;
+    if (std::holds_alternative<short>(nn))  return std::get<short>(nn);
+    if (std::holds_alternative<int>(nn))    return std::get<int>(nn);
+    if (std::holds_alternative<long>(nn))   return std::get<long>(nn);
+    if (std::holds_alternative<float>(nn))  return std::get<float>(nn);
+    if (std::holds_alternative<double>(nn)) return std::get<double>(nn);
+    throw std::invalid_argument("Runtime Error: numberNode invalid number data type.");
 }
 
 std::any Interpreter::visitStringNode(StringNode& stringNode)
@@ -127,31 +136,35 @@ std::any Interpreter::visitExpressionStmt(ExpressionStmtNode& expressionStmtNode
 
 std::any Interpreter::visitPrintStmt(PrintStmtNode& printStmtNode)
 {
-    std::any expr_result = printStmtNode.expression->accept(*this);
-    if (expr_result.type() == typeid(bool))
+    std::any expr_r = printStmtNode.expression->accept(*this);
+
+    
+    if (expr_r.type() == typeid(short))       std::cout << std::any_cast<short>(expr_r);
+    else if (expr_r.type() == typeid(int))    std::cout << std::any_cast<int>(expr_r);
+    else if (expr_r.type() == typeid(long))   std::cout << std::any_cast<long>(expr_r);
+    else if (expr_r.type() == typeid(float))  std::cout << std::any_cast<float>(expr_r);
+    else if (expr_r.type() == typeid(double)) std::cout << std::any_cast<double>(expr_r);
+
+    else if (expr_r.type() == typeid(bool))
     {
-        bool r = std::any_cast<bool>(expr_result);
+        bool r = std::any_cast<bool>(expr_r);
         std::cout << r ? "true" : "false";
     }
-    if (expr_result.type() == typeid(int))
+    else if (expr_r.type() == typeid(std::string))
     {
-        std::cout << std::any_cast<int>(expr_result);
+        std::cout << std::any_cast<std::string>(expr_r);
     }
-    if (expr_result.type() == typeid(long))
+    else if (expr_r.type() == typeid(char const*))
     {
-        std::cout << std::any_cast<long>(expr_result);
+        std::cout << std::any_cast<char const*>(expr_r);
     }
-    if (expr_result.type() == typeid(std::string))
-    {
-        std::cout << std::any_cast<std::string>(expr_result);
-    }
-    if (expr_result.type() == typeid(char const*))
-    {
-        std::cout << std::any_cast<char const*>(expr_result);
-    }
-    if (expr_result.type() == typeid(nullptr))
+    else if (expr_r.type() == typeid(nullptr))
     {
         std::cout << "null";
+    }
+    else
+    {
+        throw std::invalid_argument("Runtime Error: Invalid expression in Print Statement.");
     }
     return std::any();
 }

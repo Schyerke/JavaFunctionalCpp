@@ -15,7 +15,7 @@ Semantic::Semantic(Enviroment env)
 	this->env = env;
 }
 
-std::vector<std::string> Semantic::analyse(std::vector<std::unique_ptr<AstNode>> statements)
+std::vector<std::string> Semantic::analyse(std::vector<std::unique_ptr<AstNode>>& statements)
 {
 	for (auto& stmt : statements)
 	{
@@ -68,7 +68,12 @@ std::any Semantic::visitBoolNode(BoolNode& boolNode)
 
 std::any Semantic::visitNumberNode(NumberNode& numberNode)
 {
-	if (not isdigit(numberNode.number))
+	NUMBER_DT nn = numberNode.number;
+	if (not (std::holds_alternative<short>(nn) ||
+			 std::holds_alternative<int>(nn) ||
+			 std::holds_alternative<long>(nn) ||
+			 std::holds_alternative<float>(nn) ||
+			 std::holds_alternative<double>(nn)) )
 	{
 		add_err("Number value is invalid.");
 	}
@@ -85,7 +90,7 @@ std::any Semantic::visitIdentifierNode(IdentifierNode& identifierNode)
 {
 	try 
 	{
-		this->env.get(identifierNode.identifier)
+		this->env.get(identifierNode.identifier);
 	}
 	catch (std::invalid_argument e)
 	{

@@ -3,7 +3,7 @@
 #include "numbernode.hpp"
 
 
-NumberNode::NumberNode(long number)
+NumberNode::NumberNode(NUMBER_DT number)
 {
 	this->number = number;
 }

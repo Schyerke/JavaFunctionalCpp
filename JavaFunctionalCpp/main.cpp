@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -53,7 +54,7 @@ int main()
 
 	std::vector<std::string> error_reports = parser.get_error_reports();
 
-	if (!error_reports.empty())
+	if (not error_reports.empty())
 	{
 		print_errors(error_reports);
 		return 64;

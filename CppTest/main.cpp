@@ -5,8 +5,6 @@
 #include <any>
 #include <variant>
 
-
-
 using namespace std;
 
 class Person
@@ -31,23 +29,12 @@ void f2(Person& person)
 }
 
 int main() {
-	for (int i = 0; i < 1000; i++)
-	{
-		for (int j = 0; j < 1000; j++)
-		{
-			for (int k = 0; k < 1000; k++)
-			{
-				if (i == 500)
-				{
-					cout << "wtf" << endl;
-					goto l;
-				}
-			}
-		}
-	}
-l:	
-	cout << "Finisehd";
 
+
+
+
+	
+	
 	return 0;
 }
 
