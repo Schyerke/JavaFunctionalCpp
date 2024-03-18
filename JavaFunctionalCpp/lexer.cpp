@@ -55,6 +55,14 @@ SyntaxToken Lexer::lex()
 		{
 			advance();
 		}
+		if (current() == '.')
+		{
+			advance();
+			while (isdigit(current()))
+			{
+				advance();
+			}
+		}
 		size_t length = this->index - start;
 		std::string text = this->program.substr(start, length);
 		return SyntaxToken(NUMBER_TOKEN, text, start, length);
@@ -82,9 +90,25 @@ SyntaxToken Lexer::lex()
 			return SyntaxToken(TRUE_TOKEN, display_stmts(TRUE_TOKEN), start, length);
 		}
 
+		if (text == display_vartype(SHORT_TYPE))
+		{
+			return SyntaxToken(SHORT_TYPE, display_vartype(SHORT_TYPE), start, length);
+		}
 		if (text == display_vartype(INT_TYPE))
 		{
 			return SyntaxToken(INT_TYPE, display_vartype(INT_TYPE), start, length);
+		}
+		if (text == display_vartype(LONG_TYPE))
+		{
+			return SyntaxToken(LONG_TYPE, display_vartype(LONG_TYPE), start, length);
+		}
+		if (text == display_vartype(FLOAT_TYPE))
+		{
+			return SyntaxToken(FLOAT_TYPE, display_vartype(FLOAT_TYPE), start, length);
+		}
+		if (text == display_vartype(DOUBLE_TYPE))
+		{
+			return SyntaxToken(DOUBLE_TYPE, display_vartype(DOUBLE_TYPE), start, length);
 		}
 
 		return SyntaxToken(IDENTIFIER_TOKEN, text, start, length);

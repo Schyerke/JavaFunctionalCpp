@@ -56,6 +56,7 @@ int main()
 
 	if (not error_reports.empty())
 	{
+		std::cout << "Parser Errors:" << std::endl;
 		print_errors(error_reports);
 		return 64;
 	}
@@ -65,6 +66,7 @@ int main()
 	std::vector<std::string> semantic_errors = semantic.analyse(statements);
 	if (not semantic_errors.empty())
 	{
+		std::cout << "Semantic Analysis Error:" << std::endl;
 		print_errors(semantic_errors);
 		return 64;
 	}

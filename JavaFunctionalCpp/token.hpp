@@ -34,7 +34,11 @@ enum Token_t
 	SEMICOLON_TOKEN,
 
 	//variable types
+	SHORT_TYPE,
 	INT_TYPE,
+	LONG_TYPE,
+	FLOAT_TYPE,
+	DOUBLE_TYPE,
 
 	//statements
 	PRINT_STMT,

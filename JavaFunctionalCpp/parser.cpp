@@ -73,13 +73,19 @@ void Parser::advance()
 	}
 }
 
-SyntaxToken Parser::peekNext() {
+SyntaxToken Parser::peekNext() 
+{
 	return lookAhead(1);
 }
 
 SyntaxToken Parser::peek()
 {
 	return lookAhead(0);
+}
+
+SyntaxToken Parser::previous()
+{
+	return lookAhead(-1);
 }
 
 SyntaxToken Parser::lookAhead(int offset) {
@@ -155,7 +161,7 @@ std::unique_ptr<AstNode> Parser::parseStatement()
 	{
 		return parsePrintStatement();
 	}
-	if (match(INT_TYPE))
+	if (matchany({SHORT_TYPE, INT_TYPE, LONG_TYPE, FLOAT_TYPE, DOUBLE_TYPE}))
 	{
 		return varDeclearationStatement();
 	}
@@ -176,18 +182,26 @@ std::unique_ptr<AstNode> Parser::parsePrintStatement()
 
 std::unique_ptr<AstNode> Parser::varDeclearationStatement()
 {
-	SyntaxToken dataType = expect(INT_TYPE);
+	std::optional<SyntaxToken> dt_op = std::nullopt;
+	
+	if (expect_optional(SHORT_TYPE))	dt_op = previous();
+	if (expect_optional(INT_TYPE))		dt_op = previous();
+	if (expect_optional(LONG_TYPE))		dt_op = previous();
+	if (expect_optional(FLOAT_TYPE))	dt_op = previous();
+	if (expect_optional(DOUBLE_TYPE))	dt_op = previous();
+
 	SyntaxToken identifier = expect(IDENTIFIER_TOKEN);
+
+	if (not dt_op.has_value()) throw std::invalid_argument("Data type for identifier: " + identifier.get_value() + " not found.");
 
 	std::unique_ptr<AstNode> expression;
 	if (expect_optional(EQUAL_TOKEN))
 	{
 		expression = std::move(parseExpression());
-		
 	}
 	expect(SEMICOLON_TOKEN);
-	
-	return std::make_unique<VarDeclarationNode>(dataType.get_token_t(), identifier.get_value(), std::move(expression));
+	SyntaxToken dt = dt_op.value();
+	return std::make_unique<VarDeclarationNode>(dt.get_token_t(), identifier.get_value(), std::move(expression));
 }
 
 std::unique_ptr<AstNode> Parser::varAssignmentStatement()
@@ -298,7 +312,7 @@ std::unique_ptr<AstNode> Parser::parsePrimary()
 	SyntaxToken token = SyntaxToken::SyntaxToken(BAD_TOKEN, "", -1);
 	if (match(NUMBER_TOKEN)) {
 		token = next_token();
-		return std::make_unique<NumberNode>(stol(token.get_value()));
+		return std::make_unique<NumberNode>(stoi(token.get_value()));
 	}
 	else if (match(STRING_LITERAL_TOKEN))
 	{

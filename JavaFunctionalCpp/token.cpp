@@ -35,8 +35,16 @@ std::string display_vartype(Token_t varType)
 {
 	switch (varType) 
 	{
-	case INT_TYPE:
-		return "int";
+		case SHORT_TYPE:
+			return "short";
+		case INT_TYPE:
+			return "int";
+		case LONG_TYPE:
+			return "long";
+		case FLOAT_TYPE:
+			return "float";
+		case DOUBLE_TYPE:
+			return "double";
 	}
 	return "Invalid Data Type";
 }

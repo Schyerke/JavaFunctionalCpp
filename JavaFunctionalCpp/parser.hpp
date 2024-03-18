@@ -27,6 +27,7 @@ private:
 	void advance();
 	SyntaxToken peekNext();
 	SyntaxToken peek();
+	SyntaxToken previous();
 	SyntaxToken expect(Token_t match);
 	std::optional<SyntaxToken> expect_optional(Token_t expect);
 	bool match(Token_t match);
