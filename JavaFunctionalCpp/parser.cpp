@@ -107,7 +107,7 @@ SyntaxToken Parser::expect(Token_t expect)
 	{
 		return next_token();
 	}
-	report("Expected " + token_name(expect) + " token");
+	report("Expected " + token_name(expect));
 	return SyntaxToken::SyntaxToken(BAD_TOKEN, "", -1, 0);
 }
 
@@ -144,9 +144,17 @@ std::vector<std::unique_ptr<AstNode>> Parser::parse()
 	std::vector<std::unique_ptr<AstNode>> statements;
 	while (!isAtEnd())
 	{
-		std::unique_ptr<AstNode> statement = parseStatement();
-		statements.push_back(std::move(statement));
+		try
+		{
+			std::unique_ptr<AstNode> statement = parseStatement();
+			statements.push_back(std::move(statement));
+		}
+		catch (std::invalid_argument e)
+		{
+			report(e.what());
+		}
 	}
+	
 	return statements;
 }
 
@@ -260,10 +268,13 @@ std::unique_ptr<AstNode> Parser::varAssignmentStatement()
 		return std::make_unique<VarAssignmentStmtNode>(identifier.get_value(), std::move(ppt));
 	}
 
-	expect(EQUAL_TOKEN);
-	std::unique_ptr<AstNode> expression = parseExpression();
-	expect(SEMICOLON_TOKEN);
-	return std::make_unique<VarAssignmentStmtNode>(identifier.get_value(), std::move(expression));
+	if (expect_optional(EQUAL_TOKEN)) 
+	{
+		std::unique_ptr<AstNode> expression = parseExpression();
+		expect(SEMICOLON_TOKEN);
+		return std::make_unique<VarAssignmentStmtNode>(identifier.get_value(), std::move(expression));
+	}
+	this->env.get(identifier.get_value());
 }
 
 std::unique_ptr<AstNode> Parser::parseExpressionStatement()

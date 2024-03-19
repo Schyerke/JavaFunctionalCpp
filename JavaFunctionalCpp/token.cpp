@@ -19,8 +19,15 @@ std::string token_name(Token_t token) {
 		return "Star Token";
 	case SLASH_TOKEN:
 		return "Slash Token";
+
+	case EQUAL_TOKEN:
+		return "Equal Token";
+	case EQUAL_EQUAL_TOKEN:
+		return "Equal Equal Token";
+
+
 	case SEMICOLON_TOKEN:
-		return "Semicolon";
+		return "Semicolon Token";
 	case BAD_TOKEN:
 		return "Bad Token";
 	case END_OF_FILE_TOKEN:
