@@ -11,16 +11,18 @@
 class Parser
 {
 public:
-	std::vector<SyntaxToken> tokens;
-	size_t index;
-
-	Parser(std::string program);
+	Parser(std::string program, Enviroment env);
 
 	std::vector<std::unique_ptr<AstNode>> parse();
 	std::vector<std::string> get_error_reports();
 private:
+	Enviroment env;
+	std::vector<SyntaxToken> tokens;
+	size_t index;
+
 	void report(std::string error);
 	std::vector<std::string> error_reports;
+
 
 	SyntaxToken next_token();
 	bool isAtEnd();
@@ -28,6 +30,7 @@ private:
 	SyntaxToken peekNext();
 	SyntaxToken peek();
 	SyntaxToken previous();
+	SyntaxToken previous_previous();
 	SyntaxToken expect(Token_t match);
 	std::optional<SyntaxToken> expect_optional(Token_t expect);
 	bool match(Token_t match);

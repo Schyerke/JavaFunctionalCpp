@@ -172,7 +172,7 @@ std::any Interpreter::visitPrintStmt(PrintStmtNode& printStmtNode)
 std::any Interpreter::visitVarDeclarationStmt(VarDeclarationNode& varDeclarationNode)
 {
     Variable var;
-    var.dtType = tokent2datatype(varDeclarationNode.variableType);
+    var.dtType = from_TokenT_to_DataType(varDeclarationNode.variableType);
     var.identifier = varDeclarationNode.identifier;
     if (varDeclarationNode.expression != nullptr)
     {

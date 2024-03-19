@@ -48,8 +48,8 @@ auto read_file(std::string_view path) -> std::string
 int main()
 {
 	std::string program = read_file("main.jpp");
-
-	Parser parser(program);
+	Enviroment p_env;
+	Parser parser(program, p_env);
 	std::vector<std::unique_ptr<AstNode>> statements = std::move(parser.parse());
 
 	std::vector<std::string> error_reports = parser.get_error_reports();

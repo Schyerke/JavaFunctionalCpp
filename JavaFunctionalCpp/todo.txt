@@ -11,8 +11,9 @@
 #opeatore +++ (incremento di 2)
 #NumberNode.value should be std::variant or std::any (worse)
 #binding statico
+#lexer: adding new data types (double, short, long, char)
 
-lexer: adding new data types (double, short, long, char)
+fixing bugs
 
 ==================
 BUGS
@@ -20,6 +21,14 @@ BUGS
 input: ais // identifier
 output: Semicolon missing, expected End Of File Token (wtf)
 expected: "Semicolon missing"
+
+input:
+double a = 3.4;
+double l = 0.2;
+print a + l;
+
+output: Semantic Analysis Error (data bind unmatched)
+expected: 3.6 (print)
 
 ==================
 FIXED BUG

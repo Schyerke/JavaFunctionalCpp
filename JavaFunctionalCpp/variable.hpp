@@ -6,7 +6,11 @@
 
 enum DataType
 {
+	DT_SHORT,
 	DT_INT,
+	DT_LONG,
+	DT_FLOAT,
+	DT_DOUBLE,
 
 	DT_NOT_VALID
 };
@@ -18,5 +22,5 @@ struct Variable
 	std::any value;
 };
 
-DataType tokent2datatype(Token_t token);
+DataType from_TokenT_to_DataType(Token_t token);
 

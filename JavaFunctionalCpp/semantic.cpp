@@ -34,8 +34,8 @@ std::any Semantic::visitBinaryExpression(BinaryExpression& binaryExpression)
 	{
 		case PLUS_TOKEN:
 			if (not (left.type() == typeid(short) && right.type() == typeid(short) ||
-					 left.type() == typeid(int) && right.type() == typeid(int) ||
-					 left.type() == typeid(long) && right.type() == typeid(long)))
+					 left.type() == typeid(int)   && right.type() == typeid(int)   ||
+					 left.type() == typeid(long)  && right.type() == typeid(long)))
 			{
 				add_err("Unmatched data type for number/string operation.");
 			}
@@ -44,8 +44,8 @@ std::any Semantic::visitBinaryExpression(BinaryExpression& binaryExpression)
 		case STAR_TOKEN:
 		case SLASH_TOKEN:
 			if (not (left.type() == typeid(short) && right.type() == typeid(short) ||
-					 left.type() == typeid(int) && right.type() == typeid(int) ||
-					 left.type() == typeid(long) && right.type() == typeid(long)))
+					 left.type() == typeid(int)   && right.type() == typeid(int)   ||
+					 left.type() == typeid(long)  && right.type() == typeid(long)))
 			{
 				add_err("Unmatched data type for number operation.");
 			}
@@ -70,10 +70,10 @@ std::any Semantic::visitNumberNode(NumberNode& numberNode)
 {
 	NUMBER_DT nn = numberNode.number;
 	if (not (std::holds_alternative<short>(nn) ||
-			 std::holds_alternative<int>(nn) ||
-			 std::holds_alternative<long>(nn) ||
+			 std::holds_alternative<int>(nn)   ||
+			 std::holds_alternative<long>(nn)  ||
 			 std::holds_alternative<float>(nn) ||
-			 std::holds_alternative<double>(nn)) )
+			 std::holds_alternative<double>(nn)))
 	{
 		add_err("Number value is invalid.");
 	}
@@ -121,7 +121,7 @@ std::any Semantic::visitVarDeclarationStmt(VarDeclarationNode& varDeclarationNod
 {
 	Variable var;
 	var.identifier = varDeclarationNode.identifier;
-	var.dtType = tokent2datatype(varDeclarationNode.variableType);
+	var.dtType = from_TokenT_to_DataType(varDeclarationNode.variableType);
 	varDeclarationNode.expression->accept(*this);
 	try
 	{
@@ -140,7 +140,7 @@ std::any Semantic::visitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmentNo
 	try
 	{
 		this->env.get(varAssignmentNode.identifier);
-		// check value and var data type
+		// TODO check value and var data type
 	}
 	catch (std::invalid_argument e)
 	{

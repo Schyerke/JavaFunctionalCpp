@@ -23,7 +23,7 @@
 
 #include "parser.hpp"
 
-Parser::Parser(std::string program)
+Parser::Parser(std::string program, Enviroment env) : env(env)
 {
 	Lexer lexer(program);
 
@@ -55,8 +55,8 @@ SyntaxToken Parser::next_token()
 
 bool Parser::isAtEnd()
 {
-	if (this->index >= this->tokens.size() || 
-		this->tokens[this->index].get_token_t() == BAD_TOKEN || 
+	if (this->index >= this->tokens.size()						|| 
+		this->tokens[this->index].get_token_t() == BAD_TOKEN	|| 
 		this->tokens[this->index].get_token_t() == END_OF_FILE_TOKEN)
 	{
 		return true;
@@ -86,6 +86,11 @@ SyntaxToken Parser::peek()
 SyntaxToken Parser::previous()
 {
 	return lookAhead(-1);
+}
+
+SyntaxToken Parser::previous_previous()
+{
+	return lookAhead(-2);
 }
 
 SyntaxToken Parser::lookAhead(int offset) {
@@ -193,14 +198,18 @@ std::unique_ptr<AstNode> Parser::varDeclearationStatement()
 	SyntaxToken identifier = expect(IDENTIFIER_TOKEN);
 
 	if (not dt_op.has_value()) throw std::invalid_argument("Data type for identifier: " + identifier.get_value() + " not found.");
-
+	SyntaxToken dt = dt_op.value();
+	Variable var;
+	var.dtType = from_TokenT_to_DataType(dt.get_token_t());
+	var.identifier = identifier.get_value();
+	this->env.set(var);
 	std::unique_ptr<AstNode> expression;
 	if (expect_optional(EQUAL_TOKEN))
 	{
 		expression = std::move(parseExpression());
 	}
 	expect(SEMICOLON_TOKEN);
-	SyntaxToken dt = dt_op.value();
+	
 	return std::make_unique<VarDeclarationNode>(dt.get_token_t(), identifier.get_value(), std::move(expression));
 }
 
@@ -272,7 +281,14 @@ std::unique_ptr<AstNode> Parser::parseExpression()
 std::unique_ptr<AstNode> Parser::parseTerm()
 {
 	std::unique_ptr<AstNode> left = parseFactor();	
-	while (matchany({PLUS_TOKEN, MINUS_TOKEN, EQUAL_EQUAL_TOKEN, BANG_EQUAL_TOKEN, AMPERSAND_AMPERSAND_TOKEN, PIPE_PIPE_TOKEN}))
+	while (matchany({
+		PLUS_TOKEN, 
+		MINUS_TOKEN,
+		EQUAL_EQUAL_TOKEN, 
+		BANG_EQUAL_TOKEN, 
+		AMPERSAND_AMPERSAND_TOKEN, 
+		PIPE_PIPE_TOKEN
+	}))
 	{
 		SyntaxToken op = next_token();
 		std::unique_ptr<AstNode> right = parseFactor();
@@ -310,9 +326,30 @@ std::unique_ptr<AstNode> Parser::parsePrimary()
 {
 	std::unique_ptr<AstNode> primary; // null pointer
 	SyntaxToken token = SyntaxToken::SyntaxToken(BAD_TOKEN, "", -1);
-	if (match(NUMBER_TOKEN)) {
+
+	SyntaxToken prev = previous();
+	SyntaxToken prev_prev = previous_previous();
+	if (match(NUMBER_TOKEN)					&& 
+		prev.get_token_t() == EQUAL_TOKEN	&& 
+		prev_prev.get_token_t() == IDENTIFIER_TOKEN)
+	{
 		token = next_token();
-		return std::make_unique<NumberNode>(stoi(token.get_value()));
+		Variable var = this->env.get(prev_prev.get_value());
+		switch (var.dtType)
+		{
+		case DT_SHORT:
+			return std::make_unique<NumberNode>((short)stoi(token.get_value()));
+		case DT_INT:
+			return std::make_unique<NumberNode>(stoi(token.get_value()));
+		case DT_LONG:
+			return std::make_unique<NumberNode>(stol(token.get_value()));
+		case DT_FLOAT:
+			return std::make_unique<NumberNode>(stof(token.get_value()));
+		case DT_DOUBLE:
+			return std::make_unique<NumberNode>(stod(token.get_value()));
+		default:
+			return std::make_unique<NumberNode>(stoi(token.get_value()));
+		}
 	}
 	else if (match(STRING_LITERAL_TOKEN))
 	{
