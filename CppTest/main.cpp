@@ -35,8 +35,8 @@ void f5(int s)
 
 int main() {
 	std::variant<int, std::string> w = 3;
-	std::get<int>(w);
-
+	
+	cout << std::get<decltype(w)>(w);
 
 	
 	

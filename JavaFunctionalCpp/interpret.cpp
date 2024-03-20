@@ -198,21 +198,34 @@ std::any Interpreter::visitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmen
 
 std::any Interpreter::visitBinaryExpression(BinaryExpression& binaryExpression)
 {
-    std::any left_t = binaryExpression.left->accept(*this);
-    std::any right_t = binaryExpression.right->accept(*this);
+    std::any left = binaryExpression.left->accept(*this);
+    std::any right = binaryExpression.right->accept(*this);
     Token_t op = binaryExpression.op;
 
-    if (left_t.type() == typeid(int) && right_t.type() == typeid(int))
+    if (left.type() == typeid(short) && right.type() == typeid(short))
     {
-        return eva_num(std::any_cast<int>(left_t), op, std::any_cast<int>(right_t));
+        return eva_num(std::any_cast<short>(left), op, std::any_cast<short>(right));
     }
-    if (left_t.type() == typeid(long) && right_t.type() == typeid(long))
+    if (left.type() == typeid(int) && right.type() == typeid(int))
     {
-        return eva_num(std::any_cast<long>(left_t), op, std::any_cast<long>(right_t));
+        return eva_num(std::any_cast<int>(left), op, std::any_cast<int>(right));
     }
-    if (left_t.type() == typeid(bool) && right_t.type() == typeid(bool))
+    if (left.type() == typeid(long) && right.type() == typeid(long))
     {
-        return eva_bool(std::any_cast<bool>(left_t), op, std::any_cast<bool>(right_t));
+        return eva_num(std::any_cast<long>(left), op, std::any_cast<long>(right));
+    }
+    if (left.type() == typeid(float) && right.type() == typeid(float))
+    {
+        return eva_num(std::any_cast<float>(left), op, std::any_cast<float>(right));
+    }
+    if (left.type() == typeid(double) && right.type() == typeid(double))
+    {
+        return eva_num(std::any_cast<double>(left), op, std::any_cast<double>(right));
+    }
+
+    if (left.type() == typeid(bool) && right.type() == typeid(bool))
+    {
+        return eva_bool(std::any_cast<bool>(left), op, std::any_cast<bool>(right));
     }
     return std::any();
 }
@@ -221,4 +234,3 @@ std::any Interpreter::visitBoolNode(BoolNode& boolNode)
 {
     return boolNode.value;
 }
-

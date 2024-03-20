@@ -14,22 +14,29 @@
 #lexer: adding new data types (double, short, long, char)
 
 fixing bugs
+adding line + column for the error
+casting numbers
 
 ==================
 BUGS
 
-input:
-double a = 3.4;
-double l = 0.2;
-print a + l;
 
-output: Semantic Analysis Error (data bind unmatched)
-expected: 3.6 (print)
+input:
+whatever string
+output: bad token at the end (lexer)
+expected: end of file token (lexer)
+
+input:
+int s = -1;
+print s;
+output: No Output
+expected: -1
+
 
 ==================
 FIXED BUG
 
-input: "4+2-1";
+input: "3+2-1";
 output: "false";
 expected: "4"
 
@@ -37,3 +44,9 @@ input: ais // identifier
 output: Semicolon missing, expected End Of File Token (wtf)
 expected: "Semicolon missing" | "Identifier 'ais' not found"
 
+input:
+double a = 3.4;
+double l = 0.2;
+print a + l;
+output: Semantic Analysis Error (data bind unmatched)
+expected: 3.6 (print)

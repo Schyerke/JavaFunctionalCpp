@@ -28,7 +28,7 @@ Parser::Parser(std::string program, Enviroment env) : env(env)
 	Lexer lexer(program);
 
 	std::vector<SyntaxToken> tokens;
-	//temp token, it will be overwritten.
+	//temp 'token' will be overwritten.
 	SyntaxToken token = SyntaxToken::SyntaxToken(NO_OPERATOR_TOKEN, "", 0, 0);
 	while (token.get_token_t() != BAD_TOKEN)
 	{
