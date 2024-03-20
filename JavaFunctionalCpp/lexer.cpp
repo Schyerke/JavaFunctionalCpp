@@ -42,11 +42,15 @@ SyntaxToken Lexer::lex()
 {
 	if (current() == '\0')
 	{
-		return SyntaxToken(END_OF_FILE_TOKEN, "", this->index, 0);
+		return SyntaxToken(END_OF_FILE_TOKEN, "", this->index, 0, this->row);
 	}
-	while (isspace(current()) || current() == '\n')
+	while (current() == '\n')
 	{
 		this->row++;
+		advance();
+	}
+	while (isspace(current()))
+	{
 		advance();
 	}
 	if (isdigit(current()))
@@ -66,16 +70,16 @@ SyntaxToken Lexer::lex()
 		}
 		size_t length = this->index - start;
 		std::string text = this->program.substr(start, length);
-		return SyntaxToken(NUMBER_TOKEN, text, start, length);
+		return SyntaxToken(NUMBER_TOKEN, text, start, length, this->row);
 	}
 	if (isalpha(current()))
 	{
-		size_t start = this->index;
+		int start = this->index;
 		while (isalpha(current()))
 		{
 			advance();
 		}
-		size_t length = this->index - start;
+		int length = this->index - start;
 		std::string text = this->program.substr(start, length);
 		if (text == display_stmts(PRINT_STMT))
 		{

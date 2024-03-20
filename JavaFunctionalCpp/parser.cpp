@@ -50,7 +50,7 @@ SyntaxToken Parser::next_token()
 	{
 		return this->tokens[this->index++];
 	}
-	return SyntaxToken::SyntaxToken(END_OF_FILE_TOKEN, "", this->index - 1, 0, 0);
+	return SyntaxToken::SyntaxToken(END_OF_FILE_TOKEN, "", this->index - 1, 0, -1);
 }
 
 bool Parser::isAtEnd()
@@ -98,7 +98,8 @@ SyntaxToken Parser::lookAhead(int offset) {
 	if (index < this->tokens.size()) {
 		return this->tokens[index];
 	}
-	return SyntaxToken::SyntaxToken(END_OF_FILE_TOKEN, "", this->index, 0, 0);
+	std::cout << std::to_string(this->tokens.size()) << std::endl;
+	return this->tokens[this->tokens.size() - 1];
 }
 
 SyntaxToken Parser::expect(Token_t expect)
@@ -107,7 +108,8 @@ SyntaxToken Parser::expect(Token_t expect)
 	{
 		return next_token();
 	}
-	report("Expected " + token_name(expect));
+	SyntaxToken curr = peek();
+	report("Expected " + token_name(expect) + " at " + std::to_string(curr.get_row()) + "/" + std::to_string(curr.get_pos()));
 	return SyntaxToken::SyntaxToken(BAD_TOKEN, "", -1, 0, 0);
 }
 
@@ -275,6 +277,7 @@ std::unique_ptr<AstNode> Parser::varAssignmentStatement()
 		return std::make_unique<VarAssignmentStmtNode>(identifier.get_value(), std::move(expression));
 	}
 	this->env.get(identifier.get_value());
+	return nullptr;
 }
 
 std::unique_ptr<AstNode> Parser::parseExpressionStatement()
