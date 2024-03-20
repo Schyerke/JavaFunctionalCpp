@@ -35,12 +35,12 @@ void f5(int s)
 
 
 int main() {
-	int s = 2;
-	double j = 5;
-	int x = j + s;
-	x = s + j;
+	long s = 2;
 
-	cout << typeid(x).name();
+	std::variant<int, long> w = s;
+
+	int m = w;
+
 
 	return 0;
 }

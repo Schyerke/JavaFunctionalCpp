@@ -31,9 +31,9 @@ std::any Semantic::visitBinaryExpression(BinaryExpression& binaryExpression)
 	Token_t op = binaryExpression.op;
 	switch (op)
 	{
-		case PLUS_TOKEN	:
+		case PLUS_TOKEN:
 		case MINUS_TOKEN:
-		case STAR_TOKEN	:
+		case STAR_TOKEN:
 		case SLASH_TOKEN:
 			if (left.type() == typeid(short) && right.type() == typeid(short))
 			{

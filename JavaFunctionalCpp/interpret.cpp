@@ -147,6 +147,10 @@ std::any Interpreter::visitIdentifierNode(IdentifierNode& identifierNode)
 std::any Interpreter::visitUnaryNode(UnaryNode& unaryNode)
 {
     std::any unary_expr = unaryNode.left->accept(*this);
+    if (unary_expr.type() == typeid(short))
+    {
+        return -std::any_cast<short>(unary_expr);
+    }
     if (unary_expr.type() == typeid(int))
     {
         return -std::any_cast<int>(unary_expr);
@@ -155,7 +159,16 @@ std::any Interpreter::visitUnaryNode(UnaryNode& unaryNode)
     {
         return -std::any_cast<long>(unary_expr);
     }
-    return std::any();
+    if (unary_expr.type() == typeid(float))
+    {
+        return -std::any_cast<float>(unary_expr);
+    }
+    if (unary_expr.type() == typeid(double))
+    {
+        return -std::any_cast<double>(unary_expr);
+    }
+    std::string unary_err = unary_expr.type().name();
+    throw std::invalid_argument("Runtime Error: Invalid unary value type (found type '" + unary_err + "')");
 }
 
 std::any Interpreter::visitExpressionStmt(ExpressionStmtNode& expressionStmtNode)
@@ -170,9 +183,11 @@ std::any Interpreter::visitExpressionStmt(ExpressionStmtNode& expressionStmtNode
     {
         result = std::any_cast<std::string>(expr);
     }
-    else {
-        throw std::invalid_argument("Runtime Error: repl accepts either 'int' or 'stirng'.");
+    else 
+    {
+        throw std::invalid_argument("Runtime Error: repl accepts either 'int' or 'string'.");
     }
+
     if (std::holds_alternative<int>(result))
     {
         std::cout << "Repl: " << std::get<int>(result);
@@ -264,46 +279,38 @@ std::any Interpreter::visitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmen
 
 std::any Interpreter::visitBinaryExpression(BinaryExpression& binaryExpression)
 {
-    std::any l = binaryExpression.left->accept(*this);
-    std::any r = binaryExpression.right->accept(*this);
+    std::any left = binaryExpression.left->accept(*this);
+    std::any right = binaryExpression.right->accept(*this);
     Token_t op = binaryExpression.op;
 
-    if (l.type() == typeid(short) && r.type() == typeid(short))
+    if (left.type() == typeid(short) && right.type() == typeid(short))
     {
-        return eva_num(std::any_cast<short>(l), op, std::any_cast<short>(r));
+        return eva_num(std::any_cast<short>(left), op, std::any_cast<short>(right));
     }
-    if (l.type() == typeid(int) && r.type() == typeid(int))
+    if (left.type() == typeid(int) && right.type() == typeid(int))
     {
-        return eva_num(std::any_cast<int>(l), op, std::any_cast<int>(r));
+        return eva_num(std::any_cast<int>(left), op, std::any_cast<int>(right));
     }
-    if (l.type() == typeid(long) && r.type() == typeid(long))
+    if (left.type() == typeid(long) && right.type() == typeid(long))
     {
-        return eva_num(std::any_cast<long>(l), op, std::any_cast<long>(r));
+        return eva_num(std::any_cast<long>(left), op, std::any_cast<long>(right));
     }
-    if (l.type() == typeid(float) && r.type() == typeid(float))
+    if (left.type() == typeid(float) && right.type() == typeid(float))
     {
-        return eva_num(std::any_cast<float>(l), op, std::any_cast<float>(r));
+        return eva_num(std::any_cast<float>(left), op, std::any_cast<float>(right));
     }
-    if (l.type() == typeid(double) && r.type() == typeid(double))
+    if (left.type() == typeid(double) && right.type() == typeid(double))
     {
-        return eva_num(std::any_cast<double>(l), op, std::any_cast<double>(r));
+        return eva_num(std::any_cast<double>(left), op, std::any_cast<double>(right));
     }
 
-    //implicit cast
-    if (l.type() == typeid(short) && r.type() == typeid(int))
+    if (left.type() == typeid(bool) && right.type() == typeid(bool))
     {
-        return eva_num(std::any_cast<short>(l), op, (short)std::any_cast<int>(r));
+        return eva_bool(std::any_cast<bool>(left), op, std::any_cast<bool>(right));
     }
-    
-
-    if (l.type() == typeid(bool) && r.type() == typeid(bool))
-    {
-        return eva_bool(std::any_cast<bool>(l), op, std::any_cast<bool>(r));
-    }
-    std::string left_err = l.type().name();
-    std::string right_err = r.type().name();
+    std::string left_err = left.type().name();
+    std::string right_err = right.type().name();
     throw std::invalid_argument("Runtime Error: couldn't evaluate type '" + left_err + "' with type '" + right_err + "'");
-    return std::any();
 }
 
 std::any Interpreter::visitBoolNode(BoolNode& boolNode)
