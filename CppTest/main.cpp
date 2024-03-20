@@ -35,11 +35,12 @@ void f5(int s)
 
 
 int main() {
-	int s = 1;
-	double w = s + 4.2;
+	int s = 2;
+	double j = 5;
+	int x = j + s;
+	x = s + j;
 
-	cout << w;
-
+	cout << typeid(x).name();
 
 	return 0;
 }

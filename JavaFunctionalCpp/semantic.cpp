@@ -35,11 +35,26 @@ std::any Semantic::visitBinaryExpression(BinaryExpression& binaryExpression)
 		case MINUS_TOKEN:
 		case STAR_TOKEN	:
 		case SLASH_TOKEN:
-			if (left.type() == typeid(short)	&& right.type() == typeid(short))	return (short)	1;
-			if (left.type() == typeid(int)		&& right.type() == typeid(int))		return (int)	1;
-			if (left.type() == typeid(long)		&& right.type() == typeid(long))	return (long)	1;
-			if (left.type() == typeid(float)	&& right.type() == typeid(float))	return (float)	1;
-			if (left.type() == typeid(double)	&& right.type() == typeid(double))	return (double)	1;
+			if (left.type() == typeid(short) && right.type() == typeid(short))
+			{
+				return (short)1;
+			}
+			if (left.type() == typeid(int) && right.type() == typeid(int))
+			{
+				return (int)1;
+			}
+			if (left.type() == typeid(long) && right.type() == typeid(long))
+			{
+				return (long)1;
+			}
+			if (left.type() == typeid(float) && right.type() == typeid(float))
+			{
+				return (float)1;
+			}
+			if (left.type() == typeid(double) && right.type() == typeid(double))
+			{
+				return (double)1;
+			}
 
 			break;
 	}
@@ -60,11 +75,26 @@ std::any Semantic::visitBoolNode(BoolNode& boolNode)
 std::any Semantic::visitNumberNode(NumberNode& numberNode)
 {
 	NUMBER_DT nn = numberNode.number;
-	if (std::holds_alternative<short>(nn))	return (short)	1;
-	if (std::holds_alternative<int>(nn))	return (int)	1;
-	if (std::holds_alternative<long>(nn))	return (long)	1;
-	if (std::holds_alternative<float>(nn))	return (float)	1;
-	if (std::holds_alternative<double>(nn))	return (double)	1;
+	if (std::holds_alternative<short>(nn))
+	{
+		return (short)1;
+	}
+	if (std::holds_alternative<int>(nn))
+	{
+		return (int)1;
+	}
+	if (std::holds_alternative<long>(nn))
+	{
+		return (long)1;
+	}
+	if (std::holds_alternative<float>(nn))
+	{
+		return (float)1;
+	}
+	if (std::holds_alternative<double>(nn))
+	{
+		return (double)1;
+	}
 
 	add_err("Number value is invalid.");
 	return std::any();
@@ -129,8 +159,7 @@ std::any Semantic::visitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmentNo
 	varAssignmentNode.expression->accept(*this);
 	try
 	{
-		Variable v = this->env.get(varAssignmentNode.identifier);
-		return v.dtType;	
+		return this->env.get(varAssignmentNode.identifier).dtType;
 	}
 	catch (std::invalid_argument e)
 	{

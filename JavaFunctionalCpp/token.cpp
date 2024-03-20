@@ -9,8 +9,6 @@ std::string token_name(Token_t token) {
 	case STRING_LITERAL_TOKEN:
 		return "String Token";
 
-	case NO_OPERATOR_TOKEN:
-		return "No Operator Token";
 	case PLUS_TOKEN:
 		return "Plus Token";
 	case MINUS_TOKEN:
@@ -28,14 +26,17 @@ std::string token_name(Token_t token) {
 
 	case SEMICOLON_TOKEN:
 		return "Semicolon Token";
+
+	case NO_OPERATOR_TOKEN:
+		return "No Operator Token";
 	case BAD_TOKEN:
 		return "Bad Token";
 	case END_OF_FILE_TOKEN:
 		return "End Of File Token";
 	default:
-		return "No Token Found";
+		return "Invalid Token";
 	}
-	return "No Token Found";
+	return "Invalid Token";
 }
 
 std::string display_vartype(Token_t varType) 

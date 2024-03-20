@@ -16,6 +16,7 @@
 
 implicit casting numbers on numbers
 adding number/0 expection?
+functions
 
 =================
 NOT DONE

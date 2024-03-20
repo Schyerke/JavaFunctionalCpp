@@ -62,7 +62,8 @@ std::any Interpreter::eva_num(T left, Token_t op, T right)
         case BANG_EQUAL_TOKEN:
             return left != right;
     }
-    return std::any();
+    std::string op_err = token_name(op);
+    throw std::invalid_argument("Runtime Error: Invalid value type (found type '" + op_err + "')");
 }
 
 template<typename T>
@@ -75,7 +76,8 @@ std::any Interpreter::eva_bool(T left, Token_t op, T right)
         case PIPE_PIPE_TOKEN:
             return left || right;
     }
-    return std::any();
+    std::string op_err = token_name(op);
+    throw std::invalid_argument("Runtime Error: Invalid value type (found type '" + op_err + "')");
 }
 
 template<typename T>
@@ -101,6 +103,8 @@ std::any Interpreter::num_add(std::any value, T num)
     {
         return std::any_cast<float>(value) + num;
     }
+    std::string value_err = value.type().name();
+    throw std::invalid_argument("Runtime Error: Invalid value type (found type '" + value_err + "')");
 }
 
 std::any Interpreter::visitNumberNode(NumberNode& numberNode)
@@ -260,41 +264,45 @@ std::any Interpreter::visitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmen
 
 std::any Interpreter::visitBinaryExpression(BinaryExpression& binaryExpression)
 {
-    std::any left = binaryExpression.left->accept(*this);
-    std::any right = binaryExpression.right->accept(*this);
+    std::any l = binaryExpression.left->accept(*this);
+    std::any r = binaryExpression.right->accept(*this);
     Token_t op = binaryExpression.op;
 
-    if (left.type() == typeid(short) && right.type() == typeid(short))
+    if (l.type() == typeid(short) && r.type() == typeid(short))
     {
-        return eva_num(std::any_cast<short>(left), op, std::any_cast<short>(right));
+        return eva_num(std::any_cast<short>(l), op, std::any_cast<short>(r));
     }
-    if (left.type() == typeid(int) && right.type() == typeid(int))
+    if (l.type() == typeid(int) && r.type() == typeid(int))
     {
-        return eva_num(std::any_cast<int>(left), op, std::any_cast<int>(right));
+        return eva_num(std::any_cast<int>(l), op, std::any_cast<int>(r));
     }
-    if (left.type() == typeid(long) && right.type() == typeid(long))
+    if (l.type() == typeid(long) && r.type() == typeid(long))
     {
-        return eva_num(std::any_cast<long>(left), op, std::any_cast<long>(right));
+        return eva_num(std::any_cast<long>(l), op, std::any_cast<long>(r));
     }
-    if (left.type() == typeid(float) && right.type() == typeid(float))
+    if (l.type() == typeid(float) && r.type() == typeid(float))
     {
-        return eva_num(std::any_cast<float>(left), op, std::any_cast<float>(right));
+        return eva_num(std::any_cast<float>(l), op, std::any_cast<float>(r));
     }
-    if (left.type() == typeid(double) && right.type() == typeid(double))
+    if (l.type() == typeid(double) && r.type() == typeid(double))
     {
-        return eva_num(std::any_cast<double>(left), op, std::any_cast<double>(right));
+        return eva_num(std::any_cast<double>(l), op, std::any_cast<double>(r));
     }
 
     //implicit cast
+    if (l.type() == typeid(short) && r.type() == typeid(int))
+    {
+        return eva_num(std::any_cast<short>(l), op, (short)std::any_cast<int>(r));
+    }
     
 
-    if (left.type() == typeid(bool) && right.type() == typeid(bool))
+    if (l.type() == typeid(bool) && r.type() == typeid(bool))
     {
-        return eva_bool(std::any_cast<bool>(left), op, std::any_cast<bool>(right));
+        return eva_bool(std::any_cast<bool>(l), op, std::any_cast<bool>(r));
     }
-    std::string left_err = left.type().name();
-    std::string right_err = right.type().name();
-    throw std::invalid_argument("Runtime Error: couldn't evaluate type '" + left_err + "' with '" + right_err + "'");
+    std::string left_err = l.type().name();
+    std::string right_err = r.type().name();
+    throw std::invalid_argument("Runtime Error: couldn't evaluate type '" + left_err + "' with type '" + right_err + "'");
     return std::any();
 }
 
