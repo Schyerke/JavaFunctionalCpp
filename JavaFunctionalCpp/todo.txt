@@ -12,19 +12,20 @@
 #NumberNode.value should be std::variant or std::any (worse)
 #binding statico
 #lexer: adding new data types (double, short, long, char)
+#fixing bugs
 
-fixing bugs
+
 adding line + column for the error
 casting numbers
+adding number/0 expection?
 
 ==================
 BUGS
 
 
-input:
-whatever string
-output: bad token at the end (lexer)
-expected: end of file token (lexer)
+
+==================
+FIXED BUG
 
 input:
 int s = -1;
@@ -32,9 +33,10 @@ print s;
 output: No Output
 expected: -1
 
-
-==================
-FIXED BUG
+input:
+whatever string
+output: bad token at the end (lexer)
+expected: end of file token (lexer)
 
 input: "3+2-1";
 output: "false";

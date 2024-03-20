@@ -1,7 +1,7 @@
-#include <iostream>
-#include <map>
 #include "lexer.hpp"
 #include "syntaxtoken.hpp"
+#include <iostream>
+#include <map>
 
 Lexer::Lexer(std::string program)
 {
@@ -38,7 +38,7 @@ void Lexer::advance()
 	}
 }
 
-SyntaxToken Lexer::lex() 
+SyntaxToken Lexer::lex()
 {
 	if (current() == '\0')
 	{
@@ -46,12 +46,13 @@ SyntaxToken Lexer::lex()
 	}
 	while (isspace(current()) || current() == '\n')
 	{
+		this->row++;
 		advance();
 	}
 	if (isdigit(current()))
 	{
 		size_t start = this->index;
-		while (isdigit(current())) 
+		while (isdigit(current()))
 		{
 			advance();
 		}
@@ -78,136 +79,136 @@ SyntaxToken Lexer::lex()
 		std::string text = this->program.substr(start, length);
 		if (text == display_stmts(PRINT_STMT))
 		{
-			return SyntaxToken(PRINT_STMT, "", start);
+			return SyntaxToken(PRINT_STMT, "", start, length, this->row);
 		}
-		
+
 		if (text == display_stmts(FALSE_TOKEN))
 		{
-			return SyntaxToken(FALSE_TOKEN, display_stmts(FALSE_TOKEN), start, length);
+			return SyntaxToken(FALSE_TOKEN, display_stmts(FALSE_TOKEN), start, length, this->row);
 		}
 		if (text == display_stmts(TRUE_TOKEN))
 		{
-			return SyntaxToken(TRUE_TOKEN, display_stmts(TRUE_TOKEN), start, length);
+			return SyntaxToken(TRUE_TOKEN, display_stmts(TRUE_TOKEN), start, length, this->row);
 		}
 
 		if (text == display_vartype(SHORT_TYPE))
 		{
-			return SyntaxToken(SHORT_TYPE, display_vartype(SHORT_TYPE), start, length);
+			return SyntaxToken(SHORT_TYPE, display_vartype(SHORT_TYPE), start, length, this->row);
 		}
 		if (text == display_vartype(INT_TYPE))
 		{
-			return SyntaxToken(INT_TYPE, display_vartype(INT_TYPE), start, length);
+			return SyntaxToken(INT_TYPE, display_vartype(INT_TYPE), start, length, this->row);
 		}
 		if (text == display_vartype(LONG_TYPE))
 		{
-			return SyntaxToken(LONG_TYPE, display_vartype(LONG_TYPE), start, length);
+			return SyntaxToken(LONG_TYPE, display_vartype(LONG_TYPE), start, length, this->row);
 		}
 		if (text == display_vartype(FLOAT_TYPE))
 		{
-			return SyntaxToken(FLOAT_TYPE, display_vartype(FLOAT_TYPE), start, length);
+			return SyntaxToken(FLOAT_TYPE, display_vartype(FLOAT_TYPE), start, length, this->row);
 		}
 		if (text == display_vartype(DOUBLE_TYPE))
 		{
-			return SyntaxToken(DOUBLE_TYPE, display_vartype(DOUBLE_TYPE), start, length);
+			return SyntaxToken(DOUBLE_TYPE, display_vartype(DOUBLE_TYPE), start, length, this->row);
 		}
 
-		return SyntaxToken(IDENTIFIER_TOKEN, text, start, length);
+		return SyntaxToken(IDENTIFIER_TOKEN, text, start, length, this->row);
 	}
 
 	switch (current())
 	{
-		case '+':
-			if (peekNext() == '+' && lookAhead(2) == '+')
-			{
-				this->index += 3;
-				return SyntaxToken(TRIPLE_PLUS_TOKEN, "+++", this->index - 3, 3);
-			}
-			if (peekNext() == '+')
-			{
-				this->index += 2;
-				return SyntaxToken(PLUS_PLUS_TOKEN, "++", this->index - 2, 2);
-			}
-			if (peekNext() == '=')
-			{
-				this->index += 2;
-				return SyntaxToken(PLUS_EQUAL_TOKEN, "+=", this->index - 2, 2);
-			}
-			return SyntaxToken(PLUS_TOKEN, "+", this->index++, 1);
-		case '-':
-			if (peekNext() == '-')
-			{
-				this->index += 2;
-				return SyntaxToken(MINUS_MINUS_TOKEN, "--", this->index - 2, 2);
-			}
-			if (peekNext() == '=')
-			{
-				this->index += 2;
-				return SyntaxToken(MINUS_EQUAL_TOKEN, "-=", this->index - 2, 2);
-			}
-			return SyntaxToken(MINUS_TOKEN, "-", this->index++, 1);
-		case '*':
-			if (peekNext() == '=')
-			{
-				this->index += 2;
-				return SyntaxToken(STAR_EQUAL_TOKEN, "*=", this->index - 2, 2);
-			}
-			return SyntaxToken(STAR_TOKEN, "*", this->index++, 1);
-		case '/':
-			if (peekNext() == '=')
-			{
-				this->index += 2;
-				return SyntaxToken(SLASH_EQUAL_TOKEN, "/=", this->index - 2, 2);
-			}
-			return SyntaxToken(SLASH_TOKEN, "/", this->index++, 1);
+	case '+':
+		if (peekNext() == '+' && lookAhead(2) == '+')
+		{
+			this->index += 3;
+			return SyntaxToken(TRIPLE_PLUS_TOKEN, "+++", this->index - 3, 3, this->row);
+		}
+		if (peekNext() == '+')
+		{
+			this->index += 2;
+			return SyntaxToken(PLUS_PLUS_TOKEN, "++", this->index - 2, 2, this->row);
+		}
+		if (peekNext() == '=')
+		{
+			this->index += 2;
+			return SyntaxToken(PLUS_EQUAL_TOKEN, "+=", this->index - 2, 2, this->row);
+		}
+		return SyntaxToken(PLUS_TOKEN, "+", this->index++, 1, this->row);
+	case '-':
+		if (peekNext() == '-')
+		{
+			this->index += 2;
+			return SyntaxToken(MINUS_MINUS_TOKEN, "--", this->index - 2, 2, this->row);
+		}
+		if (peekNext() == '=')
+		{
+			this->index += 2;
+			return SyntaxToken(MINUS_EQUAL_TOKEN, "-=", this->index - 2, 2, this->row);
+		}
+		return SyntaxToken(MINUS_TOKEN, "-", this->index++, 1, this->row);
+	case '*':
+		if (peekNext() == '=')
+		{
+			this->index += 2;
+			return SyntaxToken(STAR_EQUAL_TOKEN, "*=", this->index - 2, 2, this->row);
+		}
+		return SyntaxToken(STAR_TOKEN, "*", this->index++, 1, this->row);
+	case '/':
+		if (peekNext() == '=')
+		{
+			this->index += 2;
+			return SyntaxToken(SLASH_EQUAL_TOKEN, "/=", this->index - 2, 2, this->row);
+		}
+		return SyntaxToken(SLASH_TOKEN, "/", this->index++, 1, this->row);
 
-		case '=':
-			if (peekNext() == '=')
-			{
-				this->index += 2;
-				return SyntaxToken(EQUAL_EQUAL_TOKEN, "==", this->index - 2, 2);
-			}
-			return SyntaxToken(EQUAL_TOKEN, "=", this->index++, 1);
-		case '!':
-			if (peekNext() == '=')
-			{
-				this->index += 2;
-				return SyntaxToken(BANG_EQUAL_TOKEN, "!=", this->index - 2, 2);
-			}
-			break;
-		case '&':
-			if (peekNext() == '&')
-			{
-				this->index += 2;
-				return SyntaxToken(AMPERSAND_AMPERSAND_TOKEN, "&&", this->index - 2, 2);
-			}
-			break;
-		case '|':
-			if (peekNext() == '|')
-			{
-				this->index += 2;
-				return SyntaxToken(PIPE_PIPE_TOKEN, "||", this->index - 2, 2);
-			}
-			break;
+	case '=':
+		if (peekNext() == '=')
+		{
+			this->index += 2;
+			return SyntaxToken(EQUAL_EQUAL_TOKEN, "==", this->index - 2, 2, this->row);
+		}
+		return SyntaxToken(EQUAL_TOKEN, "=", this->index++, 1, this->row);
+	case '!':
+		if (peekNext() == '=')
+		{
+			this->index += 2;
+			return SyntaxToken(BANG_EQUAL_TOKEN, "!=", this->index - 2, 2, this->row);
+		}
+		break;
+	case '&':
+		if (peekNext() == '&')
+		{
+			this->index += 2;
+			return SyntaxToken(AMPERSAND_AMPERSAND_TOKEN, "&&", this->index - 2, 2, this->row);
+		}
+		break;
+	case '|':
+		if (peekNext() == '|')
+		{
+			this->index += 2;
+			return SyntaxToken(PIPE_PIPE_TOKEN, "||", this->index - 2, 2, this->row);
+		}
+		break;
 
-		case '"':
-			if (isalpha(peekNext()) || peekNext() == '"')
+	case '"':
+		if (isalpha(peekNext()) || peekNext() == '"')
+		{
+			advance();
+			size_t start = this->index;
+			while ((isalpha(current()) || isspace(current())) && current() != '"')
 			{
 				advance();
-				size_t start = this->index;
-				while ((isalpha(current()) || isspace(current())) && current() != '"')
-				{
-					advance();
-				}
-				size_t length = this->index - start;
-				std::string text = this->program.substr(start, length);
-				advance(); // deleting the last "
-				return SyntaxToken(STRING_LITERAL_TOKEN, text, start, length);
 			}
-			break;
-		case ';':
-			return SyntaxToken(SEMICOLON_TOKEN, ";", this->index++, 1);
-		default:
-			return SyntaxToken(BAD_TOKEN, "", this->index++, 0);
+			size_t length = this->index - start;
+			std::string text = this->program.substr(start, length);
+			advance(); // deleting the last "
+			return SyntaxToken(STRING_LITERAL_TOKEN, text, start, length, this->row);
+		}
+		break;
+	case ';':
+		return SyntaxToken(SEMICOLON_TOKEN, ";", this->index++, 1, this->row);
+	default:
+		return SyntaxToken(BAD_TOKEN, "", this->index++, 0, this->row);
 	}
-	return SyntaxToken(BAD_TOKEN, "", this->index++, 0);
+	return SyntaxToken(BAD_TOKEN, "", this->index++, 0, this->row);
 }

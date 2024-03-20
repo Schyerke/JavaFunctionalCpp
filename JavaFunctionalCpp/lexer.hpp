@@ -15,6 +15,8 @@ private:
 	void advance();
 	size_t index = 0;
 	std::string program;
+
+	unsigned int row = 0;
 };
 
 

@@ -1,8 +1,8 @@
 
 #include <iostream>
-#include <vector>
-#include <string>
 #include <optional>
+#include <string>
+#include <vector>
 
 #include "syntaxtoken.hpp"
 #include "token.hpp"
@@ -10,16 +10,16 @@
 
 #include "astnode.hpp"
 #include "binaryexpression.hpp"
-#include "numbernode.hpp"
-#include "unarynode.hpp"
 #include "boolnode.hpp"
-#include "stringnode.hpp"
 #include "identifiernode.hpp"
-#include "vardeclarationnode.hpp"
+#include "numbernode.hpp"
+#include "stringnode.hpp"
+#include "unarynode.hpp"
 #include "varassignmentstmtnode.hpp"
+#include "vardeclarationnode.hpp"
 
-#include "printstmtnode.hpp"
 #include "expressionstmtnode.hpp"
+#include "printstmtnode.hpp"
 
 #include "parser.hpp"
 
@@ -29,7 +29,7 @@ Parser::Parser(std::string program, Enviroment env) : env(env)
 
 	std::vector<SyntaxToken> tokens;
 	//temp 'token' will be overwritten.
-	SyntaxToken token = SyntaxToken::SyntaxToken(NO_OPERATOR_TOKEN, "", 0, 0);
+	SyntaxToken token = SyntaxToken::SyntaxToken(NO_OPERATOR_TOKEN, "", 0, 0, 0);
 	while (token.get_token_t() != BAD_TOKEN)
 	{
 		token = lexer.lex();
@@ -50,13 +50,13 @@ SyntaxToken Parser::next_token()
 	{
 		return this->tokens[this->index++];
 	}
-	return SyntaxToken::SyntaxToken(END_OF_FILE_TOKEN, "", this->index-1, 0);
+	return SyntaxToken::SyntaxToken(END_OF_FILE_TOKEN, "", this->index - 1, 0, 0);
 }
 
 bool Parser::isAtEnd()
 {
-	if (this->index >= this->tokens.size()						|| 
-		this->tokens[this->index].get_token_t() == BAD_TOKEN	|| 
+	if (this->index >= this->tokens.size() ||
+		this->tokens[this->index].get_token_t() == BAD_TOKEN ||
 		this->tokens[this->index].get_token_t() == END_OF_FILE_TOKEN)
 	{
 		return true;
@@ -73,7 +73,7 @@ void Parser::advance()
 	}
 }
 
-SyntaxToken Parser::peekNext() 
+SyntaxToken Parser::peekNext()
 {
 	return lookAhead(1);
 }
@@ -98,7 +98,7 @@ SyntaxToken Parser::lookAhead(int offset) {
 	if (index < this->tokens.size()) {
 		return this->tokens[index];
 	}
-	return SyntaxToken::SyntaxToken(END_OF_FILE_TOKEN, "", this->index, 0);
+	return SyntaxToken::SyntaxToken(END_OF_FILE_TOKEN, "", this->index, 0, 0);
 }
 
 SyntaxToken Parser::expect(Token_t expect)
@@ -108,7 +108,7 @@ SyntaxToken Parser::expect(Token_t expect)
 		return next_token();
 	}
 	report("Expected " + token_name(expect));
-	return SyntaxToken::SyntaxToken(BAD_TOKEN, "", -1, 0);
+	return SyntaxToken::SyntaxToken(BAD_TOKEN, "", -1, 0, 0);
 }
 
 std::optional<SyntaxToken> Parser::expect_optional(Token_t expect)
@@ -154,7 +154,7 @@ std::vector<std::unique_ptr<AstNode>> Parser::parse()
 			report(e.what());
 		}
 	}
-	
+
 	return statements;
 }
 
@@ -174,7 +174,7 @@ std::unique_ptr<AstNode> Parser::parseStatement()
 	{
 		return parsePrintStatement();
 	}
-	if (matchany({SHORT_TYPE, INT_TYPE, LONG_TYPE, FLOAT_TYPE, DOUBLE_TYPE}))
+	if (matchany({ SHORT_TYPE, INT_TYPE, LONG_TYPE, FLOAT_TYPE, DOUBLE_TYPE }))
 	{
 		return varDeclearationStatement();
 	}
@@ -196,7 +196,7 @@ std::unique_ptr<AstNode> Parser::parsePrintStatement()
 std::unique_ptr<AstNode> Parser::varDeclearationStatement()
 {
 	std::optional<SyntaxToken> dt_op = std::nullopt;
-	
+
 	if (expect_optional(SHORT_TYPE))	dt_op = previous();
 	if (expect_optional(INT_TYPE))		dt_op = previous();
 	if (expect_optional(LONG_TYPE))		dt_op = previous();
@@ -217,7 +217,7 @@ std::unique_ptr<AstNode> Parser::varDeclearationStatement()
 		expression = std::move(parseExpression());
 	}
 	expect(SEMICOLON_TOKEN);
-	
+
 	return std::make_unique<VarDeclarationNode>(dt.get_token_t(), identifier.get_value(), std::move(expression));
 }
 
@@ -268,7 +268,7 @@ std::unique_ptr<AstNode> Parser::varAssignmentStatement()
 		return std::make_unique<VarAssignmentStmtNode>(identifier.get_value(), std::move(ppt));
 	}
 
-	if (expect_optional(EQUAL_TOKEN)) 
+	if (expect_optional(EQUAL_TOKEN))
 	{
 		std::unique_ptr<AstNode> expression = parseExpression();
 		expect(SEMICOLON_TOKEN);
@@ -291,15 +291,15 @@ std::unique_ptr<AstNode> Parser::parseExpression()
 
 std::unique_ptr<AstNode> Parser::parseTerm()
 {
-	std::unique_ptr<AstNode> left = parseFactor();	
+	std::unique_ptr<AstNode> left = parseFactor();
 	while (matchany({
-		PLUS_TOKEN, 
+		PLUS_TOKEN,
 		MINUS_TOKEN,
-		EQUAL_EQUAL_TOKEN, 
-		BANG_EQUAL_TOKEN, 
-		AMPERSAND_AMPERSAND_TOKEN, 
+		EQUAL_EQUAL_TOKEN,
+		BANG_EQUAL_TOKEN,
+		AMPERSAND_AMPERSAND_TOKEN,
 		PIPE_PIPE_TOKEN
-	}))
+		}))
 	{
 		SyntaxToken op = next_token();
 		std::unique_ptr<AstNode> right = parseFactor();
@@ -308,11 +308,11 @@ std::unique_ptr<AstNode> Parser::parseTerm()
 	return left;
 }
 
-std::unique_ptr<AstNode> Parser::parseFactor() 
+std::unique_ptr<AstNode> Parser::parseFactor()
 {
 	std::unique_ptr<AstNode> left = parseUnary();
 
-	while (matchany({STAR_TOKEN, SLASH_TOKEN}))
+	while (matchany({ STAR_TOKEN, SLASH_TOKEN }))
 	{
 		SyntaxToken op = next_token();
 		std::unique_ptr<AstNode> right = parseUnary();
@@ -333,15 +333,15 @@ std::unique_ptr<AstNode> Parser::parseUnary()
 	return parsePrimary();
 }
 
-std::unique_ptr<AstNode> Parser::parsePrimary() 
+std::unique_ptr<AstNode> Parser::parsePrimary()
 {
 	std::unique_ptr<AstNode> primary; // null pointer
-	SyntaxToken token = SyntaxToken::SyntaxToken(BAD_TOKEN, "", -1);
+	SyntaxToken token = SyntaxToken::SyntaxToken(BAD_TOKEN, "", -1, 0, 0);
 
 	SyntaxToken prev = previous();
 	SyntaxToken prev_prev = previous_previous();
-	if (match(NUMBER_TOKEN)					&& 
-		prev.get_token_t() == EQUAL_TOKEN	&& 
+	if (match(NUMBER_TOKEN) &&
+		prev.get_token_t() == EQUAL_TOKEN &&
 		prev_prev.get_token_t() == IDENTIFIER_TOKEN)
 	{
 		token = next_token();
@@ -361,6 +361,11 @@ std::unique_ptr<AstNode> Parser::parsePrimary()
 		default:
 			return std::make_unique<NumberNode>(stoi(token.get_value()));
 		}
+	}
+	else if (match(NUMBER_TOKEN))
+	{
+		token = next_token();
+		return std::make_unique<NumberNode>(stoi(token.get_value()));
 	}
 	else if (match(STRING_LITERAL_TOKEN))
 	{

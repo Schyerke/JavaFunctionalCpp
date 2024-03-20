@@ -131,7 +131,28 @@ std::any Interpreter::visitUnaryNode(UnaryNode& unaryNode)
 
 std::any Interpreter::visitExpressionStmt(ExpressionStmtNode& expressionStmtNode)
 {
-    return expressionStmtNode.expression->accept(*this);
+    std::any expr = expressionStmtNode.expression->accept(*this);
+    std::variant<int, std::string> result;
+    if (expr.type() == typeid(int))
+    {
+        result = std::any_cast<int>(expr);
+    }
+    else if (expr.type() == typeid(std::string))
+    {
+        result = std::any_cast<std::string>(expr);
+    }
+    else {
+        throw std::invalid_argument("Runtime Error: repl accepts either 'int' or 'stirng'.");
+    }
+    if (std::holds_alternative<int>(result))
+    {
+        std::cout << "Repl: " << std::get<int>(result);
+    }
+    if (std::holds_alternative<std::string>(result))
+    {
+        std::cout << "Repl: " << std::get<std::string>(result);
+    }
+    return std::any();
 }
 
 std::any Interpreter::visitPrintStmt(PrintStmtNode& printStmtNode)

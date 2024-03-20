@@ -33,13 +33,17 @@ void f5(int s)
 	cout << s;
 }
 
-int main() {
-	std::variant<int, std::string> w = 3;
-	
-	cout << std::get<decltype(w)>(w);
 
-	
-	
+int main() {
+	int n = 8;
+	int factorial = 1;
+	for (int i = 1; i <= n; ++i) {
+		factorial *= i;
+	}
+
+	cout << factorial;
+
+
 	return 0;
 }
 
