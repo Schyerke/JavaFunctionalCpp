@@ -35,13 +35,10 @@ void f5(int s)
 
 
 int main() {
-	int n = 8;
-	int factorial = 1;
-	for (int i = 1; i <= n; ++i) {
-		factorial *= i;
-	}
+	int s = 1;
+	double w = s + 4.2;
 
-	cout << factorial;
+	cout << w;
 
 
 	return 0;

@@ -13,9 +13,14 @@ class Interpreter : public Visitor {
 public:
 	Interpreter(Enviroment& env);
 	std::any interpret(std::unique_ptr<AstNode> root);
+	std::vector<std::string> get_runtime_errors();
+
 
 private:
 	Enviroment& env;
+
+	std::vector<std::string> runtime_errors;
+	void report(std::string error);
 
 	std::any visitBinaryExpression(BinaryExpression& binaryExpression);
 	std::any visitBoolNode(BoolNode& boolNode);

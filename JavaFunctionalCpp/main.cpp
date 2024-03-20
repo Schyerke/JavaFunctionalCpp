@@ -76,6 +76,11 @@ int main()
 	for (std::unique_ptr<AstNode>& stmt : statements)
 	{
 		interpreter.interpret(std::move(stmt));
+		if (not interpreter.get_runtime_errors().empty())
+		{
+			print_errors(interpreter.get_runtime_errors());
+			break;
+		}
 	}
 	
 	return 0;

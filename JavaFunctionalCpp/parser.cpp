@@ -55,8 +55,8 @@ SyntaxToken Parser::next_token()
 
 bool Parser::isAtEnd()
 {
-	if (this->index >= this->tokens.size() ||
-		this->tokens[this->index].get_token_t() == BAD_TOKEN ||
+	if (this->index >= this->tokens.size()						||
+		this->tokens[this->index].get_token_t() == BAD_TOKEN    ||
 		this->tokens[this->index].get_token_t() == END_OF_FILE_TOKEN)
 	{
 		return true;
@@ -109,7 +109,7 @@ SyntaxToken Parser::expect(Token_t expect)
 		return next_token();
 	}
 	SyntaxToken curr = peek();
-	report("Expected " + token_name(expect) + " at " + std::to_string(curr.get_row()) + "/" + std::to_string(curr.get_pos()));
+	report("Expected " + token_name(expect));
 	return SyntaxToken::SyntaxToken(BAD_TOKEN, "", -1, 0, 0);
 }
 
@@ -368,6 +368,10 @@ std::unique_ptr<AstNode> Parser::parsePrimary()
 	else if (match(NUMBER_TOKEN))
 	{
 		token = next_token();
+		if (token.get_value().find('.') != std::string::npos)
+		{
+			return std::make_unique<NumberNode>(stod(token.get_value()));
+		}
 		return std::make_unique<NumberNode>(stoi(token.get_value()));
 	}
 	else if (match(STRING_LITERAL_TOKEN))

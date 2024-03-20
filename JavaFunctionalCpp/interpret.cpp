@@ -28,9 +28,19 @@ std::any Interpreter::interpret(std::unique_ptr<AstNode> root)
     }
     catch (std::invalid_argument& e)
     {
-        std::cout << e.what() << std::endl;
+        report(e.what());
     }
     return std::any();
+}
+
+void Interpreter::report(std::string error)
+{
+    this->runtime_errors.push_back(error);
+}
+
+std::vector<std::string> Interpreter::get_runtime_errors()
+{
+    return this->runtime_errors;
 }
 
 template<typename T>
@@ -96,11 +106,26 @@ std::any Interpreter::num_add(std::any value, T num)
 std::any Interpreter::visitNumberNode(NumberNode& numberNode)
 {
     NUMBER_DT nn = numberNode.number;
-    if (std::holds_alternative<short>(nn))  return std::get<short>(nn);
-    if (std::holds_alternative<int>(nn))    return std::get<int>(nn);
-    if (std::holds_alternative<long>(nn))   return std::get<long>(nn);
-    if (std::holds_alternative<float>(nn))  return std::get<float>(nn);
-    if (std::holds_alternative<double>(nn)) return std::get<double>(nn);
+    if (std::holds_alternative<short>(nn))
+    {
+        return std::get<short>(nn);
+    }
+    if (std::holds_alternative<int>(nn))
+    {
+        return std::get<int>(nn);
+    }
+    if (std::holds_alternative<long>(nn))
+    {
+        return std::get<long>(nn);
+    }
+    if (std::holds_alternative<float>(nn)) 
+    {
+        return std::get<float>(nn);
+    }
+    if (std::holds_alternative<double>(nn)) 
+    {
+        return std::get<double>(nn);
+    }
     throw std::invalid_argument("Runtime Error: numberNode invalid number data type.");
 }
 
@@ -160,11 +185,26 @@ std::any Interpreter::visitPrintStmt(PrintStmtNode& printStmtNode)
     std::any expr_r = printStmtNode.expression->accept(*this);
 
     
-    if (expr_r.type() == typeid(short))       std::cout << std::any_cast<short>(expr_r);
-    else if (expr_r.type() == typeid(int))    std::cout << std::any_cast<int>(expr_r);
-    else if (expr_r.type() == typeid(long))   std::cout << std::any_cast<long>(expr_r);
-    else if (expr_r.type() == typeid(float))  std::cout << std::any_cast<float>(expr_r);
-    else if (expr_r.type() == typeid(double)) std::cout << std::any_cast<double>(expr_r);
+    if (expr_r.type() == typeid(short)) 
+    {
+        std::cout << std::any_cast<short>(expr_r);
+    }
+    else if (expr_r.type() == typeid(int)) 
+    {
+        std::cout << std::any_cast<int>(expr_r);
+    }
+    else if (expr_r.type() == typeid(long)) 
+    {
+        std::cout << std::any_cast<long>(expr_r);
+    }
+    else if (expr_r.type() == typeid(float)) 
+    {
+        std::cout << std::any_cast<float>(expr_r);
+    }
+    else if (expr_r.type() == typeid(double))
+    {
+        std::cout << std::any_cast<double>(expr_r);
+    }
 
     else if (expr_r.type() == typeid(bool))
     {
@@ -185,7 +225,8 @@ std::any Interpreter::visitPrintStmt(PrintStmtNode& printStmtNode)
     }
     else
     {
-        throw std::invalid_argument("Runtime Error: Invalid expression in Print Statement.");
+        std::string expr_err = expr_r.type().name();
+        throw std::invalid_argument("Runtime Error: Invalid expression (found: " + expr_err + ") in print statement.");
     }
     return std::any();
 }
@@ -244,10 +285,16 @@ std::any Interpreter::visitBinaryExpression(BinaryExpression& binaryExpression)
         return eva_num(std::any_cast<double>(left), op, std::any_cast<double>(right));
     }
 
+    //implicit cast
+    
+
     if (left.type() == typeid(bool) && right.type() == typeid(bool))
     {
         return eva_bool(std::any_cast<bool>(left), op, std::any_cast<bool>(right));
     }
+    std::string left_err = left.type().name();
+    std::string right_err = right.type().name();
+    throw std::invalid_argument("Runtime Error: couldn't evaluate type '" + left_err + "' with '" + right_err + "'");
     return std::any();
 }
 

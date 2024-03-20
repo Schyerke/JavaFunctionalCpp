@@ -1,5 +1,5 @@
-# Expression for +, -
-# parsing * and /
+#expression for +, -
+#parsing * and /
 #unary operator
 #print statement
 #adding ==, !=, &&, ||
@@ -14,10 +14,14 @@
 #lexer: adding new data types (double, short, long, char)
 #fixing bugs
 
+implicit casting numbers on numbers
+adding number/0 expection?
+
+=================
+NOT DONE
 
 adding line + column for the error
-casting numbers
-adding number/0 expection?
+
 
 ==================
 BUGS
