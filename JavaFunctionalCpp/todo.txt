@@ -13,15 +13,15 @@
 #binding statico
 #lexer: adding new data types (double, short, long, char)
 #fixing bugs
+#implicit casting numbers on numbers
 
-implicit casting numbers on numbers
-adding number/0 expection?
 functions
 
 =================
 NOT DONE
 
 adding line + column for the error
+adding number/0 expection?
 
 
 ==================
