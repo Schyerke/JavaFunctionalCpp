@@ -67,10 +67,6 @@ std::any Interpreter::visitUnaryNode(UnaryNode& unaryNode)
         NUMBER_DT expr_unary = std::any_cast<NUMBER_DT>(unary_expr);
         return std::visit([]<class T>(T var) -> NUMBER_DT
         {
-            if constexpr (std::is_same_v<T, bool>)
-            {
-                throw std::invalid_argument("Runtime Error: Invalid unary value type (found type 'bool')");
-            }
             return -(T)var;
         }, expr_unary);
     }
