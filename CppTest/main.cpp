@@ -35,12 +35,29 @@ void f5(int s)
 
 
 int main() {
-	long s = 2;
+	
+	std::variant<int, long, double> variable = 4;
+	std::variant<int, long, double> lll = 2;
 
-	std::variant<int, long> w = s;
+	auto o = std::visit([]<class T, class Y>(T var1, Y var2) -> std::variant<int, long, double>
+	{
+		auto result = (T)var1 + (Y)var2;
+		return result;
+	}, variable, lll);
 
-	int m = w;
 
+	if (std::holds_alternative<int>(o))
+	{
+		std::cout << std::get<int>(o) << " int";
+	}
+	if (std::holds_alternative<long>(o))
+	{
+		std::cout << std::get<long>(o) << " long";
+	}
+	if (std::holds_alternative<double>(o))
+	{
+		std::cout << std::get<double>(o) << " double";
+	}
 
 	return 0;
 }

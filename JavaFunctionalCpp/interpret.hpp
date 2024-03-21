@@ -33,13 +33,6 @@ private:
 	std::any visitPrintStmt(PrintStmtNode& printStmtNode);
 	std::any visitVarDeclarationStmt(VarDeclarationNode& varDeclarationNode);
 	std::any visitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmentNode);
-
-	template<typename T> 
-	std::any eva_num(T left, Token_t op, T right);
-	template<typename T>
-	std::any eva_bool(T left, Token_t op, T right);
-	template<typename T>
-	std::any num_add(std::any value, T num);
 };
 
 
