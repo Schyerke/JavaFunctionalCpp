@@ -73,6 +73,11 @@ void Parser::advance()
 	}
 }
 
+SyntaxToken Parser::peekNextNext()
+{
+	return lookAhead(2);
+}
+
 SyntaxToken Parser::peekNext()
 {
 	return lookAhead(1);
@@ -177,7 +182,7 @@ std::unique_ptr<AstNode> Parser::parseStatement()
 	}
 	if (matchany({ SHORT_TYPE, INT_TYPE, LONG_TYPE, FLOAT_TYPE, DOUBLE_TYPE }))
 	{
-		return varDeclearationStatement();
+		return declarationStatement();
 	}
 	if (match(IDENTIFIER_TOKEN))
 	{
@@ -194,7 +199,23 @@ std::unique_ptr<AstNode> Parser::parsePrintStatement()
 	return std::make_unique<PrintStmtNode>(std::move(expression));
 }
 
-std::unique_ptr<AstNode> Parser::varDeclearationStatement()
+std::unique_ptr<AstNode> Parser::declarationStatement()
+{
+	if (matchany({
+		SHORT_TYPE,
+		INT_TYPE,
+		LONG_TYPE,
+		FLOAT_TYPE,
+		DOUBLE_TYPE}) && peekNext().get_token_t() == IDENTIFIER_TOKEN)
+	{
+		if ()
+		{
+
+		}
+	}
+}
+
+std::unique_ptr<AstNode> Parser::varDeclarationStatement()
 {
 	std::optional<SyntaxToken> dt_op = std::nullopt;
 

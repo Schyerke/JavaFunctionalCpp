@@ -1,1 +1,5 @@
-print "Hello, World";
+int r(int a){
+	return a;
+}
+
+r(4);

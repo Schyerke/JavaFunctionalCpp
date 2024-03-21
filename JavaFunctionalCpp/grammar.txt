@@ -1,14 +1,31 @@
 
 program => statement* EOF
 
-statement => expressionStatement | printStatement | varDeclearationStatement | varAssignmentStatement
+statement => expressionStatement			| 
+			 printStatement					|
+			 declearationStatement			|	 
+			 varAssignmentStatement			|
+			 functionDeclarationStatement	|
+			 blockStatement
+
+declearationStatement => varDeclearationStatement		| 
+						 functionDeclarationStatement
 
 expressionStatement => expression ";"
 printStatement => "print " expression ";"
 varDeclearationStatement => varType IDENTIFIER ("=" expression)? ";"
 varAssignmentStatement => IDENTIFIER "=" expression ";"
 
-varType => "int"
+functionDeclarationStatement => varType IDENTIFIER "(" (varType IDENTIFIER)* ")" blockStatement;
+blockStatement => "{" statement* "}";
+
+
+
+varType => "short"  |
+		   "int"	|
+		   "long"	|
+		   "float"	|
+		   "double"
 
 expression => binary | unary | literal
 
