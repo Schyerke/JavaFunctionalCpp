@@ -94,11 +94,10 @@ SyntaxToken Parser::previous_previous()
 }
 
 SyntaxToken Parser::lookAhead(int offset) {
-	size_t index = offset + this->index;
+	int index = offset + this->index;
 	if (index < this->tokens.size()) {
 		return this->tokens[index];
 	}
-	std::cout << std::to_string(this->tokens.size()) << std::endl;
 	return this->tokens[this->tokens.size() - 1];
 }
 
@@ -199,11 +198,26 @@ std::unique_ptr<AstNode> Parser::varDeclearationStatement()
 {
 	std::optional<SyntaxToken> dt_op = std::nullopt;
 
-	if (expect_optional(SHORT_TYPE))	dt_op = previous();
-	if (expect_optional(INT_TYPE))		dt_op = previous();
-	if (expect_optional(LONG_TYPE))		dt_op = previous();
-	if (expect_optional(FLOAT_TYPE))	dt_op = previous();
-	if (expect_optional(DOUBLE_TYPE))	dt_op = previous();
+	if (expect_optional(SHORT_TYPE))
+	{
+		dt_op = previous();
+	}
+	if (expect_optional(INT_TYPE))
+	{
+		dt_op = previous();
+	}
+	if (expect_optional(LONG_TYPE))
+	{
+		dt_op = previous();
+	}
+	if (expect_optional(FLOAT_TYPE))
+	{
+		dt_op = previous();
+	}
+	if (expect_optional(DOUBLE_TYPE))
+	{
+		dt_op = previous();
+	}
 
 	SyntaxToken identifier = expect(IDENTIFIER_TOKEN);
 

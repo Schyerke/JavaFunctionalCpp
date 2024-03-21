@@ -18,7 +18,7 @@ public:
 private:
 	Enviroment env;
 	std::vector<SyntaxToken> tokens;
-	size_t index;
+	int index;
 
 	void report(std::string error);
 	std::vector<std::string> error_reports;

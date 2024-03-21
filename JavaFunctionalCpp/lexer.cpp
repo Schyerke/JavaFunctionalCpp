@@ -70,53 +70,53 @@ SyntaxToken Lexer::lex()
 		}
 		size_t length = this->index - start;
 		std::string text = this->program.substr(start, length);
-		return SyntaxToken(NUMBER_TOKEN, text, start, length, this->row);
+		return SyntaxToken(NUMBER_TOKEN, text, start, this->row, length);
 	}
 	if (isalpha(current()))
 	{
-		int start = this->index;
+		size_t start = this->index;
 		while (isalpha(current()))
 		{
 			advance();
 		}
-		int length = this->index - start;
+		size_t length = this->index - start;
 		std::string text = this->program.substr(start, length);
 		if (text == display_stmts(PRINT_STMT))
 		{
-			return SyntaxToken(PRINT_STMT, "", start, length, this->row);
+			return SyntaxToken(PRINT_STMT, "", start, this->row, length);
 		}
 
 		if (text == display_stmts(FALSE_TOKEN))
 		{
-			return SyntaxToken(FALSE_TOKEN, display_stmts(FALSE_TOKEN), start, length, this->row);
+			return SyntaxToken(FALSE_TOKEN, display_stmts(FALSE_TOKEN), start, this->row, length);
 		}
 		if (text == display_stmts(TRUE_TOKEN))
 		{
-			return SyntaxToken(TRUE_TOKEN, display_stmts(TRUE_TOKEN), start, length, this->row);
+			return SyntaxToken(TRUE_TOKEN, display_stmts(TRUE_TOKEN), start, this->row, length);
 		}
 
 		if (text == display_vartype(SHORT_TYPE))
 		{
-			return SyntaxToken(SHORT_TYPE, display_vartype(SHORT_TYPE), start, length, this->row);
+			return SyntaxToken(SHORT_TYPE, display_vartype(SHORT_TYPE), start, this->row, length);
 		}
 		if (text == display_vartype(INT_TYPE))
 		{
-			return SyntaxToken(INT_TYPE, display_vartype(INT_TYPE), start, length, this->row);
+			return SyntaxToken(INT_TYPE, display_vartype(INT_TYPE), start, this->row, length);
 		}
 		if (text == display_vartype(LONG_TYPE))
 		{
-			return SyntaxToken(LONG_TYPE, display_vartype(LONG_TYPE), start, length, this->row);
+			return SyntaxToken(LONG_TYPE, display_vartype(LONG_TYPE), start, this->row, length);
 		}
 		if (text == display_vartype(FLOAT_TYPE))
 		{
-			return SyntaxToken(FLOAT_TYPE, display_vartype(FLOAT_TYPE), start, length, this->row);
+			return SyntaxToken(FLOAT_TYPE, display_vartype(FLOAT_TYPE), start, this->row, length);
 		}
 		if (text == display_vartype(DOUBLE_TYPE))
 		{
-			return SyntaxToken(DOUBLE_TYPE, display_vartype(DOUBLE_TYPE), start, length, this->row);
+			return SyntaxToken(DOUBLE_TYPE, display_vartype(DOUBLE_TYPE), start, this->row, length);
 		}
 
-		return SyntaxToken(IDENTIFIER_TOKEN, text, start, length, this->row);
+		return SyntaxToken(IDENTIFIER_TOKEN, text, start, this->row, length);
 	}
 
 	switch (current())
@@ -195,19 +195,18 @@ SyntaxToken Lexer::lex()
 		break;
 
 	case '"':
-		if (isalpha(peekNext()) || peekNext() == '"')
+	{
+		advance();
+		size_t start = this->index;
+		while (current() != '"')
 		{
 			advance();
-			size_t start = this->index;
-			while ((isalpha(current()) || isspace(current())) && current() != '"')
-			{
-				advance();
-			}
-			size_t length = this->index - start;
-			std::string text = this->program.substr(start, length);
-			advance(); // deleting the last "
-			return SyntaxToken(STRING_LITERAL_TOKEN, text, start, length, this->row);
 		}
+		size_t length = this->index - start;
+		std::string text = this->program.substr(start, length);
+		advance(); // deleting the last "
+		return SyntaxToken(STRING_LITERAL_TOKEN, text, start, this->row, length);
+	}
 		break;
 	case ';':
 		return SyntaxToken(SEMICOLON_TOKEN, ";", this->index++, 1, this->row);
