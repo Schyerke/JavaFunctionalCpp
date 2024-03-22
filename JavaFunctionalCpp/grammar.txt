@@ -6,6 +6,7 @@ statement => expressionStatement			|
 			 declearationStatement			|	 
 			 varAssignmentStatement			|
 			 functionDeclarationStatement	|
+			 functionCall					|
 			 blockStatement
 
 declearationStatement => varDeclearationStatement    | 
@@ -17,9 +18,11 @@ varDeclearationStatement => varType IDENTIFIER ("=" expression)? ";"
 varAssignmentStatement => IDENTIFIER "=" expression ";"
 
 functionDeclarationStatement => varType IDENTIFIER "(" (parameters)? ")" blockStatement
+functionCall => IDENTIFIER "(" (arguments)? ")" ";"
 blockStatement => "{" statement* "}"
 
-parameters => varType IDENTIFIER ("," varType IDENTIFIER)
+parameters => varType IDENTIFIER ("," varType IDENTIFIER)*
+arguments => primary ("," primary)*
 
 varType => "short"  |
 		   "int"	|

@@ -145,7 +145,7 @@ std::any Semantic::visitVarDeclarationStmt(VarDeclarationNode& varDeclarationNod
 	var.value = varDeclarationNode.expression->accept(*this);
 	try
 	{
-		this->env.set(var);
+		this->env.set(std::move(var));
 	}
 	catch (std::invalid_argument e)
 	{

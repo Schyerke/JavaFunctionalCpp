@@ -42,7 +42,9 @@ private:
 	std::unique_ptr<AstNode> parsePrintStatement();
 	std::unique_ptr<AstNode> declarationStatement();
 	std::unique_ptr<AstNode> functionDeclarationStatement();
+	std::unique_ptr<AstNode> functionCall();
 	std::vector<Variable> parameters();
+	std::vector<std::unique_ptr<AstNode>> arguments();
 	std::unique_ptr<AstNode> blockStatement();
 	std::unique_ptr<AstNode> varDeclarationStatement();
 	std::unique_ptr<AstNode> varAssignmentStatement();

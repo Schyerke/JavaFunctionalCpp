@@ -148,7 +148,7 @@ std::any Interpreter::visitVarDeclarationStmt(VarDeclarationNode& varDeclaration
     {
         var.value = nullptr;
     }
-    this->env.set(var);
+    this->env.set(std::move(var));
     
     return std::any();
 }

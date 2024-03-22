@@ -155,6 +155,7 @@
     <ClInclude Include="binaryexpression.hpp" />
     <ClInclude Include="blockstmtnode.hpp" />
     <ClInclude Include="boolnode.hpp" />
+    <ClInclude Include="functioncallexpr.hpp" />
     <ClInclude Include="functionstmtnode.hpp" />
     <ClInclude Include="identifiernode.hpp" />
     <ClInclude Include="interpret.hpp" />

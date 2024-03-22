@@ -158,6 +158,9 @@
     <ClInclude Include="functionstmtnode.hpp">
       <Filter>Header Files\statements</Filter>
     </ClInclude>
+    <ClInclude Include="functioncallexpr.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="grammar.txt" />
