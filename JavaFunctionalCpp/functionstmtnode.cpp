@@ -1,9 +1,9 @@
 #include "functionstmtnode.hpp"
 
-FunctionStmtNode::FunctionStmtNode(Variable var, std::vector<Variable>& formal_parameters, std::unique_ptr<AstNode>& blockstmt)
-	: formal_parameters(formal_parameters), blockstmt(blockstmt)
+FunctionStmtNode::FunctionStmtNode(Variable var, std::vector<Variable>& formal_parameters)
+	: formal_parameters(formal_parameters)
 {
-	this->var = var;
+	this->var = std::move(var);
 }
 
 std::any FunctionStmtNode::accept(Visitor& visitor)
