@@ -33,6 +33,9 @@ private:
 	std::any visitPrintStmt(PrintStmtNode& printStmtNode);
 	std::any visitVarDeclarationStmt(VarDeclarationNode& varDeclarationNode);
 	std::any visitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmentNode);
+
+	std::any visitFunctionStmtNode(FunctionStmtNode& functionStmtNode);
+	std::any visitBlockStmtNode(BlockStmtNode& blockStmtNode);
 };
 
 

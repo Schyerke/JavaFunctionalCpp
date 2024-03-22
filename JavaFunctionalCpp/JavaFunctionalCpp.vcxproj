@@ -129,9 +129,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="binaryexpression.cpp" />
+    <ClCompile Include="blockstmtnode.cpp" />
     <ClCompile Include="boolnode.cpp" />
     <ClCompile Include="environment.cpp" />
     <ClCompile Include="expressionstmtnode.cpp" />
+    <ClCompile Include="functionstmtnode.cpp" />
     <ClCompile Include="identifiernode.cpp" />
     <ClCompile Include="interpret.cpp" />
     <ClCompile Include="semantic.cpp" />
@@ -151,7 +153,9 @@
   <ItemGroup>
     <ClInclude Include="astnode.hpp" />
     <ClInclude Include="binaryexpression.hpp" />
+    <ClInclude Include="blockstmtnode.hpp" />
     <ClInclude Include="boolnode.hpp" />
+    <ClInclude Include="functionstmtnode.hpp" />
     <ClInclude Include="identifiernode.hpp" />
     <ClInclude Include="interpret.hpp" />
     <ClInclude Include="semantic.hpp" />

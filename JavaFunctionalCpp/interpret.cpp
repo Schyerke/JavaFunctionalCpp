@@ -162,6 +162,16 @@ std::any Interpreter::visitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmen
     return std::any();
 }
 
+std::any Interpreter::visitFunctionStmtNode(FunctionStmtNode& functionStmtNode)
+{
+    return std::any();
+}
+
+std::any Interpreter::visitBlockStmtNode(BlockStmtNode& blockStmtNode)
+{
+    return std::any();
+}
+
 std::any Interpreter::visitBinaryExpression(BinaryExpression& binaryExpression)
 {
     std::any left = binaryExpression.left->accept(*this);

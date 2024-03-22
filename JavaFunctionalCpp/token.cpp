@@ -87,6 +87,17 @@ std::string display_stmts(Token_t token)
 		default:
 			return "No Statement Found";
 	}
-	return "No Statement Found";
+	return "Invalid Statment";
 }
 
+std::string display_keyword(Token_t kw)
+{
+	switch (kw)
+	{
+	case RETURN_KW:
+		return "return";
+		
+	default:
+		return "Invalid Keyword";
+	}
+}

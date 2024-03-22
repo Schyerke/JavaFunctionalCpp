@@ -1,5 +1,5 @@
 int r(int a){
-	return a;
+	print a;
 }
 
 r(4);

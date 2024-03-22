@@ -28,7 +28,7 @@ enum Token_t
 
 	OPEN_PAREN,
 	CLOSE_PAREN,
-	
+
 	OPEN_CURLY_BRACKET,
 	CLOSE_CURLY_BRACKET,
 
@@ -51,6 +51,9 @@ enum Token_t
 	//statements
 	PRINT_STMT,
 
+	//keywords
+	RETURN_KW,
+
 	BAD_TOKEN,
 	END_OF_FILE_TOKEN
 };
@@ -58,3 +61,4 @@ enum Token_t
 std::string token_name(Token_t token);
 std::string display_vartype(Token_t varType);
 std::string display_stmts(Token_t stmt);
+std::string display_keyword(Token_t kw);

@@ -168,6 +168,16 @@ std::any Semantic::visitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmentNo
 	return std::any();
 }
 
+std::any Semantic::visitFunctionStmtNode(FunctionStmtNode& functionStmtNode)
+{
+	return std::any();
+}
+
+std::any Semantic::visitBlockStmtNode(BlockStmtNode& blockStmtNode)
+{
+	return std::any();
+}
+
 void Semantic::add_err(std::string error)
 {
 	this->errors.push_back(error);

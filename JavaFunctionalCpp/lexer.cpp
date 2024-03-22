@@ -115,6 +115,10 @@ SyntaxToken Lexer::lex()
 		{
 			return SyntaxToken(DOUBLE_TYPE, display_vartype(DOUBLE_TYPE), start, this->row, length);
 		}
+		if (text == display_keyword(RETURN_KW))
+		{
+			return SyntaxToken(RETURN_KW, display_keyword(RETURN_KW), start, this->row, length);
+		}
 
 		return SyntaxToken(IDENTIFIER_TOKEN, text, start, this->row, length);
 	}

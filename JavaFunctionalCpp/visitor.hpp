@@ -15,6 +15,9 @@ class PrintStmtNode;
 class VarDeclarationNode;
 class VarAssignmentStmtNode;
 
+class FunctionStmtNode;
+class BlockStmtNode;
+
 class Visitor {
 public:
 	virtual std::any visitBinaryExpression(BinaryExpression& binaryExpression) = 0;
@@ -28,5 +31,8 @@ public:
 	virtual std::any visitPrintStmt(PrintStmtNode& printStmtNode) = 0;
 	virtual std::any visitVarDeclarationStmt(VarDeclarationNode& varDeclarationNode) = 0;
 	virtual std::any visitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmentNode) = 0;
+
+	virtual std::any visitFunctionStmtNode(FunctionStmtNode& functionStmtNode) = 0;
+	virtual std::any visitBlockStmtNode(BlockStmtNode& blockStmtNode) = 0;
 };
 

@@ -17,6 +17,8 @@
 #include "unarynode.hpp"
 #include "varassignmentstmtnode.hpp"
 #include "vardeclarationnode.hpp"
+#include "functionstmtnode.hpp"
+#include "blockstmtnode.hpp"
 
 #include "expressionstmtnode.hpp"
 #include "printstmtnode.hpp"
@@ -174,7 +176,7 @@ bool Parser::matchany(std::vector<Token_t> tokens)
 std::vector<std::unique_ptr<AstNode>> Parser::parse()
 {
 	std::vector<std::unique_ptr<AstNode>> statements;
-	while (!isAtEnd())
+	while (!isAtEnd() && this->get_error_reports().empty())
 	{
 		try
 		{
@@ -252,29 +254,62 @@ std::unique_ptr<AstNode> Parser::functionDeclarationStatement()
 		throw std::invalid_argument("Data type for identifier: " + identifier.get_value() + " not found.");
 	}
 	SyntaxToken dt = dt_op.value();
-	Variable var;
-	var.dtType = from_TokenT_to_DataType(dt.get_token_t());
-	var.identifier = identifier.get_value();
-	this->env.set(var);
+	Variable func_var;
+	func_var.dtType = from_TokenT_to_DataType(dt.get_token_t());
+	func_var.identifier = identifier.get_value();
+	this->env.set(func_var);
 
 	expect(OPEN_PAREN);
-	
-	while (not match(CLOSE_PAREN))
+	std::vector<Variable> formal_parameters;
+	if (not match(CLOSE_PAREN))
 	{
-		std::vector<std::unique_ptr<AstNode>> formal_parameters = parameters();
+		formal_parameters = parameters();
 	}
 	advance(); // skipping CLOSE_PAREN TOKEN
+	
+	std::unique_ptr<AstNode> blockstmt = blockStatement();
+
+	return std::make_unique<FunctionStmtNode>(func_var, formal_parameters, blockstmt);
 }
 
-std::vector<std::unique_ptr<AstNode>> Parser::parameters()
+std::vector<Variable> Parser::parameters()
 {
+	std::vector<Variable> formal_parameters;
+
 	std::optional<SyntaxToken> var_dt = find_var_type();
 	SyntaxToken identifier = expect(IDENTIFIER_TOKEN);
 	if (not var_dt.has_value())
 	{
 		throw std::invalid_argument("Data type for identifier: " + identifier.get_value() + " not found.");
 	}
+	Variable var1 = { from_TokenT_to_DataType(var_dt.value().get_token_t()), identifier.get_value()};
+	formal_parameters.push_back(var1);
 
+	while (match(COMMA_TOKEN))
+	{
+		advance();
+		std::optional<SyntaxToken> var_dt = find_var_type();
+		SyntaxToken identifier = expect(IDENTIFIER_TOKEN);
+		if (not var_dt.has_value())
+		{
+			throw std::invalid_argument("Data type for identifier: " + identifier.get_value() + " not found.");
+		}
+		Variable var2 = { from_TokenT_to_DataType(var_dt.value().get_token_t()), identifier.get_value() };
+		formal_parameters.push_back(var2);
+	}
+	return formal_parameters;
+}
+
+std::unique_ptr<AstNode> Parser::blockStatement()
+{
+	expect(OPEN_CURLY_BRACKET);
+	std::vector<std::unique_ptr<AstNode>> stmts;
+	while (not match(CLOSE_CURLY_BRACKET))
+	{
+		stmts.push_back(std::move(parseStatement()));
+	}
+	advance(); // skipping CLOSE_CURLY_BRACKET TOKEN
+	return std::make_unique<BlockStmtNode>(stmts);
 }
 
 std::unique_ptr<AstNode> Parser::varDeclarationStatement()
@@ -356,6 +391,7 @@ std::unique_ptr<AstNode> Parser::varAssignmentStatement()
 		return std::make_unique<VarAssignmentStmtNode>(identifier.get_value(), std::move(expression));
 	}
 	this->env.get(identifier.get_value());
+	expect(SEMICOLON_TOKEN);
 	return nullptr;
 }
 

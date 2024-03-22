@@ -84,6 +84,12 @@
     <ClCompile Include="semantic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="functionstmtnode.cpp">
+      <Filter>Source Files\statements</Filter>
+    </ClCompile>
+    <ClCompile Include="blockstmtnode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lexer.hpp">
@@ -145,6 +151,12 @@
     </ClInclude>
     <ClInclude Include="semantic.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="blockstmtnode.hpp">
+      <Filter>Header Files\statements</Filter>
+    </ClInclude>
+    <ClInclude Include="functionstmtnode.hpp">
+      <Filter>Header Files\statements</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
