@@ -8,7 +8,7 @@ statement => expressionStatement			|
 			 functionDeclarationStatement	|
 			 blockStatement
 
-declearationStatement => varDeclearationStatement		| 
+declearationStatement => varDeclearationStatement    | 
 						 functionDeclarationStatement
 
 expressionStatement => expression ";"
@@ -16,10 +16,10 @@ printStatement => "print " expression ";"
 varDeclearationStatement => varType IDENTIFIER ("=" expression)? ";"
 varAssignmentStatement => IDENTIFIER "=" expression ";"
 
-functionDeclarationStatement => varType IDENTIFIER "(" (varType IDENTIFIER)* ")" blockStatement;
-blockStatement => "{" statement* "}";
+functionDeclarationStatement => varType IDENTIFIER "(" (parameters)? ")" blockStatement
+blockStatement => "{" statement* "}"
 
-
+parameters => varType IDENTIFIER ("," varType IDENTIFIER)
 
 varType => "short"  |
 		   "int"	|

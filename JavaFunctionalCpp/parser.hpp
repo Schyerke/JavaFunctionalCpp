@@ -34,6 +34,7 @@ private:
 	SyntaxToken previous_previous();
 	SyntaxToken expect(Token_t match);
 	std::optional<SyntaxToken> expect_optional(Token_t expect);
+	std::optional<SyntaxToken> find_var_type();
 	bool match(Token_t match);
 	bool matchany(std::vector<Token_t> tokens);
 	SyntaxToken lookAhead(int offset);
@@ -41,6 +42,7 @@ private:
 	std::unique_ptr<AstNode> parsePrintStatement();
 	std::unique_ptr<AstNode> declarationStatement();
 	std::unique_ptr<AstNode> functionDeclarationStatement();
+	std::vector<std::unique_ptr<AstNode>> parameters();
 	std::unique_ptr<AstNode> varDeclarationStatement();
 	std::unique_ptr<AstNode> varAssignmentStatement();
 	std::unique_ptr<AstNode> parseExpressionStatement();

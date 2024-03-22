@@ -17,6 +17,15 @@
 
 functions
 
+if statement
+
+array datatype
+char datatype
+string datatype
+
+while statement
+for statement
+
 =================
 NOT DONE
 

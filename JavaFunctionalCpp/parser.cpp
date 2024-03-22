@@ -126,6 +126,32 @@ std::optional<SyntaxToken> Parser::expect_optional(Token_t expect)
 	return std::nullopt;
 }
 
+std::optional<SyntaxToken> Parser::find_var_type()
+{
+	std::optional<SyntaxToken> dt_op = std::nullopt;
+	if (expect_optional(SHORT_TYPE))
+	{
+		dt_op = previous();
+	}
+	if (expect_optional(INT_TYPE))
+	{
+		dt_op = previous();
+	}
+	if (expect_optional(LONG_TYPE))
+	{
+		dt_op = previous();
+	}
+	if (expect_optional(FLOAT_TYPE))
+	{
+		dt_op = previous();
+	}
+	if (expect_optional(DOUBLE_TYPE))
+	{
+		dt_op = previous();
+	}
+	return dt_op;
+}
+
 bool Parser::match(Token_t match) {
 	if (peek().get_token_t() == match) {
 		return true;
@@ -218,28 +244,8 @@ std::unique_ptr<AstNode> Parser::declarationStatement()
 
 std::unique_ptr<AstNode> Parser::functionDeclarationStatement()
 {
-	std::optional<SyntaxToken> dt_op = std::nullopt;
+	std::optional<SyntaxToken> dt_op = find_var_type();
 
-	if (expect_optional(SHORT_TYPE))
-	{
-		dt_op = previous();
-	}
-	if (expect_optional(INT_TYPE))
-	{
-		dt_op = previous();
-	}
-	if (expect_optional(LONG_TYPE))
-	{
-		dt_op = previous();
-	}
-	if (expect_optional(FLOAT_TYPE))
-	{
-		dt_op = previous();
-	}
-	if (expect_optional(DOUBLE_TYPE))
-	{
-		dt_op = previous();
-	}
 	SyntaxToken identifier = expect(IDENTIFIER_TOKEN);
 	if (not dt_op.has_value())
 	{
@@ -252,38 +258,28 @@ std::unique_ptr<AstNode> Parser::functionDeclarationStatement()
 	this->env.set(var);
 
 	expect(OPEN_PAREN);
-	std::vector<std::unique_ptr<AstNode>> formal_parameters;
 	
 	while (not match(CLOSE_PAREN))
 	{
-
+		std::vector<std::unique_ptr<AstNode>> formal_parameters = parameters();
 	}
+	advance(); // skipping CLOSE_PAREN TOKEN
+}
+
+std::vector<std::unique_ptr<AstNode>> Parser::parameters()
+{
+	std::optional<SyntaxToken> var_dt = find_var_type();
+	SyntaxToken identifier = expect(IDENTIFIER_TOKEN);
+	if (not var_dt.has_value())
+	{
+		throw std::invalid_argument("Data type for identifier: " + identifier.get_value() + " not found.");
+	}
+
 }
 
 std::unique_ptr<AstNode> Parser::varDeclarationStatement()
 {
-	std::optional<SyntaxToken> dt_op = std::nullopt;
-
-	if (expect_optional(SHORT_TYPE))
-	{
-		dt_op = previous();
-	}
-	if (expect_optional(INT_TYPE))
-	{
-		dt_op = previous();
-	}
-	if (expect_optional(LONG_TYPE))
-	{
-		dt_op = previous();
-	}
-	if (expect_optional(FLOAT_TYPE))
-	{
-		dt_op = previous();
-	}
-	if (expect_optional(DOUBLE_TYPE))
-	{
-		dt_op = previous();
-	}
+	std::optional<SyntaxToken> dt_op = find_var_type();
 
 	SyntaxToken identifier = expect(IDENTIFIER_TOKEN);
 

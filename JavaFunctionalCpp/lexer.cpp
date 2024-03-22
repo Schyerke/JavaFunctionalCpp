@@ -165,6 +165,9 @@ SyntaxToken Lexer::lex()
 		}
 		return SyntaxToken(SLASH_TOKEN, "/", this->index++, this->row, 1);
 
+	case ',':
+		return SyntaxToken(COMMA_TOKEN, ",", this->index++, this->row, 1);
+
 	case '(':
 		return SyntaxToken(OPEN_PAREN, "(", this->index++, this->row, 1);
 	case ')':
