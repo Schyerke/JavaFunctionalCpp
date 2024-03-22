@@ -304,7 +304,7 @@ std::vector<Variable> Parser::parameters()
 	var1.dtType = from_TokenT_to_DataType(var_dt.value().get_token_t());
 	var1.identifier = identifier.get_value();
 	
-	formal_parameters.push_back(var1);
+	formal_parameters.push_back(std::move(var1));
 
 	while (match(COMMA_TOKEN))
 	{
@@ -318,7 +318,7 @@ std::vector<Variable> Parser::parameters()
 		Variable var2;
 		var2.dtType = from_TokenT_to_DataType(var_dt.value().get_token_t());
 		var2.identifier = identifier.get_value();
-		formal_parameters.push_back(var2);
+		formal_parameters.push_back(std::move(var2));
 	}
 	return formal_parameters;
 }
