@@ -208,10 +208,55 @@ std::unique_ptr<AstNode> Parser::declarationStatement()
 		FLOAT_TYPE,
 		DOUBLE_TYPE}) && peekNext().get_token_t() == IDENTIFIER_TOKEN)
 	{
-		if ()
+		if (peekNextNext().get_token_t() == OPEN_PAREN)
 		{
-
+			return functionDeclarationStatement();
 		}
+		return varDeclarationStatement();
+	}
+}
+
+std::unique_ptr<AstNode> Parser::functionDeclarationStatement()
+{
+	std::optional<SyntaxToken> dt_op = std::nullopt;
+
+	if (expect_optional(SHORT_TYPE))
+	{
+		dt_op = previous();
+	}
+	if (expect_optional(INT_TYPE))
+	{
+		dt_op = previous();
+	}
+	if (expect_optional(LONG_TYPE))
+	{
+		dt_op = previous();
+	}
+	if (expect_optional(FLOAT_TYPE))
+	{
+		dt_op = previous();
+	}
+	if (expect_optional(DOUBLE_TYPE))
+	{
+		dt_op = previous();
+	}
+	SyntaxToken identifier = expect(IDENTIFIER_TOKEN);
+	if (not dt_op.has_value())
+	{
+		throw std::invalid_argument("Data type for identifier: " + identifier.get_value() + " not found.");
+	}
+	SyntaxToken dt = dt_op.value();
+	Variable var;
+	var.dtType = from_TokenT_to_DataType(dt.get_token_t());
+	var.identifier = identifier.get_value();
+	this->env.set(var);
+
+	expect(OPEN_PAREN);
+	std::vector<std::unique_ptr<AstNode>> formal_parameters;
+	
+	while (not match(CLOSE_PAREN))
+	{
+
 	}
 }
 
@@ -242,7 +287,10 @@ std::unique_ptr<AstNode> Parser::varDeclarationStatement()
 
 	SyntaxToken identifier = expect(IDENTIFIER_TOKEN);
 
-	if (not dt_op.has_value()) throw std::invalid_argument("Data type for identifier: " + identifier.get_value() + " not found.");
+	if (not dt_op.has_value())
+	{
+		throw std::invalid_argument("Data type for identifier: " + identifier.get_value() + " not found.");
+	}
 	SyntaxToken dt = dt_op.value();
 	Variable var;
 	var.dtType = from_TokenT_to_DataType(dt.get_token_t());

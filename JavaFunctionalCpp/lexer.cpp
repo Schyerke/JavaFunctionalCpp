@@ -130,67 +130,76 @@ SyntaxToken Lexer::lex()
 		if (peekNext() == '+')
 		{
 			this->index += 2;
-			return SyntaxToken(PLUS_PLUS_TOKEN, "++", this->index - 2, 2, this->row);
+			return SyntaxToken(PLUS_PLUS_TOKEN, "++", this->index - 2, this->row, 2);
 		}
 		if (peekNext() == '=')
 		{
 			this->index += 2;
-			return SyntaxToken(PLUS_EQUAL_TOKEN, "+=", this->index - 2, 2, this->row);
+			return SyntaxToken(PLUS_EQUAL_TOKEN, "+=", this->index - 2, this->row, 2);
 		}
-		return SyntaxToken(PLUS_TOKEN, "+", this->index++, 1, this->row);
+		return SyntaxToken(PLUS_TOKEN, "+", this->index++, this->row, 1);
 	case '-':
 		if (peekNext() == '-')
 		{
 			this->index += 2;
-			return SyntaxToken(MINUS_MINUS_TOKEN, "--", this->index - 2, 2, this->row);
+			return SyntaxToken(MINUS_MINUS_TOKEN, "--", this->index - 2, this->row, 2);
 		}
 		if (peekNext() == '=')
 		{
 			this->index += 2;
-			return SyntaxToken(MINUS_EQUAL_TOKEN, "-=", this->index - 2, 2, this->row);
+			return SyntaxToken(MINUS_EQUAL_TOKEN, "-=", this->index - 2, this->row, 2);
 		}
-		return SyntaxToken(MINUS_TOKEN, "-", this->index++, 1, this->row);
+		return SyntaxToken(MINUS_TOKEN, "-", this->index++, this->row, 1);
 	case '*':
 		if (peekNext() == '=')
 		{
 			this->index += 2;
-			return SyntaxToken(STAR_EQUAL_TOKEN, "*=", this->index - 2, 2, this->row);
+			return SyntaxToken(STAR_EQUAL_TOKEN, "*=", this->index - 2, this->row, 2);
 		}
-		return SyntaxToken(STAR_TOKEN, "*", this->index++, 1, this->row);
+		return SyntaxToken(STAR_TOKEN, "*", this->index++, this->row, 1);
 	case '/':
 		if (peekNext() == '=')
 		{
 			this->index += 2;
-			return SyntaxToken(SLASH_EQUAL_TOKEN, "/=", this->index - 2, 2, this->row);
+			return SyntaxToken(SLASH_EQUAL_TOKEN, "/=", this->index - 2, this->row, 2);
 		}
-		return SyntaxToken(SLASH_TOKEN, "/", this->index++, 1, this->row);
+		return SyntaxToken(SLASH_TOKEN, "/", this->index++, this->row, 1);
+
+	case '(':
+		return SyntaxToken(OPEN_PAREN, "(", this->index++, this->row, 1);
+	case ')':
+		return SyntaxToken(CLOSE_PAREN, ")", this->index++, this->row, 1);
+	case '{':
+		return SyntaxToken(OPEN_CURLY_BRACKET, "{", this->index++, this->row, 1);
+	case '}':
+		return SyntaxToken(CLOSE_CURLY_BRACKET, "}", this->index++, this->row, 1);
 
 	case '=':
 		if (peekNext() == '=')
 		{
 			this->index += 2;
-			return SyntaxToken(EQUAL_EQUAL_TOKEN, "==", this->index - 2, 2, this->row);
+			return SyntaxToken(EQUAL_EQUAL_TOKEN, "==", this->index - 2, this->row, 2);
 		}
-		return SyntaxToken(EQUAL_TOKEN, "=", this->index++, 1, this->row);
+		return SyntaxToken(EQUAL_TOKEN, "=", this->index++, this->row, 1);
 	case '!':
 		if (peekNext() == '=')
 		{
 			this->index += 2;
-			return SyntaxToken(BANG_EQUAL_TOKEN, "!=", this->index - 2, 2, this->row);
+			return SyntaxToken(BANG_EQUAL_TOKEN, "!=", this->index - 2, this->row, 2);
 		}
 		break;
 	case '&':
 		if (peekNext() == '&')
 		{
 			this->index += 2;
-			return SyntaxToken(AMPERSAND_AMPERSAND_TOKEN, "&&", this->index - 2, 2, this->row);
+			return SyntaxToken(AMPERSAND_AMPERSAND_TOKEN, "&&", this->index - 2, this->row, 2);
 		}
 		break;
 	case '|':
 		if (peekNext() == '|')
 		{
 			this->index += 2;
-			return SyntaxToken(PIPE_PIPE_TOKEN, "||", this->index - 2, 2, this->row);
+			return SyntaxToken(PIPE_PIPE_TOKEN, "||", this->index - 2, this->row, 2);
 		}
 		break;
 
@@ -209,7 +218,7 @@ SyntaxToken Lexer::lex()
 	}
 		break;
 	case ';':
-		return SyntaxToken(SEMICOLON_TOKEN, ";", this->index++, 1, this->row);
+		return SyntaxToken(SEMICOLON_TOKEN, ";", this->index++, this->row, 1);
 	default:
 		return SyntaxToken(BAD_TOKEN, "", this->index++, 0, this->row);
 	}

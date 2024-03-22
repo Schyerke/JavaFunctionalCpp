@@ -150,6 +150,7 @@
   <ItemGroup>
     <Text Include="grammar.txt" />
     <Text Include="todo.txt" />
+    <Text Include="consideration.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="main.jpp">

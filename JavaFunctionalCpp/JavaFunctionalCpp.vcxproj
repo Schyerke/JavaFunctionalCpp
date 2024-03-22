@@ -171,6 +171,7 @@
     <ClInclude Include="visitor.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="consideration.txt" />
     <Text Include="grammar.txt" />
     <Text Include="todo.txt" />
   </ItemGroup>
