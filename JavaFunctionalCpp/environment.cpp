@@ -32,3 +32,21 @@ void Enviroment::Var::assign(std::string identifier, std::any value)
     var.value = value;
     this->variables[identifier] = var;
 }
+
+FuncVariable Enviroment::FuncVar::get(std::string identifier)
+{
+    if (this->func_variables.contains(identifier))
+    {
+        return std::move(this->func_variables[identifier]);
+    }
+    throw std::invalid_argument("Function Identifier '" + identifier + "' not found.");
+}
+
+void Enviroment::FuncVar::set(FuncVariable func_var)
+{
+    if (this->func_variables.contains(func_var.identifier))
+    {
+        throw std::invalid_argument("Function Identifier '" + func_var.identifier + "' already declared.");
+    }
+    this->func_variables.emplace(func_var.identifier, std::move(func_var));
+}

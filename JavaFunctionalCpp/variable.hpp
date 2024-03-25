@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <any>
+#include <string>
 #include "token.hpp"
 #include "astnode.hpp"
 
@@ -26,7 +27,7 @@ struct Variable
 
 struct FuncVariable 
 {
-	DataType returnType = DT_NOT_VALID;
+	DataType return_type = DT_NOT_VALID;
 	std::string identifier;
 	std::unique_ptr<AstNode> block_stmt;
 };

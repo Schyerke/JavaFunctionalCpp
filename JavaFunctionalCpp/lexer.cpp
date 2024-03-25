@@ -85,7 +85,6 @@ SyntaxToken Lexer::lex()
 		{
 			return SyntaxToken(PRINT_STMT, "", start, this->row, length);
 		}
-
 		if (text == display_stmts(FALSE_TOKEN))
 		{
 			return SyntaxToken(FALSE_TOKEN, display_stmts(FALSE_TOKEN), start, this->row, length);
@@ -115,6 +114,7 @@ SyntaxToken Lexer::lex()
 		{
 			return SyntaxToken(DOUBLE_TYPE, display_vartype(DOUBLE_TYPE), start, this->row, length);
 		}
+
 		if (text == display_keyword(RETURN_KW))
 		{
 			return SyntaxToken(RETURN_KW, display_keyword(RETURN_KW), start, this->row, length);

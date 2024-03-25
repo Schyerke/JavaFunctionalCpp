@@ -1,6 +1,6 @@
 #include "functionstmtnode.hpp"
 
-FunctionStmtNode::FunctionStmtNode(Variable var, std::vector<Variable> formal_parameters)
+FunctionStmtNode::FunctionStmtNode(FuncVariable var, std::vector<Variable> formal_parameters)
 {
 	this->var = std::move(var);
 	this->formal_parameters = std::move(formal_parameters);

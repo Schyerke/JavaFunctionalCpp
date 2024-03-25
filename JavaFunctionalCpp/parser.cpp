@@ -7,7 +7,6 @@
 #include "syntaxtoken.hpp"
 #include "token.hpp"
 
-
 #include "astnode.hpp"
 #include "binaryexpression.hpp"
 #include "boolnode.hpp"
@@ -25,8 +24,10 @@
 
 #include "parser.hpp"
 
-Parser::Parser(std::string program, Enviroment env) : env(env)
+Parser::Parser(std::string program, Enviroment env)
 {
+	this->env = std::move(env);
+
 	Lexer lexer(program);
 
 	std::vector<SyntaxToken> tokens;
@@ -260,8 +261,8 @@ std::unique_ptr<AstNode> Parser::functionDeclarationStatement()
 		throw std::invalid_argument("Data type for identifier: " + identifier.get_value() + " not found.");
 	}
 	SyntaxToken dt = dt_op.value();
-	Variable func_var;
-	func_var.dtType = from_TokenT_to_DataType(dt.get_token_t());
+	FuncVariable func_var;
+	func_var.return_type = from_TokenT_to_DataType(dt.get_token_t());
 	func_var.identifier = identifier.get_value();
 	
 	expect(OPEN_PAREN);
@@ -273,9 +274,8 @@ std::unique_ptr<AstNode> Parser::functionDeclarationStatement()
 	advance(); // skipping CLOSE_PAREN TOKEN
 	
 	std::unique_ptr<AstNode> blockstmt = blockStatement();
-	
-	//func_var.set_blockstmt(std::move(blockstmt));
-	this->env.var.set(func_var);
+	func_var.block_stmt = std::move(blockstmt);
+	this->env.func_var.set(std::move(func_var));
 	return std::make_unique<FunctionStmtNode>(std::move(func_var), std::move(formal_parameters));
 }
 

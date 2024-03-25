@@ -12,7 +12,7 @@
 
 Semantic::Semantic(Enviroment env)
 {
-	this->env = env;
+	this->env = std::move(env);
 }
 
 std::vector<std::string> Semantic::analyse(std::vector<std::unique_ptr<AstNode>>& statements)
@@ -109,7 +109,7 @@ std::any Semantic::visitIdentifierNode(IdentifierNode& identifierNode)
 {
 	try 
 	{
-		Variable v = std::move(this->env.var.get(identifierNode.identifier));
+		Variable v = this->env.var.get(identifierNode.identifier);
 		return v.value;
 	}
 	catch (std::invalid_argument e)

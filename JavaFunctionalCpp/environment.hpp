@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <string>
 #include <unordered_map>
 
 #include "vardeclarationnode.hpp"
@@ -19,12 +20,17 @@ public:
 		std::unordered_map<std::string, Variable> variables;
 	};
 
-	class Func_Var
+	class FuncVar
 	{
-		
+	public:
+		FuncVariable get(std::string identifier);
+		void set(FuncVariable func_var);
+	private:
+		std::unordered_map<std::string, FuncVariable> func_variables;
 	};
 
 	Var var;
+	FuncVar func_var;
 
 };
 

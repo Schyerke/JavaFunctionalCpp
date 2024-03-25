@@ -49,7 +49,7 @@ int main()
 {
 	std::string program = read_file("main.jpp");
 	Enviroment p_env;
-	Parser parser(program, p_env);
+	Parser parser(program, std::move(p_env));
 	std::vector<std::unique_ptr<AstNode>> statements = std::move(parser.parse());
 
 	std::vector<std::string> error_reports = parser.get_error_reports();
@@ -62,7 +62,7 @@ int main()
 	}
 
 	Enviroment sem_env;
-	Semantic semantic = Semantic(sem_env);
+	Semantic semantic = Semantic(std::move(sem_env));
 	std::vector<std::string> semantic_errors = semantic.analyse(statements);
 	if (not semantic_errors.empty())
 	{
@@ -72,7 +72,7 @@ int main()
 	}
 
 	Enviroment env;
-	Interpreter interpreter(env);
+	Interpreter interpreter(std::move(env));
 	for (std::unique_ptr<AstNode>& stmt : statements)
 	{
 		interpreter.interpret(std::move(stmt));

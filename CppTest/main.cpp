@@ -5,23 +5,40 @@
 #include <any>
 #include <variant>
 
+#include <unordered_map>
+
 using namespace std;
 
 struct Person
 {
-	int age;
+	Person()
+	{
+
+	}
+	unique_ptr<int> age;
 	string name = "he";
 };
 
-int f2()
+
+unordered_map<int, Person> w;
+
+
+void F1(Person person)
 {
-	return {};
+	cout << person.name << endl;
+}
+
+void F2(Person person)
+{
+	w[2] = std::move(person);
 }
 
 int main() {
 	
 	
-
+	
+	F2(std::move(Person()));
+	cout << w[2].name << endl;
 
 
 
