@@ -19,9 +19,11 @@ int f2()
 }
 
 int main() {
-	int w = f2();
+	
+	
 
-	cout << w;
+
+
 
 	return 0;
 }

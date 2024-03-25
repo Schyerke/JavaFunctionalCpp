@@ -21,7 +21,7 @@ public:
 
 	class Func_Var
 	{
-
+		
 	};
 
 	Var var;
