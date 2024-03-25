@@ -1,5 +1,1 @@
-int r(int a){
-	print a;
-}
-
-r(4);
+print 2;

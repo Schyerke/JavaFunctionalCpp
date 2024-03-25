@@ -109,7 +109,7 @@ std::any Semantic::visitIdentifierNode(IdentifierNode& identifierNode)
 {
 	try 
 	{
-		Variable v = this->env.get(identifierNode.identifier);
+		Variable v = std::move(this->env.var.get(identifierNode.identifier));
 		return v.value;
 	}
 	catch (std::invalid_argument e)
@@ -145,7 +145,7 @@ std::any Semantic::visitVarDeclarationStmt(VarDeclarationNode& varDeclarationNod
 	var.value = varDeclarationNode.expression->accept(*this);
 	try
 	{
-		this->env.set(std::move(var));
+		this->env.var.set(var);
 	}
 	catch (std::invalid_argument e)
 	{
@@ -159,7 +159,7 @@ std::any Semantic::visitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmentNo
 	varAssignmentNode.expression->accept(*this);
 	try
 	{
-		return this->env.get(varAssignmentNode.identifier).dtType;
+		return this->env.var.get(varAssignmentNode.identifier).dtType;
 	}
 	catch (std::invalid_argument e)
 	{

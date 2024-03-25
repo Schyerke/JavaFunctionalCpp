@@ -55,7 +55,7 @@ std::any Interpreter::visitStringNode(StringNode& stringNode)
 
 std::any Interpreter::visitIdentifierNode(IdentifierNode& identifierNode)
 {
-    Variable var = this->env.get(identifierNode.identifier);
+    Variable var = std::move(this->env.var.get(identifierNode.identifier));
     return var.value;
 }
 
@@ -148,7 +148,7 @@ std::any Interpreter::visitVarDeclarationStmt(VarDeclarationNode& varDeclaration
     {
         var.value = nullptr;
     }
-    this->env.set(std::move(var));
+    this->env.var.set(var);
     
     return std::any();
 }
@@ -157,7 +157,7 @@ std::any Interpreter::visitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmen
 {
     std::string identifier = varAssignmentNode.identifier;
     std::any value = varAssignmentNode.expression->accept(*this);
-    this->env.assign(identifier, value);
+    this->env.var.assign(identifier, value);
     
     return std::any();
 }

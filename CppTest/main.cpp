@@ -7,23 +7,21 @@
 
 using namespace std;
 
-
-struct Person {
-	std::unique_ptr<int> age;
+struct Person
+{
+	int age;
+	string name = "he";
 };
 
-void f1(Person person)
+int f2()
 {
-	cout << *person.age << endl;
+	return {};
 }
 
 int main() {
-	
-	Person person;
-	person.age = std::make_unique<int>(42);
+	int w = f2();
 
-	f1(std::move(person));
-
+	cout << w;
 
 	return 0;
 }

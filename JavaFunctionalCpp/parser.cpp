@@ -246,6 +246,8 @@ std::unique_ptr<AstNode> Parser::declarationStatement()
 		}
 		return varDeclarationStatement();
 	}
+	
+	return nullptr;
 }
 
 std::unique_ptr<AstNode> Parser::functionDeclarationStatement()
@@ -261,7 +263,6 @@ std::unique_ptr<AstNode> Parser::functionDeclarationStatement()
 	Variable func_var;
 	func_var.dtType = from_TokenT_to_DataType(dt.get_token_t());
 	func_var.identifier = identifier.get_value();
-	func_var.callable = true;
 	
 	expect(OPEN_PAREN);
 	std::vector<Variable> formal_parameters;
@@ -273,9 +274,9 @@ std::unique_ptr<AstNode> Parser::functionDeclarationStatement()
 	
 	std::unique_ptr<AstNode> blockstmt = blockStatement();
 	
-	func_var.set_blockstmt(std::move(blockstmt));
-	this->env.set(std::move(func_var));
-	return std::make_unique<FunctionStmtNode>(std::move(func_var), formal_parameters);
+	//func_var.set_blockstmt(std::move(blockstmt));
+	this->env.var.set(func_var);
+	return std::make_unique<FunctionStmtNode>(std::move(func_var), std::move(formal_parameters));
 }
 
 std::unique_ptr<AstNode> Parser::functionCall() 
@@ -287,7 +288,7 @@ std::unique_ptr<AstNode> Parser::functionCall()
 		args = arguments();
 	}
 	advance(); //skipping CLOSE_PAREN token
-	
+	return {};
 }
 
 std::vector<Variable> Parser::parameters()
@@ -304,7 +305,7 @@ std::vector<Variable> Parser::parameters()
 	var1.dtType = from_TokenT_to_DataType(var_dt.value().get_token_t());
 	var1.identifier = identifier.get_value();
 	
-	formal_parameters.push_back(std::move(var1));
+	formal_parameters.push_back(var1);
 
 	while (match(COMMA_TOKEN))
 	{
@@ -318,14 +319,14 @@ std::vector<Variable> Parser::parameters()
 		Variable var2;
 		var2.dtType = from_TokenT_to_DataType(var_dt.value().get_token_t());
 		var2.identifier = identifier.get_value();
-		formal_parameters.push_back(std::move(var2));
+		formal_parameters.push_back(var2);
 	}
 	return formal_parameters;
 }
 
 std::vector<std::unique_ptr<AstNode>> Parser::arguments()
 {
-
+	return {};
 }
 
 std::unique_ptr<AstNode> Parser::blockStatement()
@@ -354,7 +355,7 @@ std::unique_ptr<AstNode> Parser::varDeclarationStatement()
 	Variable var;
 	var.dtType = from_TokenT_to_DataType(dt.get_token_t());
 	var.identifier = identifier.get_value();
-	this->env.set(std::move(var));
+	this->env.var.set(var);
 	std::unique_ptr<AstNode> expression;
 	if (expect_optional(EQUAL_TOKEN))
 	{
@@ -418,7 +419,7 @@ std::unique_ptr<AstNode> Parser::varAssignmentStatement()
 		expect(SEMICOLON_TOKEN);
 		return std::make_unique<VarAssignmentStmtNode>(identifier.get_value(), std::move(expression));
 	}
-	this->env.get(identifier.get_value());
+	this->env.var.get(identifier.get_value());
 	expect(SEMICOLON_TOKEN);
 	return nullptr;
 }
@@ -491,7 +492,7 @@ std::unique_ptr<AstNode> Parser::parsePrimary()
 		prev_prev.get_token_t() == IDENTIFIER_TOKEN)
 	{
 		token = next_token();
-		Variable var = this->env.get(prev_prev.get_value());
+		Variable var = this->env.var.get(prev_prev.get_value());
 		switch (var.dtType)
 		{
 		case DT_SHORT:
