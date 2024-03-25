@@ -55,6 +55,5 @@ private:
 	std::unique_ptr<AstNode> parseUnary();
 	std::unique_ptr<AstNode> parsePrimary();
 
-	
 };
 

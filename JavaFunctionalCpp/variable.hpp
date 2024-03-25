@@ -29,7 +29,7 @@ struct FuncVariable
 {
 	DataType return_type = DT_NOT_VALID;
 	std::string identifier;
-	std::unique_ptr<AstNode> block_stmt;
+	std::shared_ptr<AstNode> block_stmt;
 };
 
 DataType from_TokenT_to_DataType(Token_t token);

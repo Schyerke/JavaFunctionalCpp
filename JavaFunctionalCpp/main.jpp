@@ -1,1 +1,6 @@
-print 2;
+
+int f(int a)
+{
+	print a;
+}
+f(1);
