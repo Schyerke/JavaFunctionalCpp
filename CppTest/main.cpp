@@ -6,6 +6,7 @@
 #include <variant>
 
 #include <unordered_map>
+#include <stack>
 
 using namespace std;
 
@@ -36,11 +37,6 @@ void F2(Person person)
 int main() {
 	
 	
-	
-	F2(std::move(Person()));
-	cout << w[2].name << endl;
-
-
 
 	return 0;
 }
