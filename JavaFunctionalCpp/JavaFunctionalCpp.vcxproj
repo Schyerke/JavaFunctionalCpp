@@ -132,6 +132,7 @@
     <ClCompile Include="blockstmtnode.cpp" />
     <ClCompile Include="boolnode.cpp" />
     <ClCompile Include="environment.cpp" />
+    <ClCompile Include="envstack.cpp" />
     <ClCompile Include="functioncallexpr.cpp" />
     <ClCompile Include="functionstmtnode.cpp" />
     <ClCompile Include="identifiernode.cpp" />
@@ -155,6 +156,7 @@
     <ClInclude Include="binaryexpression.hpp" />
     <ClInclude Include="blockstmtnode.hpp" />
     <ClInclude Include="boolnode.hpp" />
+    <ClInclude Include="envstack.hpp" />
     <ClInclude Include="functioncallexpr.hpp" />
     <ClInclude Include="functionstmtnode.hpp" />
     <ClInclude Include="identifiernode.hpp" />

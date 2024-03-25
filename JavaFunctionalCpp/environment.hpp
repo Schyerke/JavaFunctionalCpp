@@ -32,10 +32,3 @@ public:
 	Var var;
 	FuncVar func_var;
 };
-
-class EnvStack
-{
-	std::vector<Enviroment> envs;
-	int last_index = 0;
-
-};
