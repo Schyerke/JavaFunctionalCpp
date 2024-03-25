@@ -10,7 +10,6 @@
 #include "stringnode.hpp"
 #include "identifiernode.hpp"
 
-#include "expressionstmtnode.hpp"
 #include "printstmtnode.hpp"
 #include "vardeclarationnode.hpp"
 #include "varassignmentstmtnode.hpp"
@@ -74,34 +73,6 @@ std::any Interpreter::visitUnaryNode(UnaryNode& unaryNode)
     throw std::invalid_argument("Runtime Error: Invalid unary value type (found type '" + unary_err + "')");
 }
 
-std::any Interpreter::visitExpressionStmt(ExpressionStmtNode& expressionStmtNode)
-{
-    std::any expr = expressionStmtNode.expression->accept(*this);
-    std::variant<int, std::string> result;
-    if (expr.type() == typeid(int))
-    {
-        result = std::any_cast<int>(expr);
-    }
-    else if (expr.type() == typeid(std::string))
-    {
-        result = std::any_cast<std::string>(expr);
-    }
-    else 
-    {
-        throw std::invalid_argument("Runtime Error: repl accepts either 'int' or 'string'.");
-    }
-
-    if (std::holds_alternative<int>(result))
-    {
-        std::cout << "Repl: " << std::get<int>(result);
-    }
-    if (std::holds_alternative<std::string>(result))
-    {
-        std::cout << "Repl: " << std::get<std::string>(result);
-    }
-    return std::any();
-}
-
 std::any Interpreter::visitPrintStmt(PrintStmtNode& printStmtNode)
 {
     std::any expr_r = printStmtNode.expression->accept(*this);
@@ -163,6 +134,11 @@ std::any Interpreter::visitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmen
 }
 
 std::any Interpreter::visitFunctionStmtNode(FunctionStmtNode& functionStmtNode)
+{
+    return std::any();
+}
+
+std::any Interpreter::visitFunctionCallNode(FunctionCallExpr& functionCallExpr)
 {
     return std::any();
 }

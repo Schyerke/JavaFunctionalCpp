@@ -10,12 +10,12 @@ class StringNode;
 class IdentifierNode;
 class UnaryNode;
 
-class ExpressionStmtNode;
 class PrintStmtNode;
 class VarDeclarationNode;
 class VarAssignmentStmtNode;
 
 class FunctionStmtNode;
+class FunctionCallExpr;
 class BlockStmtNode;
 
 class Visitor {
@@ -27,12 +27,12 @@ public:
 	virtual std::any visitIdentifierNode(IdentifierNode& identifierNode) = 0;
 	virtual std::any visitUnaryNode(UnaryNode& unaryNode) = 0;
 
-	virtual std::any visitExpressionStmt(ExpressionStmtNode& expressionStmtNode) = 0;
 	virtual std::any visitPrintStmt(PrintStmtNode& printStmtNode) = 0;
 	virtual std::any visitVarDeclarationStmt(VarDeclarationNode& varDeclarationNode) = 0;
 	virtual std::any visitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmentNode) = 0;
 
 	virtual std::any visitFunctionStmtNode(FunctionStmtNode& functionStmtNode) = 0;
+	virtual std::any visitFunctionCallNode(FunctionCallExpr& functionCallExpr) = 0;
 	virtual std::any visitBlockStmtNode(BlockStmtNode& blockStmtNode) = 0;
 };
 

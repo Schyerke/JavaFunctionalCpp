@@ -5,7 +5,6 @@
 #include "numbernode.hpp"
 #include "stringnode.hpp"
 #include "unarynode.hpp"
-#include "expressionstmtnode.hpp"
 #include "printstmtnode.hpp"
 #include "varassignmentstmtnode.hpp"
 #include "vardeclarationnode.hpp"
@@ -125,12 +124,6 @@ std::any Semantic::visitUnaryNode(UnaryNode& unaryNode)
 	return std::any();
 }
 
-std::any Semantic::visitExpressionStmt(ExpressionStmtNode& expressionStmtNode)
-{
-	expressionStmtNode.expression->accept(*this);
-	return std::any();
-}
-
 std::any Semantic::visitPrintStmt(PrintStmtNode& printStmtNode)
 {
 	printStmtNode.expression->accept(*this);
@@ -169,6 +162,11 @@ std::any Semantic::visitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmentNo
 }
 
 std::any Semantic::visitFunctionStmtNode(FunctionStmtNode& functionStmtNode)
+{
+	return std::any();
+}
+
+std::any Semantic::visitFunctionCallNode(FunctionCallExpr& functionCallExpr)
 {
 	return std::any();
 }

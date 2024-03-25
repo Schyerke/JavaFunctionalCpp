@@ -31,6 +31,6 @@ public:
 
 	Var var;
 	FuncVar func_var;
-
+	Enviroment e;
 };
 

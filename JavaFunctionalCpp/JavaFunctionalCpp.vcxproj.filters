@@ -54,9 +54,6 @@
     <ClCompile Include="printstmtnode.cpp">
       <Filter>Source Files\statements</Filter>
     </ClCompile>
-    <ClCompile Include="expressionstmtnode.cpp">
-      <Filter>Source Files\statements</Filter>
-    </ClCompile>
     <ClCompile Include="boolnode.cpp">
       <Filter>Source Files\expression</Filter>
     </ClCompile>
@@ -88,7 +85,10 @@
       <Filter>Source Files\statements</Filter>
     </ClCompile>
     <ClCompile Include="blockstmtnode.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\statements</Filter>
+    </ClCompile>
+    <ClCompile Include="functioncallexpr.cpp">
+      <Filter>Source Files\expression</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -121,9 +121,6 @@
     </ClInclude>
     <ClInclude Include="boolnode.hpp">
       <Filter>Header Files\expression</Filter>
-    </ClInclude>
-    <ClInclude Include="expressionstmtnode.hpp">
-      <Filter>Header Files\statements</Filter>
     </ClInclude>
     <ClInclude Include="vardeclarationnode.hpp">
       <Filter>Header Files\statements</Filter>
@@ -159,7 +156,7 @@
       <Filter>Header Files\statements</Filter>
     </ClInclude>
     <ClInclude Include="functioncallexpr.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\expression</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

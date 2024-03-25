@@ -25,10 +25,10 @@ private:
 
 
 	SyntaxToken next_token();
-	bool isAtEnd();
+	bool is_at_end();
 	void advance();
-	SyntaxToken peekNextNext();
-	SyntaxToken peekNext();
+	SyntaxToken peek_next_next();
+	SyntaxToken peek_next();
 	SyntaxToken peek();
 	SyntaxToken previous();
 	SyntaxToken previous_previous();
@@ -37,7 +37,7 @@ private:
 	std::optional<SyntaxToken> find_var_type();
 	bool match(Token_t match);
 	bool matchany(std::vector<Token_t> tokens);
-	SyntaxToken lookAhead(int offset);
+	SyntaxToken look_ahead(int offset);
 	std::unique_ptr<AstNode> parseStatement();
 	std::unique_ptr<AstNode> parsePrintStatement();
 	std::unique_ptr<AstNode> declarationStatement();
@@ -48,7 +48,6 @@ private:
 	std::unique_ptr<AstNode> blockStatement();
 	std::unique_ptr<AstNode> varDeclarationStatement();
 	std::unique_ptr<AstNode> varAssignmentStatement();
-	std::unique_ptr<AstNode> parseExpressionStatement();
 	std::unique_ptr<AstNode> parseExpression();
 	std::unique_ptr<AstNode> parseTerm();
 	std::unique_ptr<AstNode> parseFactor();

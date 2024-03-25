@@ -132,7 +132,7 @@
     <ClCompile Include="blockstmtnode.cpp" />
     <ClCompile Include="boolnode.cpp" />
     <ClCompile Include="environment.cpp" />
-    <ClCompile Include="expressionstmtnode.cpp" />
+    <ClCompile Include="functioncallexpr.cpp" />
     <ClCompile Include="functionstmtnode.cpp" />
     <ClCompile Include="identifiernode.cpp" />
     <ClCompile Include="interpret.cpp" />
@@ -163,7 +163,6 @@
     <ClInclude Include="varassignmentstmtnode.hpp" />
     <ClInclude Include="variable.hpp" />
     <ClInclude Include="environment.hpp" />
-    <ClInclude Include="expressionstmtnode.hpp" />
     <ClInclude Include="vardeclarationnode.hpp" />
     <ClInclude Include="lexer.hpp" />
     <ClInclude Include="numbernode.hpp" />

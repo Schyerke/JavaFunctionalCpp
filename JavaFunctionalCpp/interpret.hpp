@@ -29,12 +29,12 @@ private:
 	std::any visitIdentifierNode(IdentifierNode& identifierNode);
 	std::any visitUnaryNode(UnaryNode& unaryNode);
 
-	std::any visitExpressionStmt(ExpressionStmtNode& expressionStmtNode);
 	std::any visitPrintStmt(PrintStmtNode& printStmtNode);
 	std::any visitVarDeclarationStmt(VarDeclarationNode& varDeclarationNode);
 	std::any visitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmentNode);
 
 	std::any visitFunctionStmtNode(FunctionStmtNode& functionStmtNode);
+	std::any visitFunctionCallNode(FunctionCallExpr& functionCallExpr);
 	std::any visitBlockStmtNode(BlockStmtNode& blockStmtNode);
 };
 

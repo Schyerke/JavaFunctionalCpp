@@ -17,9 +17,9 @@
 #include "varassignmentstmtnode.hpp"
 #include "vardeclarationnode.hpp"
 #include "functionstmtnode.hpp"
+#include "functioncallexpr.hpp"
 #include "blockstmtnode.hpp"
 
-#include "expressionstmtnode.hpp"
 #include "printstmtnode.hpp"
 
 #include "parser.hpp"
@@ -56,7 +56,7 @@ SyntaxToken Parser::next_token()
 	return SyntaxToken::SyntaxToken(END_OF_FILE_TOKEN, "", this->index - 1, 0, -1);
 }
 
-bool Parser::isAtEnd()
+bool Parser::is_at_end()
 {
 	if (this->index >= this->tokens.size()						||
 		this->tokens[this->index].get_token_t() == BAD_TOKEN    ||
@@ -76,32 +76,32 @@ void Parser::advance()
 	}
 }
 
-SyntaxToken Parser::peekNextNext()
+SyntaxToken Parser::peek_next_next()
 {
-	return lookAhead(2);
+	return look_ahead(2);
 }
 
-SyntaxToken Parser::peekNext()
+SyntaxToken Parser::peek_next()
 {
-	return lookAhead(1);
+	return look_ahead(1);
 }
 
 SyntaxToken Parser::peek()
 {
-	return lookAhead(0);
+	return look_ahead(0);
 }
 
 SyntaxToken Parser::previous()
 {
-	return lookAhead(-1);
+	return look_ahead(-1);
 }
 
 SyntaxToken Parser::previous_previous()
 {
-	return lookAhead(-2);
+	return look_ahead(-2);
 }
 
-SyntaxToken Parser::lookAhead(int offset) {
+SyntaxToken Parser::look_ahead(int offset) {
 	int index = offset + this->index;
 	if (index < this->tokens.size()) {
 		return this->tokens[index];
@@ -177,7 +177,7 @@ bool Parser::matchany(std::vector<Token_t> tokens)
 std::vector<std::unique_ptr<AstNode>> Parser::parse()
 {
 	std::vector<std::unique_ptr<AstNode>> statements;
-	while (!isAtEnd() && this->get_error_reports().empty())
+	while (!is_at_end() && this->get_error_reports().empty())
 	{
 		try
 		{
@@ -213,15 +213,7 @@ std::unique_ptr<AstNode> Parser::parseStatement()
 	{
 		return declarationStatement();
 	}
-	if (match(IDENTIFIER_TOKEN))
-	{
-		if (peekNext().get_token_t() == OPEN_PAREN)
-		{
-			functionCall();
-		}
-		return varAssignmentStatement();
-	}
-	return parseExpressionStatement();
+	return parseExpression();
 }
 
 std::unique_ptr<AstNode> Parser::parsePrintStatement()
@@ -239,9 +231,9 @@ std::unique_ptr<AstNode> Parser::declarationStatement()
 		INT_TYPE,
 		LONG_TYPE,
 		FLOAT_TYPE,
-		DOUBLE_TYPE}) && peekNext().get_token_t() == IDENTIFIER_TOKEN)
+		DOUBLE_TYPE}) && peek_next().get_token_t() == IDENTIFIER_TOKEN)
 	{
-		if (peekNextNext().get_token_t() == OPEN_PAREN)
+		if (peek_next_next().get_token_t() == OPEN_PAREN)
 		{
 			return functionDeclarationStatement();
 		}
@@ -282,14 +274,10 @@ std::unique_ptr<AstNode> Parser::functionDeclarationStatement()
 
 std::unique_ptr<AstNode> Parser::functionCall() 
 {
-	expect(OPEN_PAREN);
-	std::vector<std::unique_ptr<AstNode>> args;
-	if (not match(CLOSE_PAREN))
-	{
-		args = arguments();
-	}
+	SyntaxToken identifier = expect(IDENTIFIER_TOKEN);
+	std::vector<std::unique_ptr<AstNode>> args = arguments();
 	advance(); //skipping CLOSE_PAREN token
-	return {};
+	return std::make_unique<FunctionCallExpr>(identifier.get_value(), args);
 }
 
 std::vector<Variable> Parser::parameters()
@@ -327,7 +315,19 @@ std::vector<Variable> Parser::parameters()
 
 std::vector<std::unique_ptr<AstNode>> Parser::arguments()
 {
-	return {};
+	expect(OPEN_PAREN);
+	std::vector<std::unique_ptr<AstNode>> args;
+	while (not match(CLOSE_PAREN))
+	{
+		args.push_back(parseExpression());
+		if (match(CLOSE_PAREN))
+		{
+			break;
+		}
+		expect(COMMA_TOKEN);
+	}
+	advance(); // skipping CLOSE_PAREN token
+	return args;
 }
 
 std::unique_ptr<AstNode> Parser::blockStatement()
@@ -425,15 +425,16 @@ std::unique_ptr<AstNode> Parser::varAssignmentStatement()
 	return nullptr;
 }
 
-std::unique_ptr<AstNode> Parser::parseExpressionStatement()
-{
-	std::unique_ptr<AstNode> expression = parseExpression();
-	expect(SEMICOLON_TOKEN);
-	return std::make_unique<ExpressionStmtNode>(std::move(expression));
-}
-
 std::unique_ptr<AstNode> Parser::parseExpression()
 {
+	if (match(IDENTIFIER_TOKEN))
+	{
+		if (peek_next().get_token_t() == OPEN_PAREN)
+		{
+			return functionCall();
+		}
+		return varAssignmentStatement();
+	}
 	return parseTerm();
 }
 
