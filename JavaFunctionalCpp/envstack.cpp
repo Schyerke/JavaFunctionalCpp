@@ -1,13 +1,22 @@
 #include "envstack.hpp"
+#include "environment.hpp"
 
-Enviroment EnvStack::get_env()
+EnvStack::EnvStack()
 {
-    return this->envs[this->current--];
 }
 
-void EnvStack::add_env(Enviroment env)
+std::optional<Environment> EnvStack::get_env()
 {
-    this->envs[++this->last_index];
+    if (this->current >= 0)
+    {
+        return this->envs[current--];
+    }
+    return std::nullopt;
+}
+
+void EnvStack::add_env(Environment env)
+{
+    this->envs[++this->last_index] = env;
 }
 
 void EnvStack::reset()

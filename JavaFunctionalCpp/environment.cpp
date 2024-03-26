@@ -1,19 +1,20 @@
 #include "environment.hpp"
 
-Enviroment::Enviroment()
+
+Environment::Environment()
 {
 }
 
-Variable Enviroment::Var::get(std::string identifier)
+Variable Environment::Var::get(std::string identifier)
 {
-    if (this->variables.contains(identifier))
-    {
-        return this->variables[identifier];
-    }
+    
+
+
+
     throw std::invalid_argument("Identifier '" + identifier + "' not found.");
 }
 
-void Enviroment::Var::set(Variable variable)
+void Environment::Var::set(Variable variable)
 {
     if (this->variables.contains(variable.identifier))
     {
@@ -22,7 +23,7 @@ void Enviroment::Var::set(Variable variable)
     this->variables[variable.identifier] = variable;
 }
 
-void Enviroment::Var::assign(std::string identifier, std::any value)
+void Environment::Var::assign(std::string identifier, std::any value)
 {
     if (not this->variables.contains(identifier))
     {
@@ -33,7 +34,7 @@ void Enviroment::Var::assign(std::string identifier, std::any value)
     this->variables[identifier] = var;
 }
 
-FuncVariable Enviroment::FuncVar::get(std::string identifier)
+FuncVariable Environment::FuncVar::get(std::string identifier)
 {
     if (this->func_variables.contains(identifier))
     {
@@ -42,7 +43,7 @@ FuncVariable Enviroment::FuncVar::get(std::string identifier)
     throw std::invalid_argument("Function Identifier '" + identifier + "' not found.");
 }
 
-void Enviroment::FuncVar::set(FuncVariable func_var)
+void Environment::FuncVar::set(FuncVariable func_var)
 {
     if (this->func_variables.contains(func_var.identifier))
     {

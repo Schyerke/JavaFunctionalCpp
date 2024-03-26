@@ -1,15 +1,18 @@
 #pragma once
 
-#include "environment.hpp"
+#include <optional>
+#include <vector>
+
+class Environment;
 
 class EnvStack
 {
 public:
-	std::vector<Enviroment> envs;
+	std::vector<Environment> envs;
 	int last_index = 0;
 	int current = last_index;
 
-	Enviroment get_env();
-	void add_env(Enviroment env);
+	std::optional<Environment> get_env();
+	void add_env(Environment env);
 	void reset();
 };

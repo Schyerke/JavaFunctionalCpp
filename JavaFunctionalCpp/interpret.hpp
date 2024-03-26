@@ -11,13 +11,13 @@
 
 class Interpreter : public Visitor {
 public:
-	Interpreter(Enviroment env);
+	Interpreter(Environment env);
 	std::any interpret(std::unique_ptr<AstNode> root);
 	std::vector<std::string> get_runtime_errors();
 
 
 private:
-	Enviroment env;
+	Environment env;
 
 	std::vector<std::string> runtime_errors;
 	void report(std::string error);

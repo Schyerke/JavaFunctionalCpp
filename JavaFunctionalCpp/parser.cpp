@@ -24,7 +24,7 @@
 
 #include "parser.hpp"
 
-Parser::Parser(std::string program, Enviroment env)
+Parser::Parser(std::string program, Environment env)
 {
 	this->env = std::move(env);
 

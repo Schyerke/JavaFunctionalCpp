@@ -7,8 +7,8 @@
 class Semantic : public Visitor
 {
 public:
-	Enviroment env;
-	Semantic(Enviroment env);
+	Environment env;
+	Semantic(Environment env);
 
 	std::vector<std::string> analyse(std::vector<std::unique_ptr<AstNode>>& statements);
 

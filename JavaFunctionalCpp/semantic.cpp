@@ -9,7 +9,7 @@
 #include "varassignmentstmtnode.hpp"
 #include "vardeclarationnode.hpp"
 
-Semantic::Semantic(Enviroment env)
+Semantic::Semantic(Environment env)
 {
 	this->env = std::move(env);
 }

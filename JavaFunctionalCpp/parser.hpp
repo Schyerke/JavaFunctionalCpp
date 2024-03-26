@@ -11,12 +11,12 @@
 class Parser
 {
 public:
-	Parser(std::string program, Enviroment env);
+	Parser(std::string program, Environment env);
 
 	std::vector<std::unique_ptr<AstNode>> parse();
 	std::vector<std::string> get_error_reports();
 private:
-	Enviroment env;
+	Environment env;
 	std::vector<SyntaxToken> tokens;
 	int index;
 

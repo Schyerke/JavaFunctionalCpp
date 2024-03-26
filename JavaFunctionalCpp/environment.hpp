@@ -3,12 +3,16 @@
 #include <iostream>
 #include <string>
 #include <unordered_map>
+#include <optional>
+#include <vector>
 
 #include "vardeclarationnode.hpp"
 
-class Enviroment {
+class EnvStack;
+
+class Environment {
 public:
-	Enviroment();
+	Environment();
 
 	class Var
 	{
@@ -31,4 +35,20 @@ public:
 
 	Var var;
 	FuncVar func_var;
+
+private:
+	EnvStack envstack;
+};
+
+class EnvStack
+{
+public:
+	EnvStack();
+	std::vector<Environment> envs;
+	int last_index = 0;
+	int current = last_index;
+
+	std::optional<Environment> get_env();
+	void add_env(Environment env);
+	void reset();
 };

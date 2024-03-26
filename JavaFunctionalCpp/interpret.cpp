@@ -14,7 +14,7 @@
 #include "vardeclarationnode.hpp"
 #include "varassignmentstmtnode.hpp"
 
-Interpreter::Interpreter(Enviroment env)
+Interpreter::Interpreter(Environment env)
 {
     this->env = std::move(env);
 }
