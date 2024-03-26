@@ -34,8 +34,14 @@ void F2(Person person)
 	w[2] = std::move(person);
 }
 
+std::pair<int, char> g5()
+{
+	return { 2, 's' };
+}
+
 int main() {
-	
+	std::pair s = g5();
+	cout << s.first;
 	
 
 	return 0;
