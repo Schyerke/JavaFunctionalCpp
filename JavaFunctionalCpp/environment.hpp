@@ -39,16 +39,3 @@ public:
 private:
 	EnvStack envstack;
 };
-
-class EnvStack
-{
-public:
-	EnvStack();
-	std::vector<Environment> envs;
-	int last_index = 0;
-	int current = last_index;
-
-	std::optional<Environment> get_env();
-	void add_env(Environment env);
-	void reset();
-};

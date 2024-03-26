@@ -3,6 +3,8 @@
 #include <optional>
 #include <vector>
 
+#include <iostream>
+
 class Environment;
 
 class EnvStack
