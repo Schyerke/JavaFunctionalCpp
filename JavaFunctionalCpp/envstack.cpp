@@ -25,10 +25,10 @@ std::pair<Variable, Environment> EnvStack::get(std::string identifier)
     Environment env = env_op.value();
     if (env.var.get(identifier) == std::nullopt)
     {
-        return { get(identifier), env };
+        return std::move(get(identifier));
     }
     reset();
-    return { env.var.get(identifier).value(), env };
+    return { env.var.get(identifier).value(), env};
 }
 
 void EnvStack::add(Environment env)
@@ -39,16 +39,15 @@ void EnvStack::add(Environment env)
 
 void EnvStack::add(Variable var)
 {
-    Environment env = get().value();
+    Environment env = std::move(get().value());
     env.var.set(var);
     reset();
 }
 
 void EnvStack::assign(std::string identifier, std::any value)
 {
-    Variable var_op = get(identifier);
-    var_op.value = value;
-
+    std::pair<Variable, Environment> var_op = get(identifier);
+    var_op.second.var.assign(identifier, std::move(var_op.first));
 }
 
 void EnvStack::reset()

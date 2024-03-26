@@ -501,8 +501,8 @@ std::unique_ptr<AstNode> Parser::parsePrimary()
 		prev_prev.get_token_t() == IDENTIFIER_TOKEN)
 	{
 		token = next_token();
-		Variable var = this->env_stack.get(prev_prev.get_value());
-		switch (var.dtType)
+		std::pair<Variable, Environment> var = std::move(this->env_stack.get(prev_prev.get_value()));
+		switch (var.first.dtType)
 		{
 		case DT_SHORT:
 			return std::make_unique<NumberNode>((short)stoi(token.get_value()));

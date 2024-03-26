@@ -108,8 +108,8 @@ std::any Semantic::visitIdentifierNode(IdentifierNode& identifierNode)
 {
 	try 
 	{
-		Variable v = this->env_stack.get(identifierNode.identifier);
-		return v.value;
+		std::pair<Variable, Environment> v = this->env_stack.get(identifierNode.identifier);
+		return v.first.value;
 	}
 	catch (std::invalid_argument e)
 	{
@@ -152,7 +152,7 @@ std::any Semantic::visitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmentNo
 	varAssignmentNode.expression->accept(*this);
 	try
 	{
-		return this->env_stack.get(varAssignmentNode.identifier).dtType;
+		return this->env_stack.get(varAssignmentNode.identifier).first.dtType;
 	}
 	catch (std::invalid_argument e)
 	{

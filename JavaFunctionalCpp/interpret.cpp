@@ -54,8 +54,8 @@ std::any Interpreter::visitStringNode(StringNode& stringNode)
 
 std::any Interpreter::visitIdentifierNode(IdentifierNode& identifierNode)
 {
-    Variable var = std::move(this->env_stack.get(identifierNode.identifier));
-    return var.value;
+    std::pair<Variable, Environment> var = this->env_stack.get(identifierNode.identifier);
+    return var.first.value;
 }
 
 std::any Interpreter::visitUnaryNode(UnaryNode& unaryNode)

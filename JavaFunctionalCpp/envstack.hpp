@@ -18,7 +18,7 @@ public:
 	int current = last_index;
 
 	std::optional<Environment> get();
-	Variable get(std::string identifier);
+	std::pair<Variable, Environment> get(std::string identifier);
 	void add(Environment env);
 	void add(Variable var);
 	void assign(std::string identifier, std::any value);
