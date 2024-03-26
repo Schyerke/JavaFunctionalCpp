@@ -2,13 +2,14 @@
 
 #include "astnode.hpp"
 #include "environment.hpp"
+#include "envstack.hpp"
 
 
 class Semantic : public Visitor
 {
 public:
-	Environment env;
-	Semantic(Environment env);
+	EnvStack env_stack;
+	Semantic(EnvStack env);
 
 	std::vector<std::string> analyse(std::vector<std::unique_ptr<AstNode>>& statements);
 

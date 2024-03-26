@@ -8,16 +8,17 @@
 #include "varassignmentstmtnode.hpp"
 
 #include "environment.hpp"
+#include "envstack.hpp"
 
 class Interpreter : public Visitor {
 public:
-	Interpreter(Environment env);
+	Interpreter(EnvStack env_stack);
 	std::any interpret(std::unique_ptr<AstNode> root);
 	std::vector<std::string> get_runtime_errors();
 
 
 private:
-	Environment env;
+	EnvStack env_stack;
 
 	std::vector<std::string> runtime_errors;
 	void report(std::string error);

@@ -24,9 +24,9 @@
 
 #include "parser.hpp"
 
-Parser::Parser(std::string program, Environment env)
+Parser::Parser(std::string program, EnvStack env_stack)
 {
-	this->env = std::move(env);
+	this->env_stack = std::move(env_stack);
 
 	Lexer lexer(program);
 
@@ -265,11 +265,9 @@ std::unique_ptr<AstNode> Parser::functionDeclarationStatement()
 	}
 	advance(); // skipping CLOSE_PAREN TOKEN
 	
-	std::unique_ptr<AstNode> blockstmt = blockStatement();
+	std::unique_ptr<AstNode> blockstmt = blockStatement(formal_parameters, func_var.identifier);
 	func_var.block_stmt = std::move(blockstmt);
-	FuncVariable func_var_temp = func_var;
-	this->env.func_var.set(std::move(func_var));
-	return std::make_unique<FunctionStmtNode>(std::move(func_var_temp), std::move(formal_parameters));
+	return std::make_unique<FunctionStmtNode>(std::move(func_var), std::move(formal_parameters));
 }
 
 std::unique_ptr<AstNode> Parser::functionCall() 
@@ -330,9 +328,18 @@ std::vector<std::unique_ptr<AstNode>> Parser::arguments()
 	return args;
 }
 
-std::unique_ptr<AstNode> Parser::blockStatement()
+std::unique_ptr<AstNode> Parser::blockStatement(std::vector<Variable> pre_vars, std::string func_id = "")
 {
 	expect(OPEN_CURLY_BRACKET);
+
+	Environment block_env;
+	block_env.identifier = func_id;
+	for (auto v : pre_vars)
+	{
+		block_env.var.set(v);
+	}
+	this->env_stack.add(block_env);
+
 	std::vector<std::unique_ptr<AstNode>> stmts;
 	while (not match(CLOSE_CURLY_BRACKET))
 	{
@@ -356,7 +363,7 @@ std::unique_ptr<AstNode> Parser::varDeclarationStatement()
 	Variable var;
 	var.dtType = from_TokenT_to_DataType(dt.get_token_t());
 	var.identifier = identifier.get_value();
-	this->env.var.set(var);
+	this->env_stack.add(var);
 	std::unique_ptr<AstNode> expression;
 	if (expect_optional(EQUAL_TOKEN))
 	{
@@ -420,7 +427,7 @@ std::unique_ptr<AstNode> Parser::varAssignmentStatement()
 		expect(SEMICOLON_TOKEN);
 		return std::make_unique<VarAssignmentStmtNode>(identifier.get_value(), std::move(expression));
 	}
-	this->env.var.get(identifier.get_value());
+	this->env_stack.get(identifier.get_value());
 	expect(SEMICOLON_TOKEN);
 	return nullptr;
 }
@@ -494,7 +501,7 @@ std::unique_ptr<AstNode> Parser::parsePrimary()
 		prev_prev.get_token_t() == IDENTIFIER_TOKEN)
 	{
 		token = next_token();
-		Variable var = this->env.var.get(prev_prev.get_value());
+		Variable var = this->env_stack.get(prev_prev.get_value());
 		switch (var.dtType)
 		{
 		case DT_SHORT:

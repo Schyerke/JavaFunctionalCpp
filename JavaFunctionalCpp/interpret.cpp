@@ -14,9 +14,9 @@
 #include "vardeclarationnode.hpp"
 #include "varassignmentstmtnode.hpp"
 
-Interpreter::Interpreter(Environment env)
+Interpreter::Interpreter(EnvStack env_stack)
 {
-    this->env = std::move(env);
+    this->env_stack = std::move(env_stack);
 }
 
 std::any Interpreter::interpret(std::unique_ptr<AstNode> root)
@@ -54,7 +54,7 @@ std::any Interpreter::visitStringNode(StringNode& stringNode)
 
 std::any Interpreter::visitIdentifierNode(IdentifierNode& identifierNode)
 {
-    Variable var = std::move(this->env.var.get(identifierNode.identifier));
+    Variable var = std::move(this->env_stack.get(identifierNode.identifier));
     return var.value;
 }
 
@@ -119,7 +119,7 @@ std::any Interpreter::visitVarDeclarationStmt(VarDeclarationNode& varDeclaration
     {
         var.value = nullptr;
     }
-    this->env.var.set(var);
+    this->env_stack.add(var);
     
     return std::any();
 }
@@ -128,7 +128,7 @@ std::any Interpreter::visitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmen
 {
     std::string identifier = varAssignmentNode.identifier;
     std::any value = varAssignmentNode.expression->accept(*this);
-    this->env.var.assign(identifier, value);
+    this->env_stack.assign(identifier, value);
     
     return std::any();
 }

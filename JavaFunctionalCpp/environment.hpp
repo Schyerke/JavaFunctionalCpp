@@ -8,16 +8,15 @@
 
 #include "vardeclarationnode.hpp"
 
-class EnvStack;
-
 class Environment {
 public:
+	std::string identifier; // could be function name, or null (general blockstmt)
 	Environment();
 
 	class Var
 	{
 	public:
-		Variable get(std::string identifier);
+		std::optional<Variable> get(std::string identifier);
 		void set(Variable variable);
 		void assign(std::string identifier, std::any value);
 	private:
@@ -35,7 +34,4 @@ public:
 
 	Var var;
 	FuncVar func_var;
-
-private:
-	EnvStack envstack;
 };

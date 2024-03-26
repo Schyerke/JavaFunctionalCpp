@@ -5,13 +5,13 @@ Environment::Environment()
 {
 }
 
-Variable Environment::Var::get(std::string identifier)
+std::optional<Variable> Environment::Var::get(std::string identifier)
 {
-    
-
-
-
-    throw std::invalid_argument("Identifier '" + identifier + "' not found.");
+    if (this->variables.contains(identifier))
+    {
+        return this->variables[identifier];
+    }
+    return std::nullopt;
 }
 
 void Environment::Var::set(Variable variable)

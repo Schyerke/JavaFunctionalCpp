@@ -9,9 +9,9 @@
 #include "varassignmentstmtnode.hpp"
 #include "vardeclarationnode.hpp"
 
-Semantic::Semantic(Environment env)
+Semantic::Semantic(EnvStack env_stack)
 {
-	this->env = std::move(env);
+	this->env_stack = std::move(env_stack);
 }
 
 std::vector<std::string> Semantic::analyse(std::vector<std::unique_ptr<AstNode>>& statements)
@@ -108,7 +108,7 @@ std::any Semantic::visitIdentifierNode(IdentifierNode& identifierNode)
 {
 	try 
 	{
-		Variable v = this->env.var.get(identifierNode.identifier);
+		Variable v = this->env_stack.get(identifierNode.identifier);
 		return v.value;
 	}
 	catch (std::invalid_argument e)
@@ -138,7 +138,7 @@ std::any Semantic::visitVarDeclarationStmt(VarDeclarationNode& varDeclarationNod
 	var.value = varDeclarationNode.expression->accept(*this);
 	try
 	{
-		this->env.var.set(var);
+		this->env_stack.add(var);
 	}
 	catch (std::invalid_argument e)
 	{
@@ -152,7 +152,7 @@ std::any Semantic::visitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmentNo
 	varAssignmentNode.expression->accept(*this);
 	try
 	{
-		return this->env.var.get(varAssignmentNode.identifier).dtType;
+		return this->env_stack.get(varAssignmentNode.identifier).dtType;
 	}
 	catch (std::invalid_argument e)
 	{

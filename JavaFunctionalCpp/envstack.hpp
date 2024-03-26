@@ -2,19 +2,25 @@
 
 #include <optional>
 #include <vector>
-
 #include <iostream>
+
+#include "variable.hpp"
 
 class Environment;
 
 class EnvStack
 {
 public:
+	EnvStack();
+
 	std::vector<Environment> envs;
 	int last_index = 0;
 	int current = last_index;
 
-	std::optional<Environment> get_env();
-	void add_env(Environment env);
+	std::optional<Environment> get();
+	Variable get(std::string identifier);
+	void add(Environment env);
+	void add(Variable var);
+	void assign(std::string identifier, std::any value);
 	void reset();
 };

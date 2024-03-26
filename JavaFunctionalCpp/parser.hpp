@@ -7,16 +7,17 @@
 #include "lexer.hpp"
 #include "astnode.hpp"
 #include "environment.hpp"
+#include "envstack.hpp"
 
 class Parser
 {
 public:
-	Parser(std::string program, Environment env);
+	Parser(std::string program, EnvStack env);
 
 	std::vector<std::unique_ptr<AstNode>> parse();
 	std::vector<std::string> get_error_reports();
 private:
-	Environment env;
+	EnvStack env_stack;
 	std::vector<SyntaxToken> tokens;
 	int index;
 
@@ -45,7 +46,7 @@ private:
 	std::unique_ptr<AstNode> functionCall();
 	std::vector<Variable> parameters();
 	std::vector<std::unique_ptr<AstNode>> arguments();
-	std::unique_ptr<AstNode> blockStatement();
+	std::unique_ptr<AstNode> blockStatement(std::vector<Variable> pre_vars, std::string func_id);
 	std::unique_ptr<AstNode> varDeclarationStatement();
 	std::unique_ptr<AstNode> varAssignmentStatement();
 	std::unique_ptr<AstNode> parseExpression();
