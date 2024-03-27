@@ -10,6 +10,9 @@
 
 class Environment {
 public:
+	Environment(Environment&& env) = default;
+	Environment(Environment& env) = delete;
+
 	std::string identifier; // could be function name, or null (general blockstmt)
 	Environment();
 
