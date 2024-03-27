@@ -8,7 +8,7 @@ EnvStack::EnvStack()
 
 std::optional<Environment> EnvStack::get()
 {
-    if (this->current >= 0 && not this->envs.size() == 0)
+    if (not this->envs.empty())
     {
         return std::make_optional<Environment>(std::move(this->envs.at(current--)));
     }
@@ -23,12 +23,12 @@ std::pair<Variable, Environment> EnvStack::get(std::string identifier)
         throw std::invalid_argument("Variable Identifier '" + identifier + "' not found.");
     }
     Environment env = std::move(env_op.value());
-    if (env.var.get(identifier) == std::nullopt)
+    if (env.env_var.get(identifier) == std::nullopt)
     {
         return std::move(get(identifier));
     }
     reset();
-    return { std::move(env.var.get(identifier).value()), std::move(env)};
+    return { std::move(env.env_var.get(identifier).value()), std::move(env)};
 }
 
 void EnvStack::add(Environment env)
@@ -41,14 +41,14 @@ void EnvStack::add(Environment env)
 void EnvStack::add(Variable var)
 {
     Environment env = std::move(get().value());
-    env.var.set(std::move(var));
+    env.env_var.set(std::move(var));
     reset();
 }
 
 void EnvStack::assign(std::string identifier, std::any value)
 {
     std::pair<Variable, Environment> var_op = std::move(get(identifier));
-    var_op.second.var.assign(identifier, std::move(var_op.first));
+    var_op.second.env_var.assign(identifier, std::move(var_op.first));
 }
 
 void EnvStack::reset()

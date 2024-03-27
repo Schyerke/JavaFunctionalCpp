@@ -13,7 +13,7 @@ public:
 	std::string identifier; // could be function name, or null (general blockstmt)
 	Environment();
 
-	class Var
+	class EnvVar
 	{
 	public:
 		std::optional<Variable> get(std::string identifier);
@@ -23,7 +23,7 @@ public:
 		std::unordered_map<std::string, Variable> variables;
 	};
 
-	class FuncVar
+	class EnvFuncVar
 	{
 	public:
 		FuncVariable get(std::string identifier);
@@ -32,6 +32,6 @@ public:
 		std::unordered_map<std::string, FuncVariable> func_variables;
 	};
 
-	Var var;
-	FuncVar func_var;
+	EnvVar env_var;
+	EnvFuncVar env_func_var;
 };

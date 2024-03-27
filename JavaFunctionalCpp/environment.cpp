@@ -5,7 +5,7 @@ Environment::Environment()
 {
 }
 
-std::optional<Variable> Environment::Var::get(std::string identifier)
+std::optional<Variable> Environment::EnvVar::get(std::string identifier)
 {
     if (this->variables.contains(identifier))
     {
@@ -14,7 +14,7 @@ std::optional<Variable> Environment::Var::get(std::string identifier)
     return std::nullopt;
 }
 
-void Environment::Var::set(Variable variable)
+void Environment::EnvVar::set(Variable variable)
 {
     if (this->variables.contains(variable.identifier))
     {
@@ -23,7 +23,7 @@ void Environment::Var::set(Variable variable)
     this->variables[variable.identifier] = variable;
 }
 
-void Environment::Var::assign(std::string identifier, std::any value)
+void Environment::EnvVar::assign(std::string identifier, std::any value)
 {
     if (not this->variables.contains(identifier))
     {
@@ -34,7 +34,7 @@ void Environment::Var::assign(std::string identifier, std::any value)
     this->variables[identifier] = var;
 }
 
-FuncVariable Environment::FuncVar::get(std::string identifier)
+FuncVariable Environment::EnvFuncVar::get(std::string identifier)
 {
     if (this->func_variables.contains(identifier))
     {
@@ -43,7 +43,7 @@ FuncVariable Environment::FuncVar::get(std::string identifier)
     throw std::invalid_argument("Function Identifier '" + identifier + "' not found.");
 }
 
-void Environment::FuncVar::set(FuncVariable func_var)
+void Environment::EnvFuncVar::set(FuncVariable func_var)
 {
     if (this->func_variables.contains(func_var.identifier))
     {
