@@ -40,9 +40,9 @@ std::pair<int, char> g5()
 }
 
 int main() {
-	std::pair s = g5();
-	cout << s.first;
+	std::vector<int> vec = { 1,2,3,4 };
 	
+	cout << vec.at(5);
 
 	return 0;
 }

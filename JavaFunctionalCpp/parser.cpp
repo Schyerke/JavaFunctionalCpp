@@ -334,11 +334,11 @@ std::unique_ptr<AstNode> Parser::blockStatement(std::vector<Variable> pre_vars, 
 
 	Environment block_env;
 	block_env.identifier = func_id;
-	for (auto v : pre_vars)
+	for (auto pre_var : pre_vars)
 	{
-		block_env.var.set(v);
+		block_env.var.set(pre_var);
 	}
-	this->env_stack.add(block_env);
+	this->env_stack.add(std::move(block_env));
 
 	std::vector<std::unique_ptr<AstNode>> stmts;
 	while (not match(CLOSE_CURLY_BRACKET))
