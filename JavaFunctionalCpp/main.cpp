@@ -4,6 +4,8 @@
 #include <vector>
 #include <string>
 
+#include "functionmemory.hpp"
+
 #include "lexer.hpp"
 #include "parser.hpp"
 #include "astnode.hpp"
@@ -48,8 +50,10 @@ auto read_file(std::string_view path) -> std::string
 int main()
 {
 	std::string program = read_file("main.jpp");
+
 	EnvStack p_env;
-	Parser parser(program, std::move(p_env));
+	FunctionMemory function_memory;
+	Parser parser(program, std::move(p_env), function_memory);
 	std::vector<std::unique_ptr<AstNode>> statements = std::move(parser.parse());
 
 	std::vector<std::string> error_reports = parser.get_error_reports();
@@ -62,7 +66,7 @@ int main()
 	}
 
 	EnvStack sem_env;
-	Semantic semantic = Semantic(std::move(sem_env));
+	Semantic semantic = Semantic(std::move(sem_env), function_memory);
 	std::vector<std::string> semantic_errors = semantic.analyse(statements);
 	if (not semantic_errors.empty())
 	{
@@ -72,7 +76,7 @@ int main()
 	}
 
 	EnvStack env;
-	Interpreter interpreter(std::move(env));
+	Interpreter interpreter(std::move(env), function_memory);
 	for (std::unique_ptr<AstNode>& stmt : statements)
 	{
 		interpreter.interpret(std::move(stmt));

@@ -93,6 +93,9 @@
     <ClCompile Include="envstack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="functionmemory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lexer.hpp">
@@ -162,6 +165,9 @@
       <Filter>Header Files\expression</Filter>
     </ClInclude>
     <ClInclude Include="envstack.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="functionmemory.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

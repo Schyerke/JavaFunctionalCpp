@@ -4,12 +4,14 @@
 #include "environment.hpp"
 #include "envstack.hpp"
 
+#include "functionmemory.hpp"
 
 class Semantic : public Visitor
 {
 public:
 	EnvStack env_stack;
-	Semantic(EnvStack env);
+	FunctionMemory function_memory;
+	Semantic(EnvStack env, FunctionMemory& function_memory);
 
 	std::vector<std::string> analyse(std::vector<std::unique_ptr<AstNode>>& statements);
 

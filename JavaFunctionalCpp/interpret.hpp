@@ -8,17 +8,19 @@
 #include "varassignmentstmtnode.hpp"
 
 #include "environment.hpp"
+#include "functionmemory.hpp"
 #include "envstack.hpp"
 
 class Interpreter : public Visitor {
 public:
-	Interpreter(EnvStack env_stack);
+	Interpreter(EnvStack env_stack, FunctionMemory& function_memory);
 	std::any interpret(std::unique_ptr<AstNode> root);
 	std::vector<std::string> get_runtime_errors();
 
 
 private:
 	EnvStack env_stack;
+	FunctionMemory& function_memory;
 
 	std::vector<std::string> runtime_errors;
 	void report(std::string error);

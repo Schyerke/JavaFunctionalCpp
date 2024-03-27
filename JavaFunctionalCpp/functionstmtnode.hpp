@@ -9,10 +9,10 @@ class FunctionStmtNode : public AstNode
 {
 public:
 
-	FunctionStmtNode(FuncVariable var, std::vector<Variable> formal_parameters);
+	FunctionStmtNode(std::string identifier, std::vector<Variable> formal_parameters);
 
 	std::any accept(Visitor& visitor);
 	
-	FuncVariable var;
+	std::string identifier;
 	std::vector<Variable> formal_parameters;
 };

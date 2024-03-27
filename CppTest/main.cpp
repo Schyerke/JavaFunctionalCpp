@@ -5,26 +5,19 @@
 
 using namespace std;
 
-class Person {
+class A
+{
 public:
-
-	Person()
-	{
-
-	}
-
-	Person(Person&& p)
-	{
-
-	};
-	Person(Person& p) = delete;
-
-	int age = 0;
+	std::unique_ptr< int > up_;
+	A(int i) : up_(new int(i)) {}
+	A(const A& a) : up_(new int(*a.up_)) {}
 };
 
-int main(int argc, char** argv)
+int main()
 {
-	Person person;
-	person.age = 52;
-	Person p1 = std::move(person);
+	A a(42);
+	A b = a;
+
+	cout << *a.up_;
+	cout << endl << *b.up_;
 }

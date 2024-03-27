@@ -13,8 +13,10 @@
 #include "printstmtnode.hpp"
 #include "vardeclarationnode.hpp"
 #include "varassignmentstmtnode.hpp"
+#include "functionstmtnode.hpp"
 
-Interpreter::Interpreter(EnvStack env_stack)
+Interpreter::Interpreter(EnvStack env_stack, FunctionMemory& function_memory)
+    : function_memory(function_memory)
 {
     this->env_stack = std::move(env_stack);
 }
@@ -135,7 +137,8 @@ std::any Interpreter::visitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmen
 
 std::any Interpreter::visitFunctionStmtNode(FunctionStmtNode& functionStmtNode)
 {
-    return std::any();
+    FuncVariable func_var = std::move(this->function_memory.get(functionStmtNode.identifier));
+
 }
 
 std::any Interpreter::visitFunctionCallNode(FunctionCallExpr& functionCallExpr)

@@ -26,15 +26,5 @@ public:
 		std::unordered_map<std::string, Variable> variables;
 	};
 
-	class EnvFuncVar
-	{
-	public:
-		FuncVariable get(std::string identifier);
-		void set(FuncVariable func_var);
-	private:
-		std::unordered_map<std::string, FuncVariable> func_variables;
-	};
-
 	EnvVar env_var;
-	EnvFuncVar env_func_var;
 };

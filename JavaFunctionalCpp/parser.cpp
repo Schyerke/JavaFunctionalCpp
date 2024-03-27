@@ -24,7 +24,8 @@
 
 #include "parser.hpp"
 
-Parser::Parser(std::string program, EnvStack env_stack)
+Parser::Parser(std::string program, EnvStack env_stack, FunctionMemory& function_memory)
+	: function_memory(function_memory)
 {
 	this->env_stack = std::move(env_stack);
 
@@ -220,7 +221,10 @@ std::unique_ptr<AstNode> Parser::parsePrintStatement()
 {
 	advance();
 	std::unique_ptr<AstNode> expression = parseExpression();
-	expect(SEMICOLON_TOKEN);
+	if (expression != nullptr)
+	{
+		expect(SEMICOLON_TOKEN);
+	}
 	return std::make_unique<PrintStmtNode>(std::move(expression));
 }
 
@@ -267,7 +271,8 @@ std::unique_ptr<AstNode> Parser::functionDeclarationStatement()
 	
 	std::unique_ptr<AstNode> blockstmt = blockStatement(formal_parameters, func_var.identifier);
 	func_var.block_stmt = std::move(blockstmt);
-	return std::make_unique<FunctionStmtNode>(std::move(func_var), std::move(formal_parameters));
+	this->function_memory.add(std::move(func_var));
+	return std::make_unique<FunctionStmtNode>(func_var.identifier, std::move(formal_parameters));
 }
 
 std::unique_ptr<AstNode> Parser::functionCall() 

@@ -9,15 +9,18 @@
 #include "environment.hpp"
 #include "envstack.hpp"
 
+#include "functionmemory.hpp"
+
 class Parser
 {
 public:
-	Parser(std::string program, EnvStack env);
+	Parser(std::string program, EnvStack env, FunctionMemory& function_memory);
 
 	std::vector<std::unique_ptr<AstNode>> parse();
 	std::vector<std::string> get_error_reports();
 private:
 	EnvStack env_stack;
+	FunctionMemory& function_memory;
 	std::vector<SyntaxToken> tokens;
 	int index;
 

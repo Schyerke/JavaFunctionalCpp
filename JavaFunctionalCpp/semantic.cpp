@@ -9,7 +9,8 @@
 #include "varassignmentstmtnode.hpp"
 #include "vardeclarationnode.hpp"
 
-Semantic::Semantic(EnvStack env_stack)
+Semantic::Semantic(EnvStack env_stack, FunctionMemory& function_memory)
+	: function_memory(function_memory)
 {
 	this->env_stack = std::move(env_stack);
 }
