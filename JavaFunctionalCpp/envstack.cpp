@@ -34,14 +34,14 @@ std::pair<Variable, Environment> EnvStack::get(std::string identifier)
 void EnvStack::add(Environment env)
 {
     //this->envs[++this->last_index] = std::move(env);
-    //this->envs.push_back(std::move(env));
+    this->envs.emplace_back(env);
     reset();
 }
 
 void EnvStack::add(Variable var)
 {
     Environment env = std::move(get().value());
-    env.var.set(var);
+    env.var.set(std::move(var));
     reset();
 }
 

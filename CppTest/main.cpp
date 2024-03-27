@@ -10,40 +10,21 @@
 
 using namespace std;
 
-struct Person
-{
-	Person()
-	{
-
-	}
-	unique_ptr<int> age;
-	string name = "he";
+class Cat {
+	std::unique_ptr<std::string> w;
 };
 
-
-unordered_map<int, Person> w;
-
-
-void F1(Person person)
+class Person
 {
-	cout << person.name << endl;
-}
-
-void F2(Person person)
-{
-	w[2] = std::move(person);
-}
-
-std::pair<int, char> g5()
-{
-	return { 2, 's' };
-}
-
+	std::unique_ptr<int> age;
+	std::unordered_map<int, Cat> lll;
+};
 int main() {
-	std::vector<int> vec = { 1,2,3,4 };
-	
-	cout << vec.at(5);
 
+	Person person;
+	
+	std::vector<Person> vec;
+	vec.push_back(std::move(person));
 	return 0;
 }
 
