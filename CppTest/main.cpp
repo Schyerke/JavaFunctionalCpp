@@ -1,22 +1,30 @@
 #include <vector>
 #include <memory>
 #include <list>
+#include <iostream>
 
 using namespace std;
 
-struct A
-{
-    int a;
-};
+class Person {
+public:
 
-template<typename T>
-struct B
-{
-    T t;
+	Person()
+	{
+
+	}
+
+	Person(Person&& p)
+	{
+
+	};
+	Person(Person& p) = delete;
+
+	int age = 0;
 };
 
 int main(int argc, char** argv)
 {
-    vector<B< vector<list<unique_ptr<A>>>>> v;
-    v.emplace_back();
+	Person person;
+	person.age = 52;
+	Person p1 = std::move(person);
 }
