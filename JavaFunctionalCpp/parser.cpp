@@ -271,8 +271,9 @@ std::unique_ptr<AstNode> Parser::functionDeclarationStatement()
 	
 	std::unique_ptr<AstNode> blockstmt = blockStatement(formal_parameters, func_var.identifier);
 	func_var.block_stmt = std::move(blockstmt);
+	std::string func_id = func_var.identifier;
 	this->function_memory.add(std::move(func_var));
-	return std::make_unique<FunctionStmtNode>(func_var.identifier, std::move(formal_parameters));
+	return std::make_unique<FunctionStmtNode>(func_id, std::move(formal_parameters));
 }
 
 std::unique_ptr<AstNode> Parser::functionCall() 
