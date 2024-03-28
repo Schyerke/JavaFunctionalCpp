@@ -81,9 +81,6 @@
     <ClCompile Include="semantic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="functionstmtnode.cpp">
-      <Filter>Source Files\statements</Filter>
-    </ClCompile>
     <ClCompile Include="blockstmtnode.cpp">
       <Filter>Source Files\statements</Filter>
     </ClCompile>
@@ -156,9 +153,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="blockstmtnode.hpp">
-      <Filter>Header Files\statements</Filter>
-    </ClInclude>
-    <ClInclude Include="functionstmtnode.hpp">
       <Filter>Header Files\statements</Filter>
     </ClInclude>
     <ClInclude Include="functioncallexpr.hpp">

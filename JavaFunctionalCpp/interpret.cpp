@@ -9,11 +9,12 @@
 #include "unarynode.hpp"
 #include "stringnode.hpp"
 #include "identifiernode.hpp"
+#include "functioncallexpr.hpp"
 
 #include "printstmtnode.hpp"
 #include "vardeclarationnode.hpp"
 #include "varassignmentstmtnode.hpp"
-#include "functionstmtnode.hpp"
+#include "blockstmtnode.hpp"
 
 Interpreter::Interpreter(EnvStack env_stack, FunctionMemory& function_memory)
     : function_memory(function_memory)
@@ -113,13 +114,10 @@ std::any Interpreter::visitVarDeclarationStmt(VarDeclarationNode& varDeclaration
     Variable var;
     var.dtType = from_TokenT_to_DataType(varDeclarationNode.variableType);
     var.identifier = varDeclarationNode.identifier;
+    var.value = nullptr;
     if (varDeclarationNode.expression != nullptr)
     {
         var.value = varDeclarationNode.expression->accept(*this);
-    }
-    else
-    {
-        var.value = nullptr;
     }
     this->env_stack.add(var);
     
@@ -135,20 +133,50 @@ std::any Interpreter::visitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmen
     return std::any();
 }
 
-std::any Interpreter::visitFunctionStmtNode(FunctionStmtNode& functionStmtNode)
-{
-    FuncVariable func_var = std::move(this->function_memory.get(functionStmtNode.identifier));
-
-}
-
 std::any Interpreter::visitFunctionCallNode(FunctionCallExpr& functionCallExpr)
 {
-    return std::any();
+    FuncVariable func_var = this->function_memory.get(functionCallExpr.identifier);
+    std::cout << functionCallExpr.arguments.size();
+    if (func_var.parameters.size() != functionCallExpr.arguments.size())
+    {
+        throw std::invalid_argument("Parameter size for funciton '" + func_var.identifier + "' is invalid for its arguments.");
+    }
+    for (int i = 0; i < func_var.parameters.size(); i++)
+    {
+        Variable& var = func_var.parameters.at(i);
+        std::any par_expr = functionCallExpr.arguments.at(i)->accept(*this);
+
+        if (par_expr.type() == typeid(NUMBER_DT))
+        {
+            std::visit([&var]<class T>(T number)
+            {
+                var.value = (T)number;
+            }, std::any_cast<NUMBER_DT>(par_expr));
+        }
+        if (par_expr.type() == typeid(bool))
+        {
+            var.value = std::any_cast<bool>(par_expr);
+        }
+    }
+    this->buffer_function_parameters = func_var.parameters;
+    func_var.block_stmt->accept(*this);
+    return {};
 }
 
 std::any Interpreter::visitBlockStmtNode(BlockStmtNode& blockStmtNode)
 {
-    return std::any();
+    Environment block_env;
+    std::vector<Variable> args = this->buffer_function_parameters;
+    this->buffer_function_parameters = {};
+    for (Variable var : args)
+    {
+        block_env.env_var.set(var);
+    }
+    for (auto& stmt : blockStmtNode.stmts)
+    {
+        stmt->accept(*this);
+    }
+    return {};
 }
 
 std::any Interpreter::visitBinaryExpression(BinaryExpression& binaryExpression)

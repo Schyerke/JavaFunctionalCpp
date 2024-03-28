@@ -13,7 +13,7 @@
 #binding statico
 #lexer: adding new data types (double, short, long, char)
 #fixing bugs
-#implicit casting numbers on numbers
+#implicit casting numbers
 
 functions
 

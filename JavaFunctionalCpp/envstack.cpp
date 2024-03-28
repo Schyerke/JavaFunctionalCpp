@@ -38,13 +38,6 @@ void EnvStack::add(Environment env)
     reset();
 }
 
-void EnvStack::add(FuncVariable func_var)
-{
-    Environment func_env;
-    func_env.identifier = func_var.identifier;
-    this->envs.push_back(std::move(func_env));
-}
-
 void EnvStack::add(Variable var)
 {
     Environment env = std::move(get().value());

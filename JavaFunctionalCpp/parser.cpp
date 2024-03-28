@@ -16,7 +16,6 @@
 #include "unarynode.hpp"
 #include "varassignmentstmtnode.hpp"
 #include "vardeclarationnode.hpp"
-#include "functionstmtnode.hpp"
 #include "functioncallexpr.hpp"
 #include "blockstmtnode.hpp"
 
@@ -271,9 +270,9 @@ std::unique_ptr<AstNode> Parser::functionDeclarationStatement()
 	
 	std::unique_ptr<AstNode> blockstmt = blockStatement(formal_parameters, func_var.identifier);
 	func_var.block_stmt = std::move(blockstmt);
-	std::string func_id = func_var.identifier;
+	func_var.parameters = std::move(formal_parameters);
 	this->function_memory.add(std::move(func_var));
-	return std::make_unique<FunctionStmtNode>(func_id, std::move(formal_parameters));
+	return {}; // nullptr for std::unique_ptr
 }
 
 std::unique_ptr<AstNode> Parser::functionCall() 
@@ -339,7 +338,6 @@ std::unique_ptr<AstNode> Parser::blockStatement(std::vector<Variable> pre_vars, 
 	expect(OPEN_CURLY_BRACKET);
 
 	Environment block_env;
-	block_env.identifier = func_id;
 	for (auto pre_var : pre_vars)
 	{
 		block_env.env_var.set(pre_var);
@@ -497,7 +495,7 @@ std::unique_ptr<AstNode> Parser::parseUnary()
 
 std::unique_ptr<AstNode> Parser::parsePrimary()
 {
-	std::unique_ptr<AstNode> primary; // null pointer
+	std::unique_ptr<AstNode> primary = {};
 	SyntaxToken token = SyntaxToken::SyntaxToken(BAD_TOKEN, "", -1, 0, 0);
 
 	SyntaxToken prev = previous();

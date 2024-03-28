@@ -135,7 +135,6 @@
     <ClCompile Include="envstack.cpp" />
     <ClCompile Include="functioncallexpr.cpp" />
     <ClCompile Include="functionmemory.cpp" />
-    <ClCompile Include="functionstmtnode.cpp" />
     <ClCompile Include="identifiernode.cpp" />
     <ClCompile Include="interpret.cpp" />
     <ClCompile Include="semantic.cpp" />
@@ -160,7 +159,6 @@
     <ClInclude Include="envstack.hpp" />
     <ClInclude Include="functioncallexpr.hpp" />
     <ClInclude Include="functionmemory.hpp" />
-    <ClInclude Include="functionstmtnode.hpp" />
     <ClInclude Include="identifiernode.hpp" />
     <ClInclude Include="interpret.hpp" />
     <ClInclude Include="semantic.hpp" />

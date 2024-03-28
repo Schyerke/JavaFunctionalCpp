@@ -1,16 +1,16 @@
 #pragma once
-
+#include <vector>
 #include "astnode.hpp"
 #include "environment.hpp"
 #include "envstack.hpp"
-
+#include "variable.hpp"
 #include "functionmemory.hpp"
 
 class Semantic : public Visitor
 {
 public:
 	EnvStack env_stack;
-	FunctionMemory function_memory;
+	FunctionMemory& function_memory;
 	Semantic(EnvStack env, FunctionMemory& function_memory);
 
 	std::vector<std::string> analyse(std::vector<std::unique_ptr<AstNode>>& statements);
@@ -31,7 +31,6 @@ private:
 	std::any visitVarDeclarationStmt(VarDeclarationNode& varDeclarationNode);
 	std::any visitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmentNode);
 
-	std::any visitFunctionStmtNode(FunctionStmtNode& functionStmtNode);
 	std::any visitFunctionCallNode(FunctionCallExpr& functionCallExpr);
 	std::any visitBlockStmtNode(BlockStmtNode& blockStmtNode);
 };

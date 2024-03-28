@@ -6,6 +6,7 @@
 #include "astnode.hpp"
 #include "token.hpp"
 #include "varassignmentstmtnode.hpp"
+#include "variable.hpp"
 
 #include "environment.hpp"
 #include "functionmemory.hpp"
@@ -21,6 +22,7 @@ public:
 private:
 	EnvStack env_stack;
 	FunctionMemory& function_memory;
+	std::vector<Variable> buffer_function_parameters;
 
 	std::vector<std::string> runtime_errors;
 	void report(std::string error);
@@ -36,7 +38,6 @@ private:
 	std::any visitVarDeclarationStmt(VarDeclarationNode& varDeclarationNode);
 	std::any visitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmentNode);
 
-	std::any visitFunctionStmtNode(FunctionStmtNode& functionStmtNode);
 	std::any visitFunctionCallNode(FunctionCallExpr& functionCallExpr);
 	std::any visitBlockStmtNode(BlockStmtNode& blockStmtNode);
 };

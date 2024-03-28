@@ -19,6 +19,10 @@ std::vector<std::string> Semantic::analyse(std::vector<std::unique_ptr<AstNode>>
 {
 	for (auto& stmt : statements)
 	{
+		if (stmt == nullptr)
+		{
+			continue;
+		}
 		stmt->accept(*this);
 	}
 	return this->errors;
@@ -159,11 +163,6 @@ std::any Semantic::visitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmentNo
 	{
 		add_err(e.what());
 	}
-	return std::any();
-}
-
-std::any Semantic::visitFunctionStmtNode(FunctionStmtNode& functionStmtNode)
-{
 	return std::any();
 }
 

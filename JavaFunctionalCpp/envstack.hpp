@@ -20,7 +20,6 @@ public:
 	std::optional<Environment> get();
 	std::pair<Variable, Environment> get(std::string identifier);
 	void add(Environment env);
-	void add(FuncVariable func_var);
 	void add(Variable var);
 	void assign(std::string identifier, std::any value);
 	void reset();

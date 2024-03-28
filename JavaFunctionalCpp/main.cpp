@@ -79,6 +79,10 @@ int main()
 	Interpreter interpreter(std::move(env), function_memory);
 	for (std::unique_ptr<AstNode>& stmt : statements)
 	{
+		if (stmt == nullptr)
+		{
+			continue;
+		}
 		interpreter.interpret(std::move(stmt));
 		if (not interpreter.get_runtime_errors().empty())
 		{

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <any>
 #include <string>
+#include <vector>
 #include "token.hpp"
 #include "astnode.hpp"
 
