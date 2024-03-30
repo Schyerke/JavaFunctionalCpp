@@ -136,7 +136,6 @@ std::any Interpreter::visitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmen
 std::any Interpreter::visitFunctionCallNode(FunctionCallExpr& functionCallExpr)
 {
     FuncVariable func_var = this->function_memory.get(functionCallExpr.identifier);
-    std::cout << functionCallExpr.arguments.size();
     if (func_var.parameters.size() != functionCallExpr.arguments.size())
     {
         throw std::invalid_argument("Parameter size for funciton '" + func_var.identifier + "' is invalid for its arguments.");
@@ -148,18 +147,20 @@ std::any Interpreter::visitFunctionCallNode(FunctionCallExpr& functionCallExpr)
 
         if (par_expr.type() == typeid(NUMBER_DT))
         {
-            std::visit([&var]<class T>(T number)
-            {
-                var.value = (T)number;
-            }, std::any_cast<NUMBER_DT>(par_expr));
+            var.value = std::any_cast<NUMBER_DT>(par_expr);
         }
-        if (par_expr.type() == typeid(bool))
+        else if (par_expr.type() == typeid(bool))
         {
             var.value = std::any_cast<bool>(par_expr);
+        }
+        else
+        {
+            throw std::invalid_argument("Function '" + func_var.identifier + "' have an invalid parameter: " + par_expr.type().name());
         }
     }
     this->buffer_function_parameters = func_var.parameters;
     func_var.block_stmt->accept(*this);
+    this->env_stack.pop();
     return {};
 }
 
@@ -172,6 +173,7 @@ std::any Interpreter::visitBlockStmtNode(BlockStmtNode& blockStmtNode)
     {
         block_env.env_var.set(var);
     }
+    this->env_stack.push(std::move(block_env));
     for (auto& stmt : blockStmtNode.stmts)
     {
         stmt->accept(*this);

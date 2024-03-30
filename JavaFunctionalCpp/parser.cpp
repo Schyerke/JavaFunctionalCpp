@@ -275,12 +275,12 @@ std::unique_ptr<AstNode> Parser::functionDeclarationStatement()
 	return {}; // nullptr for std::unique_ptr
 }
 
-std::unique_ptr<AstNode> Parser::functionCall() 
+std::unique_ptr<AstNode> Parser::functionCall()
 {
 	SyntaxToken identifier = expect(IDENTIFIER_TOKEN);
 	std::vector<std::unique_ptr<AstNode>> args = arguments();
 	advance(); //skipping CLOSE_PAREN token
-	return std::make_unique<FunctionCallExpr>(identifier.get_value(), args);
+	return std::make_unique<FunctionCallExpr>(identifier.get_value(), std::move(args));;
 }
 
 std::vector<Variable> Parser::parameters()
@@ -342,7 +342,7 @@ std::unique_ptr<AstNode> Parser::blockStatement(std::vector<Variable> pre_vars, 
 	{
 		block_env.env_var.set(pre_var);
 	}
-	this->env_stack.add(std::move(block_env));
+	this->env_stack.push(std::move(block_env));
 
 	std::vector<std::unique_ptr<AstNode>> stmts;
 	while (not match(CLOSE_CURLY_BRACKET))
@@ -350,7 +350,7 @@ std::unique_ptr<AstNode> Parser::blockStatement(std::vector<Variable> pre_vars, 
 		stmts.push_back(std::move(parseStatement()));
 	}
 	advance(); // skipping CLOSE_CURLY_BRACKET TOKEN
-	return std::make_unique<BlockStmtNode>(stmts);
+	return std::make_unique<BlockStmtNode>(std::move(stmts));
 }
 
 std::unique_ptr<AstNode> Parser::varDeclarationStatement()
@@ -432,8 +432,7 @@ std::unique_ptr<AstNode> Parser::varAssignmentStatement()
 		return std::make_unique<VarAssignmentStmtNode>(identifier.get_value(), std::move(expression));
 	}
 	this->env_stack.get(identifier.get_value());
-	expect(SEMICOLON_TOKEN);
-	return nullptr;
+	return std::make_unique<IdentifierNode>(identifier.get_value());
 }
 
 std::unique_ptr<AstNode> Parser::parseExpression()

@@ -19,7 +19,8 @@ public:
 
 	std::optional<Environment> get();
 	std::pair<Variable, Environment> get(std::string identifier);
-	void add(Environment env);
+	void push(Environment env);
+	std::optional<Environment> pop();
 	void add(Variable var);
 	void assign(std::string identifier, std::any value);
 	void reset();

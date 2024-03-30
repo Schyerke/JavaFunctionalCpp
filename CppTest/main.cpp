@@ -7,10 +7,8 @@ using namespace std;
 
 int main()
 {
-	std::unique_ptr<int> s = {};
-	cout << s;
-	if (s == nullptr)
-	{
-		cout << "si";
-	}
+	std::unique_ptr<int> hello = std::make_unique<int>(52);
+	std::unique_ptr<int>& lw = hello;
+
+	std::cout << *lw;
 }

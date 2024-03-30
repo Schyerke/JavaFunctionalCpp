@@ -31,11 +31,19 @@ std::pair<Variable, Environment> EnvStack::get(std::string identifier)
     return { std::move(env.env_var.get(identifier).value()), std::move(env)};
 }
 
-void EnvStack::add(Environment env)
+void EnvStack::push(Environment env)
 {
-    //this->envs[++this->last_index] = std::move(env);
     this->envs.push_back(std::move(env));
     reset();
+}
+
+std::optional<Environment> EnvStack::pop()
+{
+    if (this->envs.empty())
+    {
+        return std::nullopt;
+    }
+    this->envs.pop_back();
 }
 
 void EnvStack::add(Variable var)

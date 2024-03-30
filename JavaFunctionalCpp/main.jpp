@@ -1,6 +1,6 @@
 
-int f(int a)
+int f(int a, int b)
 {
-	print a;
+	print a + b;
 }
-f(1);
+f(2, 5);
