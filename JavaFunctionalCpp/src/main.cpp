@@ -17,7 +17,6 @@
 #include "semantic.hpp"
 #include "interpret.hpp"
 
-
 void print_errors(std::vector<std::string> errors)
 {
 	for (std::string& error : errors)
