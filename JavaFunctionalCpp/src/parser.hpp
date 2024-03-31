@@ -36,6 +36,7 @@ private:
 	SyntaxToken peek();
 	SyntaxToken previous();
 	SyntaxToken previous_previous();
+	void back();
 	SyntaxToken expect(Token_t match);
 	std::optional<SyntaxToken> expect_optional(Token_t expect);
 	std::optional<SyntaxToken> find_var_type();

@@ -101,6 +101,14 @@ SyntaxToken Parser::previous_previous()
 	return look_ahead(-2);
 }
 
+void Parser::back()
+{
+	if (this->index - 1 >= 0)
+	{
+		--this->index;
+	}
+}
+
 SyntaxToken Parser::look_ahead(int offset) {
 	int index = offset + this->index;
 	if (index < this->tokens.size()) {
@@ -432,7 +440,8 @@ std::unique_ptr<AstNode> Parser::varAssignmentStatement()
 		return std::make_unique<VarAssignmentStmtNode>(identifier.get_value(), std::move(expression));
 	}
 	this->env_stack.get(identifier.get_value());
-	return std::make_unique<IdentifierNode>(identifier.get_value());
+	back();
+	return parseTerm();
 }
 
 std::unique_ptr<AstNode> Parser::parseExpression()
