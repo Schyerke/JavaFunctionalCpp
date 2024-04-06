@@ -439,7 +439,6 @@ std::unique_ptr<AstNode> Parser::varAssignmentStatement()
 		expect(SEMICOLON_TOKEN);
 		return std::make_unique<VarAssignmentStmtNode>(identifier.get_value(), std::move(expression));
 	}
-	this->env_stack.get(identifier.get_value());
 	back();
 	return parseTerm();
 }

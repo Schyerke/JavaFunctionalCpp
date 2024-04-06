@@ -14,7 +14,7 @@ public:
 	EnvStack();
 
 	std::vector<Environment> envs;
-	int last_index = 0;
+	int last_index = -1;
 	int current = last_index;
 
 	std::optional<Environment> get();

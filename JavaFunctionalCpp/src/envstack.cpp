@@ -8,7 +8,7 @@ EnvStack::EnvStack()
 
 std::optional<Environment> EnvStack::get()
 {
-    if (not this->envs.empty())
+    if (not this->envs.empty() || this->current >= 0)
     {
         return std::make_optional<Environment>(std::move(this->envs.at(current--)));
     }
@@ -34,6 +34,7 @@ std::pair<Variable, Environment> EnvStack::get(std::string identifier)
 void EnvStack::push(Environment env)
 {
     this->envs.push_back(std::move(env));
+    this->last_index++;
     reset();
 }
 
@@ -43,6 +44,8 @@ std::optional<Environment> EnvStack::pop()
     {
         return std::nullopt;
     }
+    this->last_index--;
+    reset();
     this->envs.pop_back();
 }
 
