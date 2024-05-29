@@ -14,8 +14,7 @@
 #lexer: adding new data types (double, short, long, char)
 #fixing bugs
 #implicit casting numbers
-
-functions
+#functions
 
 if statement
 
@@ -25,6 +24,7 @@ string datatype
 
 while statement
 for statement
+return statement
 
 =================
 NOT DONE

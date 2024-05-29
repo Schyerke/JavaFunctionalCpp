@@ -1,31 +1,24 @@
 #pragma once
-
-#include <iostream>
-#include <any>
-#include "visitor.hpp"
+#include <vector>
 #include "astnode.hpp"
-#include "token.hpp"
-#include "varassignmentstmtnode.hpp"
-#include "variable.hpp"
-
 #include "environment.hpp"
-#include "functionmemory.hpp"
 #include "envstack.hpp"
+#include "variable.hpp"
+#include "functionmemory.hpp"
 
-class Interpreter : public Visitor {
+class Semantic : public Visitor
+{
 public:
-	Interpreter(EnvStack env_stack, FunctionMemory& function_memory);
-	std::any interpret(std::unique_ptr<AstNode> root);
-	std::vector<std::string> get_runtime_errors();
+	EnvStack env_stack;
+	FunctionMemory& function_memory;
+	Semantic(EnvStack env, FunctionMemory& function_memory);
+
+	std::vector<std::string> analyse(std::vector<std::unique_ptr<AstNode>>& statements);
 
 
 private:
-	EnvStack env_stack;
-	FunctionMemory& function_memory;
-	std::vector<Variable> buffer_function_parameters;
-
-	std::vector<std::string> runtime_errors;
-	void report(std::string error);
+	std::vector<std::string> errors;
+	void add_err(std::string error);
 
 	std::any visitBinaryExpression(BinaryExpression& binaryExpression);
 	std::any visitBoolNode(BoolNode& boolNode);
@@ -34,6 +27,7 @@ private:
 	std::any visitIdentifierNode(IdentifierNode& identifierNode);
 	std::any visitUnaryNode(UnaryNode& unaryNode);
 
+	std::any visitIfStmtNode(IfStmtNode& ifStmtNode);
 	std::any visitPrintStmt(PrintStmtNode& printStmtNode);
 	std::any visitVarDeclarationStmt(VarDeclarationNode& varDeclarationNode);
 	std::any visitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmentNode);
@@ -41,5 +35,3 @@ private:
 	std::any visitFunctionCallNode(FunctionCallExpr& functionCallExpr);
 	std::any visitBlockStmtNode(BlockStmtNode& blockStmtNode);
 };
-
-

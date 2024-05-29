@@ -43,6 +43,8 @@ std::string display_vartype(Token_t varType)
 {
 	switch (varType) 
 	{
+		case BOOL_TYPE:
+			return "bool";
 		case SHORT_TYPE:
 			return "short";
 		case INT_TYPE:
@@ -94,10 +96,12 @@ std::string display_keyword(Token_t kw)
 {
 	switch (kw)
 	{
-	case RETURN_KW:
-		return "return";
+		case IF_KW:
+			return "if";
+		case RETURN_KW:
+			return "return";
 		
-	default:
-		return "Invalid Keyword";
+		default:
+			return "Invalid Keyword";
 	}
 }

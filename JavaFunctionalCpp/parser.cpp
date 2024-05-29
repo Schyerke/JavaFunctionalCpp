@@ -13,6 +13,7 @@
 #include "identifiernode.hpp"
 #include "numbernode.hpp"
 #include "stringnode.hpp"
+#include "ifstmtnode.hpp"
 #include "unarynode.hpp"
 #include "varassignmentstmtnode.hpp"
 #include "vardeclarationnode.hpp"
@@ -140,6 +141,10 @@ std::optional<SyntaxToken> Parser::expect_optional(Token_t expect)
 std::optional<SyntaxToken> Parser::find_var_type()
 {
 	std::optional<SyntaxToken> dt_op = std::nullopt;
+	if (expect_optional(BOOL_TYPE))
+	{
+		dt_op = previous();
+	}
 	if (expect_optional(SHORT_TYPE))
 	{
 		dt_op = previous();
@@ -190,6 +195,10 @@ std::vector<std::unique_ptr<AstNode>> Parser::parse()
 		try
 		{
 			std::unique_ptr<AstNode> statement = parseStatement();
+			if (statement == nullptr)
+			{
+				break;
+			}
 			statements.push_back(std::move(statement));
 		}
 		catch (std::invalid_argument e)
@@ -217,11 +226,32 @@ std::unique_ptr<AstNode> Parser::parseStatement()
 	{
 		return parsePrintStatement();
 	}
-	if (matchany({ SHORT_TYPE, INT_TYPE, LONG_TYPE, FLOAT_TYPE, DOUBLE_TYPE }))
+	if (matchany({ BOOL_TYPE, SHORT_TYPE, INT_TYPE, LONG_TYPE, FLOAT_TYPE, DOUBLE_TYPE }))
 	{
 		return declarationStatement();
 	}
+
+	if (match(IF_KW))
+	{
+		return parseIfStatement();
+	}
+
+	if (match(OPEN_CURLY_BRACKET))
+	{
+		return parseBlockStatement({}, "main");
+	}
 	return parseExpression();
+}
+
+std::unique_ptr<AstNode> Parser::parseIfStatement()
+{
+	expect(IF_KW);
+	expect(OPEN_PAREN);
+	std::unique_ptr<AstNode> expression = parseExpression();
+	expect(CLOSE_PAREN);
+
+	std::unique_ptr<AstNode> blockstmt = parseBlockStatement();
+	return std::make_unique<IfStmtNode>(std::move(expression), std::move(blockstmt));
 }
 
 std::unique_ptr<AstNode> Parser::parsePrintStatement()
@@ -238,6 +268,7 @@ std::unique_ptr<AstNode> Parser::parsePrintStatement()
 std::unique_ptr<AstNode> Parser::declarationStatement()
 {
 	if (matchany({
+		BOOL_TYPE,
 		SHORT_TYPE,
 		INT_TYPE,
 		LONG_TYPE,
@@ -274,9 +305,9 @@ std::unique_ptr<AstNode> Parser::functionDeclarationStatement()
 	{
 		formal_parameters = parameters();
 	}
-	advance(); // skipping CLOSE_PAREN TOKEN
+	expect(CLOSE_PAREN);
 	
-	std::unique_ptr<AstNode> blockstmt = blockStatement(formal_parameters, func_var.identifier);
+	std::unique_ptr<AstNode> blockstmt = parseBlockStatement(formal_parameters, func_var.identifier);
 	func_var.block_stmt = std::move(blockstmt);
 	func_var.parameters = std::move(formal_parameters);
 	this->function_memory.add(std::move(func_var));
@@ -287,7 +318,7 @@ std::unique_ptr<AstNode> Parser::functionCall()
 {
 	SyntaxToken identifier = expect(IDENTIFIER_TOKEN);
 	std::vector<std::unique_ptr<AstNode>> args = arguments();
-	advance(); //skipping CLOSE_PAREN token
+	expect(CLOSE_PAREN); 
 	return std::make_unique<FunctionCallExpr>(identifier.get_value(), std::move(args));;
 }
 
@@ -337,11 +368,11 @@ std::vector<std::unique_ptr<AstNode>> Parser::arguments()
 		}
 		expect(COMMA_TOKEN);
 	}
-	advance(); // skipping CLOSE_PAREN token
+	expect(CLOSE_PAREN);
 	return args;
 }
 
-std::unique_ptr<AstNode> Parser::blockStatement(std::vector<Variable> pre_vars, std::string func_id = "")
+std::unique_ptr<AstNode> Parser::parseBlockStatement(std::vector<Variable> pre_vars, std::string func_id)
 {
 	expect(OPEN_CURLY_BRACKET);
 
@@ -357,7 +388,7 @@ std::unique_ptr<AstNode> Parser::blockStatement(std::vector<Variable> pre_vars, 
 	{
 		stmts.push_back(std::move(parseStatement()));
 	}
-	advance(); // skipping CLOSE_CURLY_BRACKET TOKEN
+	expect(CLOSE_CURLY_BRACKET);
 	return std::make_unique<BlockStmtNode>(std::move(stmts));
 }
 

@@ -1,6 +1,10 @@
 
-int f(int a, int b)
 {
-	print a + b;
+	bool w = true;
+	if(2+2 == 2+2)
+	{
+		print "true";
+	}
+	print "Fuori da if";
+
 }
-f(2, 52);

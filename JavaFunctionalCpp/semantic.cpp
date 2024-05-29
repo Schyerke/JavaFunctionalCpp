@@ -4,6 +4,7 @@
 #include "identifiernode.hpp"
 #include "numbernode.hpp"
 #include "stringnode.hpp"
+#include "ifstmtnode.hpp"
 #include "unarynode.hpp"
 #include "printstmtnode.hpp"
 #include "varassignmentstmtnode.hpp"
@@ -126,6 +127,11 @@ std::any Semantic::visitIdentifierNode(IdentifierNode& identifierNode)
 std::any Semantic::visitUnaryNode(UnaryNode& unaryNode)
 {
 	unaryNode.left->accept(*this);
+	return std::any();
+}
+
+std::any Semantic::visitIfStmtNode(IfStmtNode& ifStmtNode)
+{
 	return std::any();
 }
 

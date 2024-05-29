@@ -18,6 +18,7 @@ public:
 	int current = last_index;
 
 	std::optional<Environment> get();
+	Environment& get_ref();
 	std::pair<Variable, Environment> get(std::string identifier);
 	void push(Environment env);
 	std::optional<Environment> pop();

@@ -44,13 +44,14 @@ private:
 	bool matchany(std::vector<Token_t> tokens);
 	SyntaxToken look_ahead(int offset);
 	std::unique_ptr<AstNode> parseStatement();
+	std::unique_ptr<AstNode> parseIfStatement();
 	std::unique_ptr<AstNode> parsePrintStatement();
 	std::unique_ptr<AstNode> declarationStatement();
 	std::unique_ptr<AstNode> functionDeclarationStatement();
 	std::unique_ptr<AstNode> functionCall();
 	std::vector<Variable> parameters();
 	std::vector<std::unique_ptr<AstNode>> arguments();
-	std::unique_ptr<AstNode> blockStatement(std::vector<Variable> pre_vars, std::string func_id);
+	std::unique_ptr<AstNode> parseBlockStatement(std::vector<Variable> pre_vars = {}, std::string func_id = "main");
 	std::unique_ptr<AstNode> varDeclarationStatement();
 	std::unique_ptr<AstNode> varAssignmentStatement();
 	std::unique_ptr<AstNode> parseExpression();

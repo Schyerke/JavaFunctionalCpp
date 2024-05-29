@@ -84,7 +84,8 @@ int main()
 		}
 		interpreter.interpret(std::move(stmt));
 		if (not interpreter.get_runtime_errors().empty())
-		{
+		{	
+			std::cout << "Runtime Errors" << std::endl;
 			print_errors(interpreter.get_runtime_errors());
 			break;
 		}

@@ -15,6 +15,15 @@ std::optional<Environment> EnvStack::get()
     return std::nullopt;
 }
 
+Environment& EnvStack::get_ref()
+{
+    if (not this->envs.empty() && this->current >= 0)
+    {
+        return this->envs.at(current--);
+    }
+    throw new std::invalid_argument("No Environment Found.");
+}
+
 std::pair<Variable, Environment> EnvStack::get(std::string identifier)
 {
     std::optional<Environment> env_op = get();
@@ -53,9 +62,17 @@ std::optional<Environment> EnvStack::pop()
 
 void EnvStack::add(Variable var)
 {
-    Environment env = std::move(get().value());
-    env.env_var.set(std::move(var));
-    reset();
+    try
+    {
+        Environment& env = get_ref();
+        env.env_var.set(var);
+    }
+    catch (std::invalid_argument e)
+    {
+        std::cout << e.what() << std::endl;
+    }
+
+     reset();
 }
 
 void EnvStack::assign(std::string identifier, std::any value)

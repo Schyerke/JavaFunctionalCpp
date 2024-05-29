@@ -1,7 +1,7 @@
 
 program => statement* EOF
 
-statement => expressionStatement			| 
+statement => ifStatement					|
 			 printStatement					|
 			 declearationStatement			|	 
 			 varAssignmentStatement			|
@@ -12,7 +12,8 @@ statement => expressionStatement			|
 declearationStatement => varDeclearationStatement    | 
 						 functionDeclarationStatement
 
-expressionStatement => expression ";"
+ifStatement => "if" "(" expression ")" blockStatement
+
 printStatement => "print " expression ";"
 varDeclearationStatement => varType IDENTIFIER ("=" expression)? ";"
 varAssignmentStatement => IDENTIFIER "=" expression ";"

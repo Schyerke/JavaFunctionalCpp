@@ -9,6 +9,7 @@
 
 enum DataType
 {
+	DT_BOOL,
 	DT_SHORT,
 	DT_INT,
 	DT_LONG,

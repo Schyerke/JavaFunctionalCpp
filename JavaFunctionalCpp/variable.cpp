@@ -4,6 +4,8 @@ DataType from_TokenT_to_DataType(Token_t token)
 {
     switch (token)
     {
+    case BOOL_TYPE:
+        return DT_BOOL;
     case SHORT_TYPE:
         return DT_SHORT;
     case INT_TYPE:

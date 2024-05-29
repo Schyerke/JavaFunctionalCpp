@@ -42,6 +42,7 @@ enum Token_t
 	SEMICOLON_TOKEN,
 
 	//variable types
+	BOOL_TYPE,
 	SHORT_TYPE,
 	INT_TYPE,
 	LONG_TYPE,
@@ -52,6 +53,7 @@ enum Token_t
 	PRINT_STMT,
 
 	//keywords
+	IF_KW,
 	RETURN_KW,
 
 	BAD_TOKEN,

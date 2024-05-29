@@ -27,142 +27,148 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\lexer.cpp">
+    <ClCompile Include="lexer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\parser.cpp">
+    <ClCompile Include="parser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\syntaxtoken.cpp">
+    <ClCompile Include="syntaxtoken.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\token.cpp">
+    <ClCompile Include="token.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\binaryexpression.cpp">
+    <ClCompile Include="binaryexpression.cpp">
       <Filter>Source Files\expression</Filter>
     </ClCompile>
-    <ClCompile Include="src\numbernode.cpp">
+    <ClCompile Include="numbernode.cpp">
       <Filter>Source Files\expression</Filter>
     </ClCompile>
-    <ClCompile Include="src\unarynode.cpp">
+    <ClCompile Include="unarynode.cpp">
       <Filter>Source Files\expression</Filter>
     </ClCompile>
-    <ClCompile Include="src\printstmtnode.cpp">
+    <ClCompile Include="printstmtnode.cpp">
       <Filter>Source Files\statements</Filter>
     </ClCompile>
-    <ClCompile Include="src\boolnode.cpp">
+    <ClCompile Include="boolnode.cpp">
       <Filter>Source Files\expression</Filter>
     </ClCompile>
-    <ClCompile Include="src\stringnode.cpp">
+    <ClCompile Include="stringnode.cpp">
       <Filter>Source Files\expression</Filter>
     </ClCompile>
-    <ClCompile Include="src\vardeclarationnode.cpp">
+    <ClCompile Include="vardeclarationnode.cpp">
       <Filter>Source Files\statements</Filter>
     </ClCompile>
-    <ClCompile Include="src\environment.cpp">
+    <ClCompile Include="environment.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\variable.cpp">
+    <ClCompile Include="variable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\interpret.cpp">
+    <ClCompile Include="interpret.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\identifiernode.cpp">
+    <ClCompile Include="identifiernode.cpp">
       <Filter>Source Files\expression</Filter>
     </ClCompile>
-    <ClCompile Include="src\varassignmentstmtnode.cpp">
+    <ClCompile Include="varassignmentstmtnode.cpp">
       <Filter>Source Files\statements</Filter>
     </ClCompile>
-    <ClCompile Include="src\semantic.cpp">
+    <ClCompile Include="semantic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\blockstmtnode.cpp">
+    <ClCompile Include="blockstmtnode.cpp">
       <Filter>Source Files\statements</Filter>
     </ClCompile>
-    <ClCompile Include="src\functioncallexpr.cpp">
+    <ClCompile Include="functioncallexpr.cpp">
       <Filter>Source Files\expression</Filter>
     </ClCompile>
-    <ClCompile Include="src\envstack.cpp">
+    <ClCompile Include="envstack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\functionmemory.cpp">
+    <ClCompile Include="functionmemory.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ifstmtnode.cpp">
+      <Filter>Source Files\statements</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\lexer.hpp">
+    <ClInclude Include="lexer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\parser.hpp">
+    <ClInclude Include="parser.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\astnode.hpp">
+    <ClInclude Include="astnode.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\syntaxtoken.hpp">
+    <ClInclude Include="syntaxtoken.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\token.hpp">
+    <ClInclude Include="token.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\binaryexpression.hpp">
+    <ClInclude Include="binaryexpression.hpp">
       <Filter>Header Files\expression</Filter>
     </ClInclude>
-    <ClInclude Include="src\numbernode.hpp">
+    <ClInclude Include="numbernode.hpp">
       <Filter>Header Files\expression</Filter>
     </ClInclude>
-    <ClInclude Include="src\unarynode.hpp">
+    <ClInclude Include="unarynode.hpp">
       <Filter>Header Files\expression</Filter>
     </ClInclude>
-    <ClInclude Include="src\printstmtnode.hpp">
+    <ClInclude Include="printstmtnode.hpp">
       <Filter>Header Files\statements</Filter>
     </ClInclude>
-    <ClInclude Include="src\boolnode.hpp">
+    <ClInclude Include="boolnode.hpp">
       <Filter>Header Files\expression</Filter>
     </ClInclude>
-    <ClInclude Include="src\vardeclarationnode.hpp">
+    <ClInclude Include="vardeclarationnode.hpp">
       <Filter>Header Files\statements</Filter>
     </ClInclude>
-    <ClInclude Include="src\environment.hpp">
+    <ClInclude Include="environment.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\variable.hpp">
+    <ClInclude Include="variable.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\interpret.hpp">
+    <ClInclude Include="interpret.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\visitor.hpp">
+    <ClInclude Include="visitor.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\stringnode.hpp">
+    <ClInclude Include="stringnode.hpp">
       <Filter>Header Files\expression</Filter>
     </ClInclude>
-    <ClInclude Include="src\identifiernode.hpp">
+    <ClInclude Include="identifiernode.hpp">
       <Filter>Header Files\expression</Filter>
     </ClInclude>
-    <ClInclude Include="src\varassignmentstmtnode.hpp">
+    <ClInclude Include="varassignmentstmtnode.hpp">
       <Filter>Header Files\statements</Filter>
     </ClInclude>
-    <ClInclude Include="src\semantic.hpp">
+    <ClInclude Include="semantic.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\blockstmtnode.hpp">
+    <ClInclude Include="blockstmtnode.hpp">
       <Filter>Header Files\statements</Filter>
     </ClInclude>
-    <ClInclude Include="src\functioncallexpr.hpp">
+    <ClInclude Include="functioncallexpr.hpp">
       <Filter>Header Files\expression</Filter>
     </ClInclude>
-    <ClInclude Include="src\envstack.hpp">
+    <ClInclude Include="envstack.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\functionmemory.hpp">
+    <ClInclude Include="functionmemory.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ifstmtnode.hpp">
+      <Filter>Header Files\statements</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +178,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="main.jpp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="cool_code.jpp">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

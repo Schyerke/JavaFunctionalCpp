@@ -6,6 +6,7 @@
 #include "numbernode.hpp"
 #include "binaryexpression.hpp"
 #include "boolnode.hpp"
+#include "ifstmtnode.hpp"
 #include "unarynode.hpp"
 #include "stringnode.hpp"
 #include "identifiernode.hpp"
@@ -74,6 +75,41 @@ std::any Interpreter::visitUnaryNode(UnaryNode& unaryNode)
     }
     std::string unary_err = unary_expr.type().name();
     throw std::invalid_argument("Runtime Error: Invalid unary value type (found type '" + unary_err + "')");
+}
+
+std::any Interpreter::visitIfStmtNode(IfStmtNode& ifStmtNode)
+{
+    std::any expr_value = ifStmtNode.expression->accept(*this);
+    std::string expr_typename = expr_value.type().name();
+    if (expr_value.type() == typeid(bool))
+    {
+        bool if_result = std::any_cast<bool>(expr_value);
+        if (if_result)
+        {
+            ifStmtNode.blockStmt->accept(*this);
+        }
+    }
+    else if (expr_value.type() == typeid(NUMBER_DT))
+    {
+        NUMBER_DT expr_number = std::any_cast<NUMBER_DT>(expr_value);
+        bool if_result = std::visit([]<class T>(T var) -> bool
+        {
+            if (var == 1)
+            {
+                return true;
+            }
+            return false;
+        }, expr_number);
+        if (if_result)
+        {
+            ifStmtNode.blockStmt->accept(*this);
+        }
+    }
+    else
+    {
+        throw std::invalid_argument("Runtime Error: If expressions must return a bool (found type '" + expr_typename + "')");
+    }
+    return std::any();
 }
 
 std::any Interpreter::visitPrintStmt(PrintStmtNode& printStmtNode)

@@ -11,6 +11,7 @@ class StringNode;
 class IdentifierNode;
 class UnaryNode;
 
+class IfStmtNode;
 class PrintStmtNode;
 class VarDeclarationNode;
 class VarAssignmentStmtNode;
@@ -30,6 +31,7 @@ public:
 	virtual std::any visitIdentifierNode(IdentifierNode& identifierNode) = 0;
 	virtual std::any visitUnaryNode(UnaryNode& unaryNode) = 0;
 
+	virtual std::any visitIfStmtNode(IfStmtNode& ifStmtNode) = 0;
 	virtual std::any visitPrintStmt(PrintStmtNode& printStmtNode) = 0;
 	virtual std::any visitVarDeclarationStmt(VarDeclarationNode& varDeclarationNode) = 0;
 	virtual std::any visitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmentNode) = 0;

@@ -94,6 +94,10 @@ SyntaxToken Lexer::lex()
 			return SyntaxToken(TRUE_TOKEN, display_stmts(TRUE_TOKEN), start, this->row, length);
 		}
 
+		if (text == display_vartype(BOOL_TYPE))
+		{
+			return SyntaxToken(BOOL_TYPE, display_vartype(BOOL_TYPE), start, this->row, length);
+		}
 		if (text == display_vartype(SHORT_TYPE))
 		{
 			return SyntaxToken(SHORT_TYPE, display_vartype(SHORT_TYPE), start, this->row, length);
@@ -115,6 +119,10 @@ SyntaxToken Lexer::lex()
 			return SyntaxToken(DOUBLE_TYPE, display_vartype(DOUBLE_TYPE), start, this->row, length);
 		}
 
+		if (text == display_keyword(IF_KW))
+		{
+			return SyntaxToken(IF_KW, display_keyword(IF_KW), start, this->row, length);
+		}
 		if (text == display_keyword(RETURN_KW))
 		{
 			return SyntaxToken(RETURN_KW, display_keyword(RETURN_KW), start, this->row, length);
@@ -166,6 +174,19 @@ SyntaxToken Lexer::lex()
 		{
 			this->index += 2;
 			return SyntaxToken(SLASH_EQUAL_TOKEN, "/=", this->index - 2, this->row, 2);
+		}
+		if (peekNext() == '*')
+		{
+			advance();
+			advance();
+
+			while (current() != '*' || peekNext() != '/')
+			{
+				advance();
+			}
+			advance();
+			advance();
+			return lex();
 		}
 		return SyntaxToken(SLASH_TOKEN, "/", this->index++, this->row, 1);
 
