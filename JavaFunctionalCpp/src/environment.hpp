@@ -10,7 +10,9 @@
 
 class Environment {
 public:
-	
+	Environment(Environment&& env) = default;
+	Environment(Environment& env) = delete;
+
 	Environment();
 
 	class EnvVar
