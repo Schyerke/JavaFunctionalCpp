@@ -3,4 +3,4 @@ int f(int a, int b)
 {
 	print a + b;
 }
-f(2, 5);
+f(2, 52);

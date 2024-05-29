@@ -5,7 +5,7 @@ Environment::Environment()
 {
 }
 
-std::optional<Variable> Environment::EnvVar::get(std::string identifier)
+std::optional<Variable> Environment::EnvrionmentVariable::get(std::string identifier)
 {
     if (this->variables.contains(identifier))
     {
@@ -14,7 +14,7 @@ std::optional<Variable> Environment::EnvVar::get(std::string identifier)
     return std::nullopt;
 }
 
-void Environment::EnvVar::set(Variable variable)
+void Environment::EnvrionmentVariable::set(Variable variable)
 {
     if (this->variables.contains(variable.identifier))
     {
@@ -23,7 +23,7 @@ void Environment::EnvVar::set(Variable variable)
     this->variables[variable.identifier] = variable;
 }
 
-void Environment::EnvVar::assign(std::string identifier, std::any value)
+void Environment::EnvrionmentVariable::assign(std::string identifier, std::any value)
 {
     if (not this->variables.contains(identifier))
     {

@@ -10,7 +10,7 @@ std::optional<Environment> EnvStack::get()
 {
     if (not this->envs.empty() && this->current >= 0)
     {
-        return std::make_optional<Environment>(std::move(this->envs.at(current--)));
+        return std::make_optional<Environment>(this->envs.at(current--));
     }
     return std::nullopt;
 }
@@ -22,13 +22,13 @@ std::pair<Variable, Environment> EnvStack::get(std::string identifier)
     {
         throw std::invalid_argument("Variable Identifier '" + identifier + "' not found.");
     }
-    Environment env = std::move(env_op.value());
+    Environment env = env_op.value();
     if (env.env_var.get(identifier) == std::nullopt)
     {
         return get(identifier);
     }
     reset();
-    return { std::move(env.env_var.get(identifier).value()), std::move(env)};
+    return { env.env_var.get(identifier).value(), env};
 }
 
 void EnvStack::push(Environment env)
@@ -44,9 +44,11 @@ std::optional<Environment> EnvStack::pop()
     {
         return std::nullopt;
     }
+    Environment deleted_env = this->envs.at(last_index);
     this->last_index--;
-    reset();
     this->envs.pop_back();
+    reset();
+    return std::make_optional<Environment>(deleted_env);
 }
 
 void EnvStack::add(Variable var)

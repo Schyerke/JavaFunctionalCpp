@@ -10,12 +10,12 @@
 
 class Environment {
 public:
-	Environment(Environment&& env) = default;
-	Environment(Environment& env) = delete;
+	//Environment(Environment&& env) = default;
+	//Environment(Environment& env) = delete;
 
 	Environment();
 
-	class EnvVar
+	class EnvrionmentVariable
 	{
 	public:
 		std::optional<Variable> get(std::string identifier);
@@ -25,5 +25,5 @@ public:
 		std::unordered_map<std::string, Variable> variables;
 	};
 
-	EnvVar env_var;
+	EnvrionmentVariable env_var;
 };
