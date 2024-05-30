@@ -1,8 +1,9 @@
-
+﻿
 #include <iostream>
 #include <fstream>
 #include <vector>
 #include <string>
+#include <print>
 
 #include "functionmemory.hpp"
 
@@ -16,6 +17,11 @@
 
 #include "semantic.hpp"
 #include "interpret.hpp"
+
+#include <string>
+#include <iostream>
+#include <Windows.h>
+#include <cstdio>
 
 void print_errors(std::vector<std::string> errors)
 {
@@ -63,7 +69,7 @@ int main()
 		print_errors(error_reports);
 		return 64;
 	}
-
+	
 	EnvStack sem_env;
 	Semantic semantic = Semantic(std::move(sem_env), function_memory);
 	std::vector<std::string> semantic_errors = semantic.analyse(statements);

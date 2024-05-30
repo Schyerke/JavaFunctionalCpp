@@ -492,12 +492,8 @@ std::unique_ptr<AstNode> Parser::parseTerm()
 	std::unique_ptr<AstNode> left = parseFactor();
 	while (matchany({
 		PLUS_TOKEN,
-		MINUS_TOKEN,
-		EQUAL_EQUAL_TOKEN,
-		BANG_EQUAL_TOKEN,
-		AMPERSAND_AMPERSAND_TOKEN,
-		PIPE_PIPE_TOKEN
-		}))
+		MINUS_TOKEN
+					}))
 	{
 		SyntaxToken op = next_token();
 		std::unique_ptr<AstNode> right = parseFactor();
@@ -510,7 +506,7 @@ std::unique_ptr<AstNode> Parser::parseFactor()
 {
 	std::unique_ptr<AstNode> left = parseUnary();
 
-	while (matchany({ STAR_TOKEN, SLASH_TOKEN }))
+	while (matchany({ STAR_TOKEN, SLASH_TOKEN, EQUAL_EQUAL_TOKEN, AMPERSAND_AMPERSAND_TOKEN, BANG_EQUAL_TOKEN, PIPE_PIPE_TOKEN }))
 	{
 		SyntaxToken op = next_token();
 		std::unique_ptr<AstNode> right = parseUnary();
