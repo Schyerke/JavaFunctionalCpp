@@ -3,8 +3,14 @@
 
 #include "visitor.hpp"
 
+#include "astnode.hpp"
+
 class Traverse : public Visitor
 {
+public:
+	void traverse(std::unique_ptr<AstNode>& statement);
+
+private:
 	std::any visitBinaryExpression(BinaryExpression& binaryExpression);
 	std::any visitBoolNode(BoolNode& boolNode);
 	std::any visitNumberNode(NumberNode& numberNode);

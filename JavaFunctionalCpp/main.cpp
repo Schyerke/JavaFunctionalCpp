@@ -18,13 +18,12 @@
 #include "semantic.hpp"
 #include "interpret.hpp"
 
-#include <string>
-#include <iostream>
-#include <Windows.h>
+#include "traverse_ast.hpp"
+
+
+
+#include <windows.h>
 #include <cstdio>
-
-#pragma execution_character_set( "utf-8" )
-
 void print_errors(std::vector<std::string> errors)
 {
 	for (std::string& error : errors)
@@ -57,7 +56,6 @@ auto read_file(std::string_view path) -> std::string
 int main()
 {
 	SetConsoleOutputCP(65001);
-	std::cout << "├──";
 
 	std::string program = read_file("main.jpp");
 
@@ -75,6 +73,14 @@ int main()
 		return 64;
 	}
 	
+	for (auto& stmt : statements)
+	{
+		std::unique_ptr<Traverse> traverse = std::make_unique<Traverse>();
+		traverse->traverse(stmt);
+		break;
+	}
+
+	/*
 	EnvStack sem_env;
 	Semantic semantic = Semantic(std::move(sem_env), function_memory);
 	std::vector<std::string> semantic_errors = semantic.analyse(statements);
@@ -101,6 +107,6 @@ int main()
 			break;
 		}
 	}
-	
+	*/
 	return 0;
 }
