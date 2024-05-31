@@ -96,6 +96,12 @@
     <ClCompile Include="ifstmtnode.cpp">
       <Filter>Source Files\statements</Filter>
     </ClCompile>
+    <ClCompile Include="traverse_ast.hpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="traverse_ast.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lexer.hpp">
@@ -169,6 +175,9 @@
     </ClInclude>
     <ClInclude Include="ifstmtnode.hpp">
       <Filter>Header Files\statements</Filter>
+    </ClInclude>
+    <ClInclude Include="ast_node_headers.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

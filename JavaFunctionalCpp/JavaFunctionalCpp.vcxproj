@@ -142,6 +142,8 @@
     <ClCompile Include="identifiernode.cpp" />
     <ClCompile Include="interpret.cpp" />
     <ClCompile Include="semantic.cpp" />
+    <ClCompile Include="traverse_ast.cpp" />
+    <ClCompile Include="traverse_ast.hpp" />
     <ClCompile Include="varassignmentstmtnode.cpp" />
     <ClCompile Include="vardeclarationnode.cpp" />
     <ClCompile Include="lexer.cpp" />
@@ -156,6 +158,7 @@
     <ClCompile Include="variable.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ast_node_headers.hpp" />
     <ClInclude Include="ifstmtnode.hpp" />
     <ClInclude Include="astnode.hpp" />
     <ClInclude Include="binaryexpression.hpp" />

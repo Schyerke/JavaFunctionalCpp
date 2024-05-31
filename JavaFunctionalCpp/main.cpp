@@ -23,6 +23,8 @@
 #include <Windows.h>
 #include <cstdio>
 
+#pragma execution_character_set( "utf-8" )
+
 void print_errors(std::vector<std::string> errors)
 {
 	for (std::string& error : errors)
@@ -54,6 +56,9 @@ auto read_file(std::string_view path) -> std::string
 
 int main()
 {
+	SetConsoleOutputCP(65001);
+	std::cout << "├──";
+
 	std::string program = read_file("main.jpp");
 
 	EnvStack p_env;
