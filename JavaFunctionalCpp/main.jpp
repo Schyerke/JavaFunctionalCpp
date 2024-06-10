@@ -1,10 +1,2 @@
 
-{
-	bool w = true;
-	if(2+2 == 2+2)
-	{
-		print "true";
-	}
-	print "Fuori da if";
-
-}
+print 2+2==2+2;

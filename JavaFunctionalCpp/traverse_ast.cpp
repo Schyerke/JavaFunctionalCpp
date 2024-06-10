@@ -10,11 +10,11 @@
 // ────  // 4 characters
 // └───
 
-std::string tab = "";
+std::string tab = "|";
 
 void add_space_tab()
 {
-    tab += "    ";
+    tab += "   ";
 }
 
 void delete_space_tab()

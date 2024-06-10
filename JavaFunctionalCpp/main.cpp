@@ -20,10 +20,11 @@
 
 #include "traverse_ast.hpp"
 
-
-
 #include <windows.h>
 #include <cstdio>
+
+bool showtree = false;
+
 void print_errors(std::vector<std::string> errors)
 {
 	for (std::string& error : errors)
@@ -73,14 +74,17 @@ int main()
 		return 64;
 	}
 	
-	for (auto& stmt : statements)
+	if (showtree)
 	{
-		std::unique_ptr<Traverse> traverse = std::make_unique<Traverse>();
-		traverse->traverse(stmt);
-		break;
+		for (auto& stmt : statements)
+		{
+			std::unique_ptr<Traverse> traverse = std::make_unique<Traverse>();
+			traverse->traverse(stmt);
+			break;
+		}
 	}
 
-	/*
+	
 	EnvStack sem_env;
 	Semantic semantic = Semantic(std::move(sem_env), function_memory);
 	std::vector<std::string> semantic_errors = semantic.analyse(statements);
@@ -107,6 +111,6 @@ int main()
 			break;
 		}
 	}
-	*/
+	
 	return 0;
 }
