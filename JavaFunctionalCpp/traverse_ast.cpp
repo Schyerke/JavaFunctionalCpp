@@ -1,5 +1,5 @@
-﻿#include "traverse_ast.hpp"
-#include "ast_node_headers.hpp"
+﻿#include "ast_node_headers.hpp"
+#include "traverse_ast.hpp"
 #include "token.hpp"
 
 

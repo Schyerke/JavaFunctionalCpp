@@ -476,15 +476,46 @@ std::unique_ptr<AstNode> Parser::varAssignmentStatement()
 
 std::unique_ptr<AstNode> Parser::parseExpression()
 {
-	if (match(IDENTIFIER_TOKEN))
+	if (match(IDENTIFIER_TOKEN) && peek_next().get_token_t() == OPEN_PAREN)
 	{
-		if (peek_next().get_token_t() == OPEN_PAREN)
-		{
-			return functionCall();
-		}
+		return functionCall();
+	}
+	if (match(IDENTIFIER_TOKEN) && peek_next().get_token_t() != OPEN_PAREN)
+	{
 		return varAssignmentStatement();
 	}
-	return parseTerm();
+	return parseBinaryExpression();
+}
+
+std::unique_ptr<AstNode> Parser::parseBinaryExpression(int parentPrecedence)
+{
+	std::unique_ptr<AstNode> left;
+
+	unsigned short unary_prec = get_unary_operator_precedence(peek().get_token_t());
+	if (unary_prec != 0 && unary_prec >= parentPrecedence)
+	{
+		SyntaxToken operatorToken = next_token();
+		std::unique_ptr<AstNode> operand = parseBinaryExpression(unary_prec);
+		left = std::make_unique<UnaryNode>(operatorToken.get_token_t(), std::move(operand));
+	}
+	else
+	{
+		left = parsePrimary();
+	}
+
+	while (true)
+	{
+		unsigned short prec = get_binary_operator_precedence(peek().get_token_t());
+		if (prec == 0 || prec <= parentPrecedence)
+		{
+			break;
+		}
+		SyntaxToken operatorToken = next_token();
+		std::unique_ptr<AstNode> right = parseBinaryExpression(prec);
+		left = std::make_unique<BinaryExpression>(std::move(left), operatorToken.get_token_t(), std::move(right));
+	}
+
+	return left;
 }
 
 std::unique_ptr<AstNode> Parser::parseTerm()
@@ -493,7 +524,7 @@ std::unique_ptr<AstNode> Parser::parseTerm()
 	while (matchany({
 		PLUS_TOKEN,
 		MINUS_TOKEN, EQUAL_EQUAL_TOKEN, AMPERSAND_AMPERSAND_TOKEN, BANG_EQUAL_TOKEN, PIPE_PIPE_TOKEN
-					}))
+	}))
 	{
 		SyntaxToken op = next_token();
 		std::unique_ptr<AstNode> right = parseFactor();

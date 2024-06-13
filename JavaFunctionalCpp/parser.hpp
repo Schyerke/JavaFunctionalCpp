@@ -55,6 +55,7 @@ private:
 	std::unique_ptr<AstNode> varDeclarationStatement();
 	std::unique_ptr<AstNode> varAssignmentStatement();
 	std::unique_ptr<AstNode> parseExpression();
+	std::unique_ptr<AstNode> parseBinaryExpression(int precedence = 0);
 	std::unique_ptr<AstNode> parseTerm();
 	std::unique_ptr<AstNode> parseFactor();
 	std::unique_ptr<AstNode> parseUnary();

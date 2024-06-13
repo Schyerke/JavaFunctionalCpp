@@ -64,3 +64,6 @@ std::string token_name(Token_t token);
 std::string display_vartype(Token_t varType);
 std::string display_stmts(Token_t stmt);
 std::string display_keyword(Token_t kw);
+
+unsigned short get_unary_operator_precedence(Token_t unary_op);
+unsigned short get_binary_operator_precedence(Token_t binary_op);

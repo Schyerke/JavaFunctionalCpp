@@ -5,6 +5,8 @@
 #include <string>
 #include <print>
 
+#include "traverse_ast.hpp"
+
 #include "functionmemory.hpp"
 
 #include "lexer.hpp"
@@ -18,7 +20,7 @@
 #include "semantic.hpp"
 #include "interpret.hpp"
 
-#include "traverse_ast.hpp"
+
 
 #include <windows.h>
 #include <cstdio>
@@ -33,7 +35,7 @@ void print_errors(std::vector<std::string> errors)
 	}
 }
 
-auto read_file(std::string_view path) -> std::string
+auto read_file(std::string_view path) -> std::string 
 {
 	constexpr auto read_size = std::size_t(4096);
 	auto stream = std::ifstream(path.data());
@@ -83,7 +85,7 @@ int main()
 			break;
 		}
 	}
-
+	
 	
 	EnvStack sem_env;
 	Semantic semantic = Semantic(std::move(sem_env), function_memory);

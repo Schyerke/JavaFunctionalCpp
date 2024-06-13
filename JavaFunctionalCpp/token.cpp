@@ -105,3 +105,35 @@ std::string display_keyword(Token_t kw)
 			return "Invalid Keyword";
 	}
 }
+
+unsigned short get_unary_operator_precedence(Token_t unary_op)
+{
+	switch (unary_op)
+	{
+		case PLUS_TOKEN:
+		case MINUS_TOKEN:
+			return 1;
+	}
+	return 0;
+}
+
+unsigned short get_binary_operator_precedence(Token_t binary_op)
+{
+	switch (binary_op)
+	{
+		case EQUAL_EQUAL_TOKEN:
+		case BANG_EQUAL_TOKEN:
+		case AMPERSAND_AMPERSAND_TOKEN:
+		case PIPE_PIPE_TOKEN:
+			return 4;
+
+		case STAR_TOKEN:
+		case SLASH_TOKEN:
+			return 7;
+
+		case PLUS_TOKEN:
+		case MINUS_TOKEN:
+			return 1;
+	}
+	return 0;
+}

@@ -3,7 +3,6 @@
 
 EnvStack::EnvStack()
 {
-
 }
 
 std::optional<Environment> EnvStack::get()
