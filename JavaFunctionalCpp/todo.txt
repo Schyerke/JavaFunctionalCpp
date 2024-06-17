@@ -15,8 +15,12 @@
 #fixing bugs
 #implicit casting numbers
 #functions
+#if statement
 
-if statement
+writing tests
+
+else if statement
+else statement
 
 array datatype
 char datatype

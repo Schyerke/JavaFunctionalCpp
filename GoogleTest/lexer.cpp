@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "../JavaFunctionalCpp/src/lexer.hpp"
+#include "../JavaFunctionalCpp/lexer.hpp"
 
 class LexerTest : public testing::Test
 {

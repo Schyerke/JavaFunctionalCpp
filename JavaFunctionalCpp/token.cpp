@@ -125,7 +125,7 @@ unsigned short get_binary_operator_precedence(Token_t binary_op)
 		case BANG_EQUAL_TOKEN:
 		case AMPERSAND_AMPERSAND_TOKEN:
 		case PIPE_PIPE_TOKEN:
-			return 4;
+			return 2;
 
 		case STAR_TOKEN:
 		case SLASH_TOKEN:
@@ -133,7 +133,7 @@ unsigned short get_binary_operator_precedence(Token_t binary_op)
 
 		case PLUS_TOKEN:
 		case MINUS_TOKEN:
-			return 1;
+			return 4;
 	}
 	return 0;
 }

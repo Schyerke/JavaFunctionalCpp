@@ -1,14 +1,5 @@
 
 
-{
-	bool w = true;
-	if(2+2=4)
-	{
-		print "true";
-	}
-	print "Fuori da if";
-
-}
 
 int f(int a, int b)
 {

@@ -13,6 +13,8 @@ declearationStatement => varDeclearationStatement    |
 						 functionDeclarationStatement
 
 ifStatement => "if" "(" expression ")" blockStatement
+				("else if" "(" expression ")" blockStatement)*
+				("else" blockStatement)?
 
 printStatement => "print " expression ";"
 varDeclearationStatement => varType IDENTIFIER ("=" expression)? ";"
