@@ -1,12 +1,7 @@
 #include "pch.h"
-#include "../JavaFunctionalCpp/lexer.hpp"
+#include "lexer_test.hpp"
 
-class LexerTest : public testing::Test
+TEST_F(LexerTest, LexerInit)
 {
-
-};
-
-TEST_F(Lexer, LexerInit)
-{
-
+	
 }

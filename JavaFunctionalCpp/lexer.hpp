@@ -4,6 +4,8 @@
 
 #include "syntaxtoken.hpp"
 
+class LexerTest;
+
 class Lexer {
 public:
 	Lexer(std::string program);
@@ -17,6 +19,8 @@ private:
 	std::string program;
 
 	unsigned int row = 0;
+
+	friend class LexerTest;
 };
 
 
