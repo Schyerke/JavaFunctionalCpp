@@ -1,4 +1,4 @@
-﻿#include "ast_node_headers.hpp"
+﻿﻿#include "ast_node_headers.hpp"
 #include "traverse_ast.hpp"
 #include "token.hpp"
 
@@ -36,7 +36,7 @@ std::any Traverse::visitFunctionCallNode(FunctionCallExpr& functionCallExpr)
     std::cout << tab + "FunctionCallExprNode (" + functionCallExpr.identifier + ")" << std::endl;
     std::cout << tab + "└─── Arguments" << std::endl;
     add_space_tab();
-    for (auto& arg : functionCallExpr.arguments) 
+    for (auto& arg : functionCallExpr.arguments)
     {
         arg->accept(*this);
     }

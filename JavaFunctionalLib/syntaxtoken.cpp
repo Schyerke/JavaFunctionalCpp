@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "token.hpp"
 #include "syntaxtoken.hpp"
+#include "token.hpp"
 
 
 

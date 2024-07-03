@@ -1,15 +1,25 @@
-
 #pragma once
-#include "visitor.hpp"
-
+#include <vector>
 #include "astnode.hpp"
+#include "environment.hpp"
+#include "envstack.hpp"
+#include "variable.hpp"
+#include "functionmemory.hpp"
 
-class Traverse : public Visitor
+class Semantic : public Visitor
 {
 public:
-	void traverse(std::unique_ptr<AstNode>& statement);
+	EnvStack env_stack;
+	FunctionMemory& function_memory;
+	Semantic(EnvStack env, FunctionMemory& function_memory);
+
+	std::vector<std::string> analyse(std::vector<std::unique_ptr<AstNode>>& statements);
+
 
 private:
+	std::vector<std::string> errors;
+	void add_err(std::string error);
+
 	std::any visitBinaryExpression(BinaryExpression& binaryExpression);
 	std::any visitBoolNode(BoolNode& boolNode);
 	std::any visitNumberNode(NumberNode& numberNode);

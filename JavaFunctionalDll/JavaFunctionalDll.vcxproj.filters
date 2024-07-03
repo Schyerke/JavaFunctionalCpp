@@ -15,21 +15,19 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClInclude Include="framework.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="grammar.txt" />
-    <Text Include="todo.txt" />
-    <Text Include="consideration.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="main.jpp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="cool_code.jpp">
-      <Filter>Resource Files</Filter>
-    </None>
+    <ClCompile Include="pch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

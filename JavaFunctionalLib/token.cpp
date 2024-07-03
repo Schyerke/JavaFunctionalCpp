@@ -2,46 +2,48 @@
 
 #include "token.hpp"
 
-std::string token_name(Token_t token) {
-	switch (token) {
-	case NUMBER_TOKEN:
-		return "Number Token";
-	case STRING_LITERAL_TOKEN:
-		return "String Token";
+std::string token_name(Token_t token)
+{
+	switch (token)
+	{
+		case NUMBER_TOKEN:
+			return "Number Token";
+		case STRING_LITERAL_TOKEN:
+			return "String Token";
 
-	case PLUS_TOKEN:
-		return "Plus Token";
-	case MINUS_TOKEN:
-		return "Minus Token";
-	case STAR_TOKEN:
-		return "Star Token";
-	case SLASH_TOKEN:
-		return "Slash Token";
+		case PLUS_TOKEN:
+			return "Plus Token";
+		case MINUS_TOKEN:
+			return "Minus Token";
+		case STAR_TOKEN:
+			return "Star Token";
+		case SLASH_TOKEN:
+			return "Slash Token";
 
-	case EQUAL_TOKEN:
-		return "Equal Token";
-	case EQUAL_EQUAL_TOKEN:
-		return "Equal Equal Token";
+		case EQUAL_TOKEN:
+			return "Equal Token";
+		case EQUAL_EQUAL_TOKEN:
+			return "Equal Equal Token";
 
 
-	case SEMICOLON_TOKEN:
-		return "Semicolon Token";
+		case SEMICOLON_TOKEN:
+			return "Semicolon Token";
 
-	case NO_OPERATOR_TOKEN:
-		return "No Operator Token";
-	case BAD_TOKEN:
-		return "Bad Token";
-	case END_OF_FILE_TOKEN:
-		return "End Of File Token";
-	default:
-		return "Invalid Token";
+		case NO_OPERATOR_TOKEN:
+			return "No Operator Token";
+		case BAD_TOKEN:
+			return "Bad Token";
+		case END_OF_FILE_TOKEN:
+			return "End Of File Token";
+		default:
+			return "Invalid Token";
 	}
 	return "Invalid Token";
 }
 
-std::string display_vartype(Token_t varType) 
+std::string display_vartype(Token_t varType)
 {
-	switch (varType) 
+	switch (varType)
 	{
 		case BOOL_TYPE:
 			return "bool";
@@ -65,7 +67,7 @@ std::string display_stmts(Token_t token)
 	{
 		case PRINT_STMT:
 			return "print";
-			
+
 		case FALSE_TOKEN:
 			return "false";
 		case TRUE_TOKEN:
@@ -85,7 +87,7 @@ std::string display_stmts(Token_t token)
 
 		case SEMICOLON_TOKEN:
 			return ";";
-			
+
 		default:
 			return "No Statement Found";
 	}
@@ -100,7 +102,7 @@ std::string display_keyword(Token_t kw)
 			return "if";
 		case RETURN_KW:
 			return "return";
-		
+
 		default:
 			return "Invalid Keyword";
 	}

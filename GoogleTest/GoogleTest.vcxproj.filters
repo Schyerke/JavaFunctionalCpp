@@ -3,18 +3,12 @@
   <ItemGroup>
     <ClCompile Include="test.cpp" />
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="lexer.cpp">
-      <Filter>test</Filter>
-    </ClCompile>
     <ClCompile Include="lexer_test.cpp">
       <Filter>IO</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
-    <ClInclude Include="lexer_test.hpp">
-      <Filter>IO</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

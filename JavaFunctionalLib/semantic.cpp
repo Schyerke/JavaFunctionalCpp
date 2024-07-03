@@ -70,7 +70,7 @@ std::any Semantic::visitBinaryExpression(BinaryExpression& binaryExpression)
 std::any Semantic::visitBoolNode(BoolNode& boolNode)
 {
 	bool v = boolNode.value;
-	if (not (v == false || v == true)) 
+	if (not (v == false || v == true))
 	{
 		add_err("Boolean value is invalid (must be either 'true' or 'false').");
 	}
@@ -112,7 +112,7 @@ std::any Semantic::visitStringNode(StringNode& stringNode)
 
 std::any Semantic::visitIdentifierNode(IdentifierNode& identifierNode)
 {
-	try 
+	try
 	{
 		std::pair<Variable, Environment> v = this->env_stack.get(identifierNode.identifier);
 		return v.first.value;

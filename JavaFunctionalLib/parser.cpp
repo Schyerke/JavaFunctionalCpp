@@ -59,8 +59,8 @@ SyntaxToken Parser::next_token()
 
 bool Parser::is_at_end()
 {
-	if (this->index >= this->tokens.size()						||
-		this->tokens[this->index].get_token_t() == BAD_TOKEN    ||
+	if (this->index >= this->tokens.size() ||
+		this->tokens[this->index].get_token_t() == BAD_TOKEN ||
 		this->tokens[this->index].get_token_t() == END_OF_FILE_TOKEN)
 	{
 		return true;
@@ -110,9 +110,11 @@ void Parser::back()
 	}
 }
 
-SyntaxToken Parser::look_ahead(int offset) {
+SyntaxToken Parser::look_ahead(int offset)
+{
 	int index = offset + this->index;
-	if (index < this->tokens.size()) {
+	if (index < this->tokens.size())
+	{
 		return this->tokens[index];
 	}
 	return this->tokens[this->tokens.size() - 1];
@@ -168,8 +170,10 @@ std::optional<SyntaxToken> Parser::find_var_type()
 	return dt_op;
 }
 
-bool Parser::match(Token_t match) {
-	if (peek().get_token_t() == match) {
+bool Parser::match(Token_t match)
+{
+	if (peek().get_token_t() == match)
+	{
 		return true;
 	}
 	return false;
@@ -273,7 +277,7 @@ std::unique_ptr<AstNode> Parser::declarationStatement()
 		INT_TYPE,
 		LONG_TYPE,
 		FLOAT_TYPE,
-		DOUBLE_TYPE}) && peek_next().get_token_t() == IDENTIFIER_TOKEN)
+		DOUBLE_TYPE }) && peek_next().get_token_t() == IDENTIFIER_TOKEN)
 	{
 		if (peek_next_next().get_token_t() == OPEN_PAREN)
 		{
@@ -281,7 +285,7 @@ std::unique_ptr<AstNode> Parser::declarationStatement()
 		}
 		return varDeclarationStatement();
 	}
-	
+
 	return nullptr;
 }
 
@@ -298,7 +302,7 @@ std::unique_ptr<AstNode> Parser::functionDeclarationStatement()
 	FuncVariable func_var;
 	func_var.return_type = from_TokenT_to_DataType(dt.get_token_t());
 	func_var.identifier = identifier.get_value();
-	
+
 	expect(OPEN_PAREN);
 	std::vector<Variable> formal_parameters;
 	if (not match(CLOSE_PAREN))
@@ -306,7 +310,7 @@ std::unique_ptr<AstNode> Parser::functionDeclarationStatement()
 		formal_parameters = parameters();
 	}
 	expect(CLOSE_PAREN);
-	
+
 	std::unique_ptr<AstNode> blockstmt = parseBlockStatement(formal_parameters, func_var.identifier);
 	func_var.block_stmt = std::move(blockstmt);
 	func_var.parameters = std::move(formal_parameters);
@@ -318,7 +322,7 @@ std::unique_ptr<AstNode> Parser::functionCall()
 {
 	SyntaxToken identifier = expect(IDENTIFIER_TOKEN);
 	std::vector<std::unique_ptr<AstNode>> args = arguments();
-	expect(CLOSE_PAREN); 
+	expect(CLOSE_PAREN);
 	return std::make_unique<FunctionCallExpr>(identifier.get_value(), std::move(args));;
 }
 
@@ -335,7 +339,7 @@ std::vector<Variable> Parser::parameters()
 	Variable var1;
 	var1.dtType = from_TokenT_to_DataType(var_dt.value().get_token_t());
 	var1.identifier = identifier.get_value();
-	
+
 	formal_parameters.push_back(var1);
 
 	while (match(COMMA_TOKEN))
@@ -524,7 +528,7 @@ std::unique_ptr<AstNode> Parser::parseTerm()
 	while (matchany({
 		PLUS_TOKEN,
 		MINUS_TOKEN, EQUAL_EQUAL_TOKEN, AMPERSAND_AMPERSAND_TOKEN, BANG_EQUAL_TOKEN, PIPE_PIPE_TOKEN
-	}))
+					}))
 	{
 		SyntaxToken op = next_token();
 		std::unique_ptr<AstNode> right = parseFactor();
@@ -537,7 +541,7 @@ std::unique_ptr<AstNode> Parser::parseFactor()
 {
 	std::unique_ptr<AstNode> left = parseUnary();
 
-	while (matchany({ STAR_TOKEN, SLASH_TOKEN  }))
+	while (matchany({ STAR_TOKEN, SLASH_TOKEN }))
 	{
 		SyntaxToken op = next_token();
 		std::unique_ptr<AstNode> right = parseUnary();
@@ -573,18 +577,18 @@ std::unique_ptr<AstNode> Parser::parsePrimary()
 		std::pair<Variable, Environment> var = std::move(this->env_stack.get(prev_prev.get_value()));
 		switch (var.first.dtType)
 		{
-		case DT_SHORT:
-			return std::make_unique<NumberNode>((short)stoi(token.get_value()));
-		case DT_INT:
-			return std::make_unique<NumberNode>(stoi(token.get_value()));
-		case DT_LONG:
-			return std::make_unique<NumberNode>(stol(token.get_value()));
-		case DT_FLOAT:
-			return std::make_unique<NumberNode>(stof(token.get_value()));
-		case DT_DOUBLE:
-			return std::make_unique<NumberNode>(stod(token.get_value()));
-		default:
-			return std::make_unique<NumberNode>(stoi(token.get_value()));
+			case DT_SHORT:
+				return std::make_unique<NumberNode>((short)stoi(token.get_value()));
+			case DT_INT:
+				return std::make_unique<NumberNode>(stoi(token.get_value()));
+			case DT_LONG:
+				return std::make_unique<NumberNode>(stol(token.get_value()));
+			case DT_FLOAT:
+				return std::make_unique<NumberNode>(stof(token.get_value()));
+			case DT_DOUBLE:
+				return std::make_unique<NumberNode>(stod(token.get_value()));
+			default:
+				return std::make_unique<NumberNode>(stoi(token.get_value()));
 		}
 	}
 	else if (match(NUMBER_TOKEN))
@@ -606,11 +610,13 @@ std::unique_ptr<AstNode> Parser::parsePrimary()
 		token = next_token();
 		return std::make_unique<IdentifierNode>(token.get_value());
 	}
-	else if (match(FALSE_TOKEN)) {
+	else if (match(FALSE_TOKEN))
+	{
 		advance();
 		return std::make_unique<BoolNode>(false);
 	}
-	else if (match(TRUE_TOKEN)) {
+	else if (match(TRUE_TOKEN))
+	{
 		advance();
 		return std::make_unique<BoolNode>(true);
 	}
