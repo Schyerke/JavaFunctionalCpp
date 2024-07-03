@@ -1,44 +1,44 @@
-#include "lexer_test.hpp"
+#include "pch.h"
+#include "../JavaFunctionalCpp/lexer.hpp"
 
-LexerTest::LexerTest()
+class LexerTest : public testing::Test
 {
-	
-}
+protected:
+	void SetUp() override
+	{
+		lexer = Lexer(program);
+	}
 
-void LexerTest::setUp(std::string program)
+	void TearDown() override
+	{
+		
+	}
+
+	std::string program;
+	Lexer lexer = Lexer("");
+};
+
+TEST_F(LexerTest, FunctionDeclaration)
 {
-	lexer = Lexer(program);
+	//(int a, int b){print a + b;}f(2, 52); 
+	program = "int f";
+	SetUp();
+	int row = 0;
+
+	std::vector<SyntaxToken> expected_output = {
+		SyntaxToken(INT_TYPE, display_vartype(INT_TYPE), 0, row, 3),
+		SyntaxToken(IDENTIFIER_TOKEN, "f", 4, row, 1)
+	};
+
+	std::vector<SyntaxToken> lexer_output;
+	while (true)
+	{
+		SyntaxToken token = lexer.lex();
+		if (token.get_token_t() == END_OF_FILE_TOKEN || token.get_token_t() == BAD_TOKEN)
+		{
+			break;
+		}
+		lexer_output.push_back(token);
+	}
+
 }
-
-SyntaxToken LexerTest::lex()
-{
-	return lexer.lex();
-}
-
-char LexerTest::current()
-{
-	return lexer.current();
-}
-
-char LexerTest::peekNext()
-{
-	return lexer.peekNext();
-}
-
-char LexerTest::lookAhead(int offset)
-{
-	return lexer.lookAhead(offset);
-}
-
-int LexerTest::advance()
-{
-	lexer.advance();
-	return lexer.index;
-}
-
-int LexerTest::get_current_index()
-{
-	return lexer.index;
-}
-
-

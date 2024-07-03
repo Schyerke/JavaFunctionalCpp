@@ -19,8 +19,6 @@ private:
 	std::string program;
 
 	unsigned int row = 0;
-
-	friend class LexerTest;
 };
 
 
