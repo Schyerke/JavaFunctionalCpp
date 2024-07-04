@@ -10,48 +10,48 @@ Interpreter::Interpreter(EnvStack env_stack, FunctionMemory& function_memory)
     this->env_stack = std::move(env_stack);
 }
 
-std::any Interpreter::interpret(std::unique_ptr<AstNode> root)
+std::any Interpreter::Interpret(std::unique_ptr<AstNode> root)
 {
     try
     {
-        return root->accept(*this);
+        return root->Accept(*this);
     }
     catch (std::invalid_argument& e)
     {
-        report(e.what());
+        Report(e.what());
     }
     return std::any();
 }
 
-void Interpreter::report(std::string error)
+void Interpreter::Report(std::string error)
 {
     this->runtime_errors.push_back(error);
 }
 
-std::vector<std::string> Interpreter::get_runtime_errors()
+std::vector<std::string> Interpreter::GetRuntimeErrors()
 {
     return this->runtime_errors;
 }
 
-std::any Interpreter::visitNumberNode(NumberNode& numberNode)
+std::any Interpreter::VisitNumberNode(NumberNode& numberNode)
 {
     return numberNode.number;
 }
 
-std::any Interpreter::visitStringNode(StringNode& stringNode)
+std::any Interpreter::VisitStringNode(StringNode& stringNode)
 {
     return stringNode.value;
 }
 
-std::any Interpreter::visitIdentifierNode(IdentifierNode& identifierNode)
+std::any Interpreter::VisitIdentifierNode(IdentifierNode& identifierNode)
 {
-    std::pair<Variable, Environment> var = this->env_stack.get(identifierNode.identifier);
+    std::pair<Variable, Environment> var = this->env_stack.Get(identifierNode.identifier);
     return var.first.value;
 }
 
-std::any Interpreter::visitUnaryNode(UnaryNode& unaryNode)
+std::any Interpreter::VisitUnaryNode(UnaryNode& unaryNode)
 {
-    std::any unary_expr = unaryNode.left->accept(*this);
+    std::any unary_expr = unaryNode.left->Accept(*this);
     if (unary_expr.type() == typeid(NUMBER_DT))
     {
         NUMBER_DT expr_unary = std::any_cast<NUMBER_DT>(unary_expr);
@@ -64,16 +64,16 @@ std::any Interpreter::visitUnaryNode(UnaryNode& unaryNode)
     throw std::invalid_argument("Runtime Error: Invalid unary value type (found type '" + unary_err + "')");
 }
 
-std::any Interpreter::visitIfStmtNode(IfStmtNode& ifStmtNode)
+std::any Interpreter::VisitIfStmtNode(IfStmtNode& ifStmtNode)
 {
-    std::any expr_value = ifStmtNode.expression->accept(*this);
+    std::any expr_value = ifStmtNode.expression->Accept(*this);
     std::string expr_typename = expr_value.type().name();
     if (expr_value.type() == typeid(bool))
     {
         bool if_result = std::any_cast<bool>(expr_value);
         if (if_result)
         {
-            ifStmtNode.blockStmt->accept(*this);
+            ifStmtNode.blockStmt->Accept(*this);
         }
     }
     else if (expr_value.type() == typeid(NUMBER_DT))
@@ -89,7 +89,7 @@ std::any Interpreter::visitIfStmtNode(IfStmtNode& ifStmtNode)
         }, expr_number);
         if (if_result)
         {
-            ifStmtNode.blockStmt->accept(*this);
+            ifStmtNode.blockStmt->Accept(*this);
         }
     }
     else
@@ -99,9 +99,9 @@ std::any Interpreter::visitIfStmtNode(IfStmtNode& ifStmtNode)
     return std::any();
 }
 
-std::any Interpreter::visitPrintStmt(PrintStmtNode& printStmtNode)
+std::any Interpreter::VisitPrintStmt(PrintStmtNode& printStmtNode)
 {
-    std::any expr_r = printStmtNode.expression->accept(*this);
+    std::any expr_r = printStmtNode.expression->Accept(*this);
 
     if (expr_r.type() == typeid(NUMBER_DT))
     {
@@ -132,33 +132,33 @@ std::any Interpreter::visitPrintStmt(PrintStmtNode& printStmtNode)
     return std::any();
 }
 
-std::any Interpreter::visitVarDeclarationStmt(VarDeclarationNode& varDeclarationNode)
+std::any Interpreter::VisitVarDeclarationStmt(VarDeclarationNode& varDeclarationNode)
 {
     Variable var;
-    var.dtType = from_TokenT_to_DataType(varDeclarationNode.variableType);
+    var.dtType = FromToken_tToDataType(varDeclarationNode.variableType);
     var.identifier = varDeclarationNode.identifier;
     var.value = nullptr;
     if (varDeclarationNode.expression != nullptr)
     {
-        var.value = varDeclarationNode.expression->accept(*this);
+        var.value = varDeclarationNode.expression->Accept(*this);
     }
-    this->env_stack.add(var);
+    this->env_stack.Add(var);
     
     return std::any();
 }
 
-std::any Interpreter::visitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmentNode)
+std::any Interpreter::VisitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmentNode)
 {
     std::string identifier = varAssignmentNode.identifier;
-    std::any value = varAssignmentNode.expression->accept(*this);
-    this->env_stack.assign(identifier, value);
+    std::any value = varAssignmentNode.expression->Accept(*this);
+    this->env_stack.Assign(identifier, value);
     
     return std::any();
 }
 
-std::any Interpreter::visitFunctionCallNode(FunctionCallExpr& functionCallExpr)
+std::any Interpreter::VisitFunctionCallNode(FunctionCallExpr& functionCallExpr)
 {
-    FuncVariable func_var = this->function_memory.get(functionCallExpr.identifier);
+    FuncVariable func_var = this->function_memory.Get(functionCallExpr.identifier);
     if (func_var.parameters.size() != functionCallExpr.arguments.size())
     {
         throw std::invalid_argument("Parameter size for funciton '" + func_var.identifier + "' is invalid for its arguments.");
@@ -166,7 +166,7 @@ std::any Interpreter::visitFunctionCallNode(FunctionCallExpr& functionCallExpr)
     for (int i = 0; i < func_var.parameters.size(); i++)
     {
         Variable& var = func_var.parameters.at(i);
-        std::any par_expr = functionCallExpr.arguments.at(i)->accept(*this);
+        std::any par_expr = functionCallExpr.arguments.at(i)->Accept(*this);
 
         if (par_expr.type() == typeid(NUMBER_DT))
         {
@@ -182,32 +182,32 @@ std::any Interpreter::visitFunctionCallNode(FunctionCallExpr& functionCallExpr)
         }
     }
     this->buffer_function_parameters = func_var.parameters;
-    func_var.block_stmt->accept(*this);
-    this->env_stack.pop();
+    func_var.block_stmt->Accept(*this);
+    this->env_stack.Pop();
     return {};
 }
 
-std::any Interpreter::visitBlockStmtNode(BlockStmtNode& blockStmtNode)
+std::any Interpreter::VisitBlockStmtNode(BlockStmtNode& blockStmtNode)
 {
     Environment block_env;
     std::vector<Variable> args = this->buffer_function_parameters;
     this->buffer_function_parameters = {};
     for (Variable var : args)
     {
-        block_env.env_var.set(var);
+        block_env.env_var.Set(var);
     }
-    this->env_stack.push(std::move(block_env));
+    this->env_stack.Push(std::move(block_env));
     for (auto& stmt : blockStmtNode.stmts)
     {
-        stmt->accept(*this);
+        stmt->Accept(*this);
     }
     return {};
 }
 
-std::any Interpreter::visitBinaryExpression(BinaryExpression& binaryExpression)
+std::any Interpreter::VisitBinaryExpression(BinaryExpression& binaryExpression)
 {
-    std::any left = binaryExpression.left->accept(*this);
-    std::any right = binaryExpression.right->accept(*this);
+    std::any left = binaryExpression.left->Accept(*this);
+    std::any right = binaryExpression.right->Accept(*this);
     Token_t op = binaryExpression.op;
 
     if (left.type() == typeid(NUMBER_DT) && right.type() == typeid(NUMBER_DT))
@@ -254,7 +254,7 @@ std::any Interpreter::visitBinaryExpression(BinaryExpression& binaryExpression)
             case PIPE_PIPE_TOKEN:
                 return lvar || rvar;
         }
-        std::string op_err = token_name(op);
+        std::string op_err = TokenName(op);
         throw std::invalid_argument("Runtime Error: Invalid value type (found type '" + op_err + "')");
     }
     std::string left_err = left.type().name();
@@ -262,7 +262,7 @@ std::any Interpreter::visitBinaryExpression(BinaryExpression& binaryExpression)
     throw std::invalid_argument("Runtime Error: couldn't evaluate type '" + left_err + "' with type '" + right_err + "'");
 }
 
-std::any Interpreter::visitBoolNode(BoolNode& boolNode)
+std::any Interpreter::VisitBoolNode(BoolNode& boolNode)
 {
     return boolNode.value;
 }

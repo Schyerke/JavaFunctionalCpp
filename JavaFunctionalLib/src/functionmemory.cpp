@@ -1,7 +1,7 @@
 
 #include "functionmemory.hpp"
 
-void FunctionMemory::add(FuncVariable func_var)
+void FunctionMemory::Add(FuncVariable func_var)
 {
 	if (this->func_vars.contains(func_var.identifier))
 	{
@@ -10,7 +10,7 @@ void FunctionMemory::add(FuncVariable func_var)
 	this->func_vars[func_var.identifier] = std::move(func_var);
 }
 
-FuncVariable FunctionMemory::get(std::string identifier)
+FuncVariable FunctionMemory::Get(std::string identifier)
 {
 	if (this->func_vars.contains(identifier))
 	{
@@ -19,7 +19,7 @@ FuncVariable FunctionMemory::get(std::string identifier)
 	throw std::invalid_argument("Function identifier '" + identifier + "' not declared.");
 }
 
-bool FunctionMemory::exist(std::string identifier)
+bool FunctionMemory::Exist(std::string identifier)
 {
 	return this->func_vars.contains(identifier);
 }

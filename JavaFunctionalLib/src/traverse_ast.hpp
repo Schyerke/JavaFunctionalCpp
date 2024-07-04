@@ -2,26 +2,26 @@
 #pragma once
 #include "visitor.hpp"
 
-#include "astnode.hpp"
+#include "nodes/astnode.hpp"
 
-class Traverse : public Visitor
+class Traverser : public Visitor
 {
 public:
-	void traverse(std::unique_ptr<AstNode>& statement);
+	void Traverse(std::unique_ptr<AstNode>& statement);
 
 private:
-	std::any visitBinaryExpression(BinaryExpression& binaryExpression);
-	std::any visitBoolNode(BoolNode& boolNode);
-	std::any visitNumberNode(NumberNode& numberNode);
-	std::any visitStringNode(StringNode& stringNode);
-	std::any visitIdentifierNode(IdentifierNode& identifierNode);
-	std::any visitUnaryNode(UnaryNode& unaryNode);
+	std::any VisitBinaryExpression(BinaryExpression& binaryExpression);
+	std::any VisitBoolNode(BoolNode& boolNode);
+	std::any VisitNumberNode(NumberNode& numberNode);
+	std::any VisitStringNode(StringNode& stringNode);
+	std::any VisitIdentifierNode(IdentifierNode& identifierNode);
+	std::any VisitUnaryNode(UnaryNode& unaryNode);
 
-	std::any visitIfStmtNode(IfStmtNode& ifStmtNode);
-	std::any visitPrintStmt(PrintStmtNode& printStmtNode);
-	std::any visitVarDeclarationStmt(VarDeclarationNode& varDeclarationNode);
-	std::any visitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmentNode);
+	std::any VisitIfStmtNode(IfStmtNode& ifStmtNode);
+	std::any VisitPrintStmt(PrintStmtNode& printStmtNode);
+	std::any VisitVarDeclarationStmt(VarDeclarationNode& varDeclarationNode);
+	std::any VisitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmentNode);
 
-	std::any visitFunctionCallNode(FunctionCallExpr& functionCallExpr);
-	std::any visitBlockStmtNode(BlockStmtNode& blockStmtNode);
+	std::any VisitFunctionCallNode(FunctionCallExpr& functionCallExpr);
+	std::any VisitBlockStmtNode(BlockStmtNode& blockStmtNode);
 };

@@ -10,7 +10,7 @@ NumberNode::NumberNode(NUMBER_DT number)
 	this->number = number;
 }
 
-std::any NumberNode::accept(Visitor& visitor)
+std::any NumberNode::Accept(Visitor& visitor)
 {
-	return visitor.visitNumberNode(*this);
+	return visitor.VisitNumberNode(*this);
 }

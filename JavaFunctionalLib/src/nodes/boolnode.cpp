@@ -6,7 +6,7 @@ BoolNode::BoolNode(bool value)
 	this->value = value;
 }
 
-std::any BoolNode::accept(Visitor& visitor)
+std::any BoolNode::Accept(Visitor& visitor)
 {
-	return visitor.visitBoolNode(*this);
+	return visitor.VisitBoolNode(*this);
 }

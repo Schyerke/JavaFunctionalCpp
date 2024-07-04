@@ -7,9 +7,9 @@
 class FunctionMemory
 {
 public:
-	void add(FuncVariable func_var);
-	FuncVariable get(std::string identifier);
-	bool exist(std::string identifier);
+	void Add(FuncVariable func_var);
+	FuncVariable Get(std::string identifier);
+	bool Exist(std::string identifier);
 private:
 	std::unordered_map<std::string, FuncVariable> func_vars;
 };

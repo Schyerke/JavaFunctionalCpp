@@ -4,7 +4,7 @@ BlockStmtNode::BlockStmtNode(std::vector<std::unique_ptr<AstNode>> stmts)
 	this->stmts = std::move(stmts);
 }
 
-std::any BlockStmtNode::accept(Visitor& visitor)
+std::any BlockStmtNode::Accept(Visitor& visitor)
 {
-	return visitor.visitBlockStmtNode(*this);
+	return visitor.VisitBlockStmtNode(*this);
 }

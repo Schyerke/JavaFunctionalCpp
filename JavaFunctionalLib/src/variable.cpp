@@ -1,6 +1,6 @@
 #include "variable.hpp"
 
-DataType from_TokenT_to_DataType(Token_t token)
+DataType FromToken_tToDataType(Token_t token)
 {
     switch (token)
     {

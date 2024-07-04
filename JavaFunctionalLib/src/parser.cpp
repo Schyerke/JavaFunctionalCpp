@@ -31,23 +31,11 @@ Parser::Parser(std::string program, EnvStack env_stack, FunctionMemory& function
 
 	Lexer lexer(program);
 
-	std::vector<SyntaxToken> tokens;
-	//temp 'token' will be overwritten.
-	SyntaxToken token = SyntaxToken::SyntaxToken(NO_OPERATOR_TOKEN, "", 0, 0, 0);
-	while (token.get_token_t() != BAD_TOKEN)
-	{
-		token = lexer.lex();
-		if (token.get_token_t() == END_OF_FILE_TOKEN)
-		{
-			break;
-		}
-		tokens.push_back(token);
-	}
-	this->tokens = tokens;
+	this->tokens = lexer.LexAll();
 	this->index = 0;
 }
 
-SyntaxToken Parser::next_token()
+SyntaxToken Parser::NextToken()
 {
 	size_t size = this->tokens.size();
 	if (this->index < size)
@@ -57,18 +45,18 @@ SyntaxToken Parser::next_token()
 	return SyntaxToken::SyntaxToken(END_OF_FILE_TOKEN, "", this->index - 1, 0, -1);
 }
 
-bool Parser::is_at_end()
+bool Parser::IsAtEnd()
 {
 	if (this->index >= this->tokens.size() ||
-		this->tokens[this->index].get_token_t() == BAD_TOKEN ||
-		this->tokens[this->index].get_token_t() == END_OF_FILE_TOKEN)
+		this->tokens[this->index].GetToken_t() == BAD_TOKEN ||
+		this->tokens[this->index].GetToken_t() == END_OF_FILE_TOKEN)
 	{
 		return true;
 	}
 	return false;
 }
 
-void Parser::advance()
+void Parser::Advance()
 {
 	size_t size = this->tokens.size();
 	if (this->index < size)
@@ -77,32 +65,32 @@ void Parser::advance()
 	}
 }
 
-SyntaxToken Parser::peek_next_next()
+SyntaxToken Parser::PeekNextNext()
 {
-	return look_ahead(2);
+	return LookAhead(2);
 }
 
-SyntaxToken Parser::peek_next()
+SyntaxToken Parser::PeekNext()
 {
-	return look_ahead(1);
+	return LookAhead(1);
 }
 
-SyntaxToken Parser::peek()
+SyntaxToken Parser::Peek()
 {
-	return look_ahead(0);
+	return LookAhead(0);
 }
 
-SyntaxToken Parser::previous()
+SyntaxToken Parser::Previous()
 {
-	return look_ahead(-1);
+	return LookAhead(-1);
 }
 
-SyntaxToken Parser::previous_previous()
+SyntaxToken Parser::PreviousPrevious()
 {
-	return look_ahead(-2);
+	return LookAhead(-2);
 }
 
-void Parser::back()
+void Parser::Back()
 {
 	if (this->index - 1 >= 0)
 	{
@@ -110,7 +98,7 @@ void Parser::back()
 	}
 }
 
-SyntaxToken Parser::look_ahead(int offset)
+SyntaxToken Parser::LookAhead(int offset)
 {
 	int index = offset + this->index;
 	if (index < this->tokens.size())
@@ -120,70 +108,70 @@ SyntaxToken Parser::look_ahead(int offset)
 	return this->tokens[this->tokens.size() - 1];
 }
 
-SyntaxToken Parser::expect(Token_t expect)
+SyntaxToken Parser::Expect(Token_t expect)
 {
-	if (peek().get_token_t() == expect)
+	if (Peek().GetToken_t() == expect)
 	{
-		return next_token();
+		return NextToken();
 	}
-	SyntaxToken curr = peek();
-	report("Expected " + token_name(expect));
+	SyntaxToken curr = Peek();
+	Report("Expected " + TokenName(expect));
 	return SyntaxToken::SyntaxToken(BAD_TOKEN, "", -1, 0, 0);
 }
 
-std::optional<SyntaxToken> Parser::expect_optional(Token_t expect)
+std::optional<SyntaxToken> Parser::ExpectOptional(Token_t expect)
 {
-	if (peek().get_token_t() == expect)
+	if (Peek().GetToken_t() == expect)
 	{
-		return next_token();
+		return NextToken();
 	}
 	return std::nullopt;
 }
 
-std::optional<SyntaxToken> Parser::find_var_type()
+std::optional<SyntaxToken> Parser::FindVarType()
 {
 	std::optional<SyntaxToken> dt_op = std::nullopt;
-	if (expect_optional(BOOL_TYPE))
+	if (ExpectOptional(BOOL_TYPE))
 	{
-		dt_op = previous();
+		dt_op = Previous();
 	}
-	if (expect_optional(SHORT_TYPE))
+	if (ExpectOptional(SHORT_TYPE))
 	{
-		dt_op = previous();
+		dt_op = Previous();
 	}
-	if (expect_optional(INT_TYPE))
+	if (ExpectOptional(INT_TYPE))
 	{
-		dt_op = previous();
+		dt_op = Previous();
 	}
-	if (expect_optional(LONG_TYPE))
+	if (ExpectOptional(LONG_TYPE))
 	{
-		dt_op = previous();
+		dt_op = Previous();
 	}
-	if (expect_optional(FLOAT_TYPE))
+	if (ExpectOptional(FLOAT_TYPE))
 	{
-		dt_op = previous();
+		dt_op = Previous();
 	}
-	if (expect_optional(DOUBLE_TYPE))
+	if (ExpectOptional(DOUBLE_TYPE))
 	{
-		dt_op = previous();
+		dt_op = Previous();
 	}
 	return dt_op;
 }
 
-bool Parser::match(Token_t match)
+bool Parser::Match(Token_t match)
 {
-	if (peek().get_token_t() == match)
+	if (Peek().GetToken_t() == match)
 	{
 		return true;
 	}
 	return false;
 }
 
-bool Parser::matchany(std::vector<Token_t> tokens)
+bool Parser::MatchAny(std::vector<Token_t> tokens)
 {
 	for (Token_t token : tokens)
 	{
-		if (match(token))
+		if (Match(token))
 		{
 			return true;
 		}
@@ -191,14 +179,14 @@ bool Parser::matchany(std::vector<Token_t> tokens)
 	return false;
 }
 
-std::vector<std::unique_ptr<AstNode>> Parser::parse()
+std::vector<std::unique_ptr<AstNode>> Parser::Parse()
 {
 	std::vector<std::unique_ptr<AstNode>> statements;
-	while (!is_at_end() && this->get_error_reports().empty())
+	while (!IsAtEnd() && this->GetErrorReports().empty())
 	{
 		try
 		{
-			std::unique_ptr<AstNode> statement = parseStatement();
+			std::unique_ptr<AstNode> statement = ParseStatement();
 			if (statement == nullptr)
 			{
 				break;
@@ -207,417 +195,417 @@ std::vector<std::unique_ptr<AstNode>> Parser::parse()
 		}
 		catch (std::invalid_argument e)
 		{
-			report(e.what());
+			Report(e.what());
 		}
 	}
 
 	return statements;
 }
 
-void Parser::report(std::string error)
+void Parser::Report(std::string error)
 {
 	this->error_reports.push_back(error);
 }
 
-std::vector<std::string> Parser::get_error_reports()
+std::vector<std::string> Parser::GetErrorReports()
 {
 	return this->error_reports;
 }
 
-std::unique_ptr<AstNode> Parser::parseStatement()
+std::unique_ptr<AstNode> Parser::ParseStatement()
 {
-	if (match(PRINT_STMT))
+	if (Match(PRINT_KW))
 	{
-		return parsePrintStatement();
+		return ParsePrintStatement();
 	}
-	if (matchany({ BOOL_TYPE, SHORT_TYPE, INT_TYPE, LONG_TYPE, FLOAT_TYPE, DOUBLE_TYPE }))
+	if (MatchAny({ BOOL_TYPE, SHORT_TYPE, INT_TYPE, LONG_TYPE, FLOAT_TYPE, DOUBLE_TYPE }))
 	{
-		return declarationStatement();
-	}
-
-	if (match(IF_KW))
-	{
-		return parseIfStatement();
+		return DeclarationStatement();
 	}
 
-	if (match(OPEN_CURLY_BRACKET))
+	if (Match(IF_KW))
 	{
-		return parseBlockStatement({}, "main");
+		return ParseIfStatement();
 	}
-	return parseExpression();
+
+	if (Match(OPEN_CURLY_BRACKET))
+	{
+		return ParseBlockStatement();
+	}
+	return ParseExpression();
 }
 
-std::unique_ptr<AstNode> Parser::parseIfStatement()
+std::unique_ptr<AstNode> Parser::ParseIfStatement()
 {
-	expect(IF_KW);
-	expect(OPEN_PAREN);
-	std::unique_ptr<AstNode> expression = parseExpression();
-	expect(CLOSE_PAREN);
+	Expect(IF_KW);
+	Expect(OPEN_PAREN);
+	std::unique_ptr<AstNode> expression = ParseExpression();
+	Expect(CLOSE_PAREN);
 
-	std::unique_ptr<AstNode> blockstmt = parseBlockStatement();
+	std::unique_ptr<AstNode> blockstmt = ParseBlockStatement();
 	return std::make_unique<IfStmtNode>(std::move(expression), std::move(blockstmt));
 }
 
-std::unique_ptr<AstNode> Parser::parsePrintStatement()
+std::unique_ptr<AstNode> Parser::ParsePrintStatement()
 {
-	advance();
-	std::unique_ptr<AstNode> expression = parseExpression();
+	Advance();
+	std::unique_ptr<AstNode> expression = ParseExpression();
 	if (expression != nullptr)
 	{
-		expect(SEMICOLON_TOKEN);
+		Expect(SEMICOLON_TOKEN);
 	}
 	return std::make_unique<PrintStmtNode>(std::move(expression));
 }
 
-std::unique_ptr<AstNode> Parser::declarationStatement()
+std::unique_ptr<AstNode> Parser::DeclarationStatement()
 {
-	if (matchany({
+	if (MatchAny({
 		BOOL_TYPE,
 		SHORT_TYPE,
 		INT_TYPE,
 		LONG_TYPE,
 		FLOAT_TYPE,
-		DOUBLE_TYPE }) && peek_next().get_token_t() == IDENTIFIER_TOKEN)
+		DOUBLE_TYPE }) && PeekNext().GetToken_t() == IDENTIFIER_TOKEN)
 	{
-		if (peek_next_next().get_token_t() == OPEN_PAREN)
+		if (PeekNextNext().GetToken_t() == OPEN_PAREN)
 		{
-			return functionDeclarationStatement();
+			return FunctionDeclarationStatement();
 		}
-		return varDeclarationStatement();
+		return VarDeclarationStatement();
 	}
 
 	return nullptr;
 }
 
-std::unique_ptr<AstNode> Parser::functionDeclarationStatement()
+std::unique_ptr<AstNode> Parser::FunctionDeclarationStatement()
 {
-	std::optional<SyntaxToken> dt_op = find_var_type();
+	std::optional<SyntaxToken> dt_op = FindVarType();
 
-	SyntaxToken identifier = expect(IDENTIFIER_TOKEN);
+	SyntaxToken identifier = Expect(IDENTIFIER_TOKEN);
 	if (not dt_op.has_value())
 	{
-		throw std::invalid_argument("Data type for identifier: " + identifier.get_value() + " not found.");
+		throw std::invalid_argument("Data type for identifier: " + identifier.GetValue() + " not found.");
 	}
 	SyntaxToken dt = dt_op.value();
 	FuncVariable func_var;
-	func_var.return_type = from_TokenT_to_DataType(dt.get_token_t());
-	func_var.identifier = identifier.get_value();
+	func_var.return_type = FromToken_tToDataType(dt.GetToken_t());
+	func_var.identifier = identifier.GetValue();
 
-	expect(OPEN_PAREN);
+	Expect(OPEN_PAREN);
 	std::vector<Variable> formal_parameters;
-	if (not match(CLOSE_PAREN))
+	if (not Match(CLOSE_PAREN))
 	{
-		formal_parameters = parameters();
+		formal_parameters = Parameters();
 	}
-	expect(CLOSE_PAREN);
+	Expect(CLOSE_PAREN);
 
-	std::unique_ptr<AstNode> blockstmt = parseBlockStatement(formal_parameters, func_var.identifier);
+	std::unique_ptr<AstNode> blockstmt = ParseBlockStatement(formal_parameters, func_var.identifier);
 	func_var.block_stmt = std::move(blockstmt);
 	func_var.parameters = std::move(formal_parameters);
-	this->function_memory.add(std::move(func_var));
+	this->function_memory.Add(std::move(func_var));
 	return {}; // nullptr for std::unique_ptr
 }
 
-std::unique_ptr<AstNode> Parser::functionCall()
+std::unique_ptr<AstNode> Parser::FunctionCall()
 {
-	SyntaxToken identifier = expect(IDENTIFIER_TOKEN);
-	std::vector<std::unique_ptr<AstNode>> args = arguments();
-	expect(CLOSE_PAREN);
-	return std::make_unique<FunctionCallExpr>(identifier.get_value(), std::move(args));;
+	SyntaxToken identifier = Expect(IDENTIFIER_TOKEN);
+	std::vector<std::unique_ptr<AstNode>> args = Arguments();
+	Expect(CLOSE_PAREN);
+	return std::make_unique<FunctionCallExpr>(identifier.GetValue(), std::move(args));;
 }
 
-std::vector<Variable> Parser::parameters()
+std::vector<Variable> Parser::Parameters()
 {
 	std::vector<Variable> formal_parameters;
 
-	std::optional<SyntaxToken> var_dt = find_var_type();
-	SyntaxToken identifier = expect(IDENTIFIER_TOKEN);
+	std::optional<SyntaxToken> var_dt = FindVarType();
+	SyntaxToken identifier = Expect(IDENTIFIER_TOKEN);
 	if (not var_dt.has_value())
 	{
-		throw std::invalid_argument("Data type for identifier: " + identifier.get_value() + " not found.");
+		throw std::invalid_argument("Data type for identifier: " + identifier.GetValue() + " not found.");
 	}
 	Variable var1;
-	var1.dtType = from_TokenT_to_DataType(var_dt.value().get_token_t());
-	var1.identifier = identifier.get_value();
+	var1.dtType = FromToken_tToDataType(var_dt.value().GetToken_t());
+	var1.identifier = identifier.GetValue();
 
 	formal_parameters.push_back(var1);
 
-	while (match(COMMA_TOKEN))
+	while (Match(COMMA_TOKEN))
 	{
-		advance();
-		std::optional<SyntaxToken> var_dt = find_var_type();
-		SyntaxToken identifier = expect(IDENTIFIER_TOKEN);
+		Advance();
+		std::optional<SyntaxToken> var_dt = FindVarType();
+		SyntaxToken identifier = Expect(IDENTIFIER_TOKEN);
 		if (not var_dt.has_value())
 		{
-			throw std::invalid_argument("Data type for identifier: " + identifier.get_value() + " not found.");
+			throw std::invalid_argument("Data type for identifier: " + identifier.GetValue() + " not found.");
 		}
 		Variable var2;
-		var2.dtType = from_TokenT_to_DataType(var_dt.value().get_token_t());
-		var2.identifier = identifier.get_value();
+		var2.dtType = FromToken_tToDataType(var_dt.value().GetToken_t());
+		var2.identifier = identifier.GetValue();
 		formal_parameters.push_back(var2);
 	}
 	return formal_parameters;
 }
 
-std::vector<std::unique_ptr<AstNode>> Parser::arguments()
+std::vector<std::unique_ptr<AstNode>> Parser::Arguments()
 {
-	expect(OPEN_PAREN);
+	Expect(OPEN_PAREN);
 	std::vector<std::unique_ptr<AstNode>> args;
-	while (not match(CLOSE_PAREN))
+	while (not Match(CLOSE_PAREN))
 	{
-		args.push_back(parseExpression());
-		if (match(CLOSE_PAREN))
+		args.push_back(ParseExpression());
+		if (Match(CLOSE_PAREN))
 		{
 			break;
 		}
-		expect(COMMA_TOKEN);
+		Expect(COMMA_TOKEN);
 	}
-	expect(CLOSE_PAREN);
+	Expect(CLOSE_PAREN);
 	return args;
 }
 
-std::unique_ptr<AstNode> Parser::parseBlockStatement(std::vector<Variable> pre_vars, std::string func_id)
+std::unique_ptr<AstNode> Parser::ParseBlockStatement(std::vector<Variable> pre_vars, std::string func_id)
 {
-	expect(OPEN_CURLY_BRACKET);
+	Expect(OPEN_CURLY_BRACKET);
 
 	Environment block_env;
 	for (auto pre_var : pre_vars)
 	{
-		block_env.env_var.set(pre_var);
+		block_env.env_var.Set(pre_var);
 	}
-	this->env_stack.push(std::move(block_env));
+	this->env_stack.Push(std::move(block_env));
 
 	std::vector<std::unique_ptr<AstNode>> stmts;
-	while (not match(CLOSE_CURLY_BRACKET))
+	while (not Match(CLOSE_CURLY_BRACKET))
 	{
-		stmts.push_back(std::move(parseStatement()));
+		stmts.push_back(std::move(ParseStatement()));
 	}
-	expect(CLOSE_CURLY_BRACKET);
+	Expect(CLOSE_CURLY_BRACKET);
 	return std::make_unique<BlockStmtNode>(std::move(stmts));
 }
 
-std::unique_ptr<AstNode> Parser::varDeclarationStatement()
+std::unique_ptr<AstNode> Parser::VarDeclarationStatement()
 {
-	std::optional<SyntaxToken> dt_op = find_var_type();
+	std::optional<SyntaxToken> dt_op = FindVarType();
 
-	SyntaxToken identifier = expect(IDENTIFIER_TOKEN);
+	SyntaxToken identifier = Expect(IDENTIFIER_TOKEN);
 
 	if (not dt_op.has_value())
 	{
-		throw std::invalid_argument("Data type for identifier: " + identifier.get_value() + " not found.");
+		throw std::invalid_argument("Data type for identifier: " + identifier.GetValue() + " not found.");
 	}
 	SyntaxToken dt = dt_op.value();
 	Variable var;
-	var.dtType = from_TokenT_to_DataType(dt.get_token_t());
-	var.identifier = identifier.get_value();
-	this->env_stack.add(var);
+	var.dtType = FromToken_tToDataType(dt.GetToken_t());
+	var.identifier = identifier.GetValue();
+	this->env_stack.Add(var);
 	std::unique_ptr<AstNode> expression;
-	if (expect_optional(EQUAL_TOKEN))
+	if (ExpectOptional(EQUAL_TOKEN))
 	{
-		expression = std::move(parseExpression());
+		expression = std::move(ParseExpression());
 	}
-	expect(SEMICOLON_TOKEN);
+	Expect(SEMICOLON_TOKEN);
 
-	return std::make_unique<VarDeclarationNode>(dt.get_token_t(), identifier.get_value(), std::move(expression));
+	return std::make_unique<VarDeclarationNode>(dt.GetToken_t(), identifier.GetValue(), std::move(expression));
 }
 
-std::unique_ptr<AstNode> Parser::varAssignmentStatement()
+std::unique_ptr<AstNode> Parser::VarAssignmentStatement()
 {
-	SyntaxToken identifier = expect(IDENTIFIER_TOKEN);
+	SyntaxToken identifier = Expect(IDENTIFIER_TOKEN);
 
-	if (expect_optional(PLUS_PLUS_TOKEN))
+	if (ExpectOptional(PLUS_PLUS_TOKEN))
 	{
-		std::unique_ptr<AstNode> ppt = std::make_unique<BinaryExpression>(std::make_unique<IdentifierNode>(identifier.get_value()), PLUS_TOKEN, std::make_unique<NumberNode>(1));
-		expect(SEMICOLON_TOKEN);
-		return std::make_unique<VarAssignmentStmtNode>(identifier.get_value(), std::move(ppt));
+		std::unique_ptr<AstNode> ppt = std::make_unique<BinaryExpression>(std::make_unique<IdentifierNode>(identifier.GetValue()), PLUS_TOKEN, std::make_unique<NumberNode>(1));
+		Expect(SEMICOLON_TOKEN);
+		return std::make_unique<VarAssignmentStmtNode>(identifier.GetValue(), std::move(ppt));
 	}
-	if (expect_optional(TRIPLE_PLUS_TOKEN))
+	if (ExpectOptional(TRIPLE_PLUS_TOKEN))
 	{
-		std::unique_ptr<AstNode> ppt = std::make_unique<BinaryExpression>(std::make_unique<IdentifierNode>(identifier.get_value()), PLUS_TOKEN, std::make_unique<NumberNode>(2));
-		expect(SEMICOLON_TOKEN);
-		return std::make_unique<VarAssignmentStmtNode>(identifier.get_value(), std::move(ppt));
+		std::unique_ptr<AstNode> ppt = std::make_unique<BinaryExpression>(std::make_unique<IdentifierNode>(identifier.GetValue()), PLUS_TOKEN, std::make_unique<NumberNode>(2));
+		Expect(SEMICOLON_TOKEN);
+		return std::make_unique<VarAssignmentStmtNode>(identifier.GetValue(), std::move(ppt));
 	}
-	if (expect_optional(MINUS_MINUS_TOKEN))
+	if (ExpectOptional(MINUS_MINUS_TOKEN))
 	{
-		std::unique_ptr<AstNode> ppt = std::make_unique<BinaryExpression>(std::make_unique<IdentifierNode>(identifier.get_value()), MINUS_TOKEN, std::make_unique<NumberNode>(1));
-		expect(SEMICOLON_TOKEN);
-		return std::make_unique<VarAssignmentStmtNode>(identifier.get_value(), std::move(ppt));
+		std::unique_ptr<AstNode> ppt = std::make_unique<BinaryExpression>(std::make_unique<IdentifierNode>(identifier.GetValue()), MINUS_TOKEN, std::make_unique<NumberNode>(1));
+		Expect(SEMICOLON_TOKEN);
+		return std::make_unique<VarAssignmentStmtNode>(identifier.GetValue(), std::move(ppt));
 	}
-	if (expect_optional(PLUS_EQUAL_TOKEN))
+	if (ExpectOptional(PLUS_EQUAL_TOKEN))
 	{
-		std::unique_ptr<AstNode> ppt = std::make_unique<BinaryExpression>(std::make_unique<IdentifierNode>(identifier.get_value()), PLUS_TOKEN, std::move(parseExpression()));
-		expect(SEMICOLON_TOKEN);
-		return std::make_unique<VarAssignmentStmtNode>(identifier.get_value(), std::move(ppt));
+		std::unique_ptr<AstNode> ppt = std::make_unique<BinaryExpression>(std::make_unique<IdentifierNode>(identifier.GetValue()), PLUS_TOKEN, std::move(ParseExpression()));
+		Expect(SEMICOLON_TOKEN);
+		return std::make_unique<VarAssignmentStmtNode>(identifier.GetValue(), std::move(ppt));
 	}
-	if (expect_optional(MINUS_EQUAL_TOKEN))
+	if (ExpectOptional(MINUS_EQUAL_TOKEN))
 	{
-		std::unique_ptr<AstNode> ppt = std::make_unique<BinaryExpression>(std::make_unique<IdentifierNode>(identifier.get_value()), MINUS_TOKEN, std::move(parseExpression()));
-		expect(SEMICOLON_TOKEN);
-		return std::make_unique<VarAssignmentStmtNode>(identifier.get_value(), std::move(ppt));
+		std::unique_ptr<AstNode> ppt = std::make_unique<BinaryExpression>(std::make_unique<IdentifierNode>(identifier.GetValue()), MINUS_TOKEN, std::move(ParseExpression()));
+		Expect(SEMICOLON_TOKEN);
+		return std::make_unique<VarAssignmentStmtNode>(identifier.GetValue(), std::move(ppt));
 	}
-	if (expect_optional(STAR_EQUAL_TOKEN))
+	if (ExpectOptional(STAR_EQUAL_TOKEN))
 	{
-		std::unique_ptr<AstNode> ppt = std::make_unique<BinaryExpression>(std::make_unique<IdentifierNode>(identifier.get_value()), STAR_TOKEN, std::move(parseExpression()));
-		expect(SEMICOLON_TOKEN);
-		return std::make_unique<VarAssignmentStmtNode>(identifier.get_value(), std::move(ppt));
+		std::unique_ptr<AstNode> ppt = std::make_unique<BinaryExpression>(std::make_unique<IdentifierNode>(identifier.GetValue()), STAR_TOKEN, std::move(ParseExpression()));
+		Expect(SEMICOLON_TOKEN);
+		return std::make_unique<VarAssignmentStmtNode>(identifier.GetValue(), std::move(ppt));
 	}
-	if (expect_optional(SLASH_EQUAL_TOKEN))
+	if (ExpectOptional(SLASH_EQUAL_TOKEN))
 	{
-		std::unique_ptr<AstNode> ppt = std::make_unique<BinaryExpression>(std::make_unique<IdentifierNode>(identifier.get_value()), SLASH_TOKEN, std::move(parseExpression()));
-		expect(SEMICOLON_TOKEN);
-		return std::make_unique<VarAssignmentStmtNode>(identifier.get_value(), std::move(ppt));
+		std::unique_ptr<AstNode> ppt = std::make_unique<BinaryExpression>(std::make_unique<IdentifierNode>(identifier.GetValue()), SLASH_TOKEN, std::move(ParseExpression()));
+		Expect(SEMICOLON_TOKEN);
+		return std::make_unique<VarAssignmentStmtNode>(identifier.GetValue(), std::move(ppt));
 	}
 
-	if (expect_optional(EQUAL_TOKEN))
+	if (ExpectOptional(EQUAL_TOKEN))
 	{
-		std::unique_ptr<AstNode> expression = parseExpression();
-		expect(SEMICOLON_TOKEN);
-		return std::make_unique<VarAssignmentStmtNode>(identifier.get_value(), std::move(expression));
+		std::unique_ptr<AstNode> expression = ParseExpression();
+		Expect(SEMICOLON_TOKEN);
+		return std::make_unique<VarAssignmentStmtNode>(identifier.GetValue(), std::move(expression));
 	}
-	back();
-	return parseTerm();
+	Back();
+	return ParseTerm();
 }
 
-std::unique_ptr<AstNode> Parser::parseExpression()
+std::unique_ptr<AstNode> Parser::ParseExpression()
 {
-	if (match(IDENTIFIER_TOKEN) && peek_next().get_token_t() == OPEN_PAREN)
+	if (Match(IDENTIFIER_TOKEN) && PeekNext().GetToken_t() == OPEN_PAREN)
 	{
-		return functionCall();
+		return FunctionCall();
 	}
-	if (match(IDENTIFIER_TOKEN) && peek_next().get_token_t() != OPEN_PAREN)
+	if (Match(IDENTIFIER_TOKEN) && PeekNext().GetToken_t() != OPEN_PAREN)
 	{
-		return varAssignmentStatement();
+		return VarAssignmentStatement();
 	}
-	return parseBinaryExpression();
+	return ParseBinaryExpression();
 }
 
-std::unique_ptr<AstNode> Parser::parseBinaryExpression(int parentPrecedence)
+std::unique_ptr<AstNode> Parser::ParseBinaryExpression(int parentPrecedence)
 {
 	std::unique_ptr<AstNode> left;
 
-	unsigned short unary_prec = get_unary_operator_precedence(peek().get_token_t());
+	unsigned short unary_prec = GetUnaryOperatorPrecedence(Peek().GetToken_t());
 	if (unary_prec != 0 && unary_prec >= parentPrecedence)
 	{
-		SyntaxToken operatorToken = next_token();
-		std::unique_ptr<AstNode> operand = parseBinaryExpression(unary_prec);
-		left = std::make_unique<UnaryNode>(operatorToken.get_token_t(), std::move(operand));
+		SyntaxToken operatorToken = NextToken();
+		std::unique_ptr<AstNode> operand = ParseBinaryExpression(unary_prec);
+		left = std::make_unique<UnaryNode>(operatorToken.GetToken_t(), std::move(operand));
 	}
 	else
 	{
-		left = parsePrimary();
+		left = ParsePrimary();
 	}
 
 	while (true)
 	{
-		unsigned short prec = get_binary_operator_precedence(peek().get_token_t());
+		unsigned short prec = GetBinaryOperatorPrecedence(Peek().GetToken_t());
 		if (prec == 0 || prec <= parentPrecedence)
 		{
 			break;
 		}
-		SyntaxToken operatorToken = next_token();
-		std::unique_ptr<AstNode> right = parseBinaryExpression(prec);
-		left = std::make_unique<BinaryExpression>(std::move(left), operatorToken.get_token_t(), std::move(right));
+		SyntaxToken operatorToken = NextToken();
+		std::unique_ptr<AstNode> right = ParseBinaryExpression(prec);
+		left = std::make_unique<BinaryExpression>(std::move(left), operatorToken.GetToken_t(), std::move(right));
 	}
 
 	return left;
 }
 
-std::unique_ptr<AstNode> Parser::parseTerm()
+std::unique_ptr<AstNode> Parser::ParseTerm()
 {
-	std::unique_ptr<AstNode> left = parseFactor();
-	while (matchany({
+	std::unique_ptr<AstNode> left = ParseFactor();
+	while (MatchAny({
 		PLUS_TOKEN,
 		MINUS_TOKEN, EQUAL_EQUAL_TOKEN, AMPERSAND_AMPERSAND_TOKEN, BANG_EQUAL_TOKEN, PIPE_PIPE_TOKEN
 					}))
 	{
-		SyntaxToken op = next_token();
-		std::unique_ptr<AstNode> right = parseFactor();
-		left = std::make_unique<BinaryExpression>(std::move(left), op.get_token_t(), std::move(right));
+		SyntaxToken op = NextToken();
+		std::unique_ptr<AstNode> right = ParseFactor();
+		left = std::make_unique<BinaryExpression>(std::move(left), op.GetToken_t(), std::move(right));
 	}
 	return left;
 }
 
-std::unique_ptr<AstNode> Parser::parseFactor()
+std::unique_ptr<AstNode> Parser::ParseFactor()
 {
-	std::unique_ptr<AstNode> left = parseUnary();
+	std::unique_ptr<AstNode> left = ParseUnary();
 
-	while (matchany({ STAR_TOKEN, SLASH_TOKEN }))
+	while (MatchAny({ STAR_TOKEN, SLASH_TOKEN }))
 	{
-		SyntaxToken op = next_token();
-		std::unique_ptr<AstNode> right = parseUnary();
-		left = std::make_unique<BinaryExpression>(std::move(left), op.get_token_t(), std::move(right));
+		SyntaxToken op = NextToken();
+		std::unique_ptr<AstNode> right = ParseUnary();
+		left = std::make_unique<BinaryExpression>(std::move(left), op.GetToken_t(), std::move(right));
 	}
 
 	return left;
 }
 
-std::unique_ptr<AstNode> Parser::parseUnary()
+std::unique_ptr<AstNode> Parser::ParseUnary()
 {
-	if (match(MINUS_TOKEN))
+	if (Match(MINUS_TOKEN))
 	{
-		SyntaxToken token = next_token();
-		std::unique_ptr<AstNode> unary = parseUnary();
-		return std::make_unique<UnaryNode>(token.get_token_t(), std::move(unary));
+		SyntaxToken token = NextToken();
+		std::unique_ptr<AstNode> unary = ParseUnary();
+		return std::make_unique<UnaryNode>(token.GetToken_t(), std::move(unary));
 	}
-	return parsePrimary();
+	return ParsePrimary();
 }
 
-std::unique_ptr<AstNode> Parser::parsePrimary()
+std::unique_ptr<AstNode> Parser::ParsePrimary()
 {
 	std::unique_ptr<AstNode> primary = {};
 	SyntaxToken token = SyntaxToken::SyntaxToken(BAD_TOKEN, "", -1, 0, 0);
 
-	SyntaxToken prev = previous();
-	SyntaxToken prev_prev = previous_previous();
-	if (match(NUMBER_TOKEN) &&
-		prev.get_token_t() == EQUAL_TOKEN &&
-		prev_prev.get_token_t() == IDENTIFIER_TOKEN)
+	SyntaxToken prev = Previous();
+	SyntaxToken prev_prev = PreviousPrevious();
+	if (Match(NUMBER_LITERAL_TOKEN) &&
+		prev.GetToken_t() == EQUAL_TOKEN &&
+		prev_prev.GetToken_t() == IDENTIFIER_TOKEN)
 	{
-		token = next_token();
-		std::pair<Variable, Environment> var = std::move(this->env_stack.get(prev_prev.get_value()));
+		token = NextToken();
+		std::pair<Variable, Environment> var = std::move(this->env_stack.Get(prev_prev.GetValue()));
 		switch (var.first.dtType)
 		{
 			case DT_SHORT:
-				return std::make_unique<NumberNode>((short)stoi(token.get_value()));
+				return std::make_unique<NumberNode>((short)stoi(token.GetValue()));
 			case DT_INT:
-				return std::make_unique<NumberNode>(stoi(token.get_value()));
+				return std::make_unique<NumberNode>(stoi(token.GetValue()));
 			case DT_LONG:
-				return std::make_unique<NumberNode>(stol(token.get_value()));
+				return std::make_unique<NumberNode>(stol(token.GetValue()));
 			case DT_FLOAT:
-				return std::make_unique<NumberNode>(stof(token.get_value()));
+				return std::make_unique<NumberNode>(stof(token.GetValue()));
 			case DT_DOUBLE:
-				return std::make_unique<NumberNode>(stod(token.get_value()));
+				return std::make_unique<NumberNode>(stod(token.GetValue()));
 			default:
-				return std::make_unique<NumberNode>(stoi(token.get_value()));
+				return std::make_unique<NumberNode>(stoi(token.GetValue()));
 		}
 	}
-	else if (match(NUMBER_TOKEN))
+	else if (Match(NUMBER_LITERAL_TOKEN))
 	{
-		token = next_token();
-		if (token.get_value().find('.') != std::string::npos)
+		token = NextToken();
+		if (token.GetValue().find('.') != std::string::npos)
 		{
-			return std::make_unique<NumberNode>(stod(token.get_value()));
+			return std::make_unique<NumberNode>(stod(token.GetValue()));
 		}
-		return std::make_unique<NumberNode>(stoi(token.get_value()));
+		return std::make_unique<NumberNode>(stoi(token.GetValue()));
 	}
-	else if (match(STRING_LITERAL_TOKEN))
+	else if (Match(STRING_LITERAL_TOKEN))
 	{
-		token = next_token();
-		return std::make_unique<StringNode>(token.get_value());
+		token = NextToken();
+		return std::make_unique<StringNode>(token.GetValue());
 	}
-	else if (match(IDENTIFIER_TOKEN))
+	else if (Match(IDENTIFIER_TOKEN))
 	{
-		token = next_token();
-		return std::make_unique<IdentifierNode>(token.get_value());
+		token = NextToken();
+		return std::make_unique<IdentifierNode>(token.GetValue());
 	}
-	else if (match(FALSE_TOKEN))
+	else if (Match(FALSE_TOKEN))
 	{
-		advance();
+		Advance();
 		return std::make_unique<BoolNode>(false);
 	}
-	else if (match(TRUE_TOKEN))
+	else if (Match(TRUE_TOKEN))
 	{
-		advance();
+		Advance();
 		return std::make_unique<BoolNode>(true);
 	}
 	return primary;

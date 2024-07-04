@@ -6,7 +6,7 @@ StringNode::StringNode(std::string value)
 }
 
 
-std::any StringNode::accept(Visitor& visitor)
+std::any StringNode::Accept(Visitor& visitor)
 {
-	return visitor.visitStringNode(*this);
+	return visitor.VisitStringNode(*this);
 }

@@ -14,5 +14,5 @@ public:
 	BinaryExpression(std::unique_ptr<AstNode> left, Token_t op, std::unique_ptr<AstNode> right);
 	BinaryExpression(std::unique_ptr<AstNode> left);
 
-	std::any accept(Visitor& visitor);
+	std::any Accept(Visitor& visitor);
 };

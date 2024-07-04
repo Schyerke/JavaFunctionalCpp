@@ -8,8 +8,8 @@ IfStmtNode::IfStmtNode(std::unique_ptr<AstNode> expression, std::unique_ptr<AstN
 	this->blockStmt = std::move(blockStmt);
 }
 
-std::any IfStmtNode::accept(Visitor& visitor)
+std::any IfStmtNode::Accept(Visitor& visitor)
 {
-	return visitor.visitIfStmtNode(*this);
+	return visitor.VisitIfStmtNode(*this);
 }
 

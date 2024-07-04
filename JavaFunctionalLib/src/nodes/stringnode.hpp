@@ -8,6 +8,6 @@ public:
 	std::string value;
 
 	StringNode(std::string value);
-	std::any accept(Visitor& visitor);
+	std::any Accept(Visitor& visitor);
 };
 

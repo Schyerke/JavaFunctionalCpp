@@ -12,5 +12,5 @@ public:
 	NUMBER_DT number;
 	NumberNode(NUMBER_DT number);
 
-	std::any accept(Visitor& visitor);
+	std::any Accept(Visitor& visitor);
 };

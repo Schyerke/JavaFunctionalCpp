@@ -2,11 +2,11 @@
 
 #include "token.hpp"
 
-std::string token_name(Token_t token)
+std::string TokenName(Token_t token)
 {
 	switch (token)
 	{
-		case NUMBER_TOKEN:
+		case NUMBER_LITERAL_TOKEN:
 			return "Number Token";
 		case STRING_LITERAL_TOKEN:
 			return "String Token";
@@ -29,8 +29,6 @@ std::string token_name(Token_t token)
 		case SEMICOLON_TOKEN:
 			return "Semicolon Token";
 
-		case NO_OPERATOR_TOKEN:
-			return "No Operator Token";
 		case BAD_TOKEN:
 			return "Bad Token";
 		case END_OF_FILE_TOKEN:
@@ -41,9 +39,9 @@ std::string token_name(Token_t token)
 	return "Invalid Token";
 }
 
-std::string display_vartype(Token_t varType)
+std::string DisplayToken(Token_t token)
 {
-	switch (varType)
+	switch (token)
 	{
 		case BOOL_TYPE:
 			return "bool";
@@ -57,21 +55,6 @@ std::string display_vartype(Token_t varType)
 			return "float";
 		case DOUBLE_TYPE:
 			return "double";
-	}
-	return "Invalid Data Type";
-}
-
-std::string display_stmts(Token_t token)
-{
-	switch (token)
-	{
-		case PRINT_STMT:
-			return "print";
-
-		case FALSE_TOKEN:
-			return "false";
-		case TRUE_TOKEN:
-			return "true";
 
 		case EQUAL_TOKEN:
 			return "=";
@@ -88,27 +71,23 @@ std::string display_stmts(Token_t token)
 		case SEMICOLON_TOKEN:
 			return ";";
 
-		default:
-			return "No Statement Found";
-	}
-	return "Invalid Statment";
-}
+		case PRINT_KW:
+			return "print";
 
-std::string display_keyword(Token_t kw)
-{
-	switch (kw)
-	{
+		case FALSE_TOKEN:
+			return "false";
+		case TRUE_TOKEN:
+			return "true";
+
 		case IF_KW:
 			return "if";
 		case RETURN_KW:
 			return "return";
-
-		default:
-			return "Invalid Keyword";
 	}
+	return TokenName(token) + " not found";
 }
 
-unsigned short get_unary_operator_precedence(Token_t unary_op)
+unsigned short GetUnaryOperatorPrecedence(Token_t unary_op)
 {
 	switch (unary_op)
 	{
@@ -119,7 +98,7 @@ unsigned short get_unary_operator_precedence(Token_t unary_op)
 	return 0;
 }
 
-unsigned short get_binary_operator_precedence(Token_t binary_op)
+unsigned short GetBinaryOperatorPrecedence(Token_t binary_op)
 {
 	switch (binary_op)
 	{
@@ -131,11 +110,11 @@ unsigned short get_binary_operator_precedence(Token_t binary_op)
 
 		case STAR_TOKEN:
 		case SLASH_TOKEN:
-			return 7;
+			return 4;
 
 		case PLUS_TOKEN:
 		case MINUS_TOKEN:
-			return 4;
+			return 6;
 	}
 	return 0;
 }

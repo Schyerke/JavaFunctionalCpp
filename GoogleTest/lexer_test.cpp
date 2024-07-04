@@ -1,5 +1,21 @@
 #include "pch.h"
-#include "lexer.hpp"
+#include "parser.hpp"
+
+static void AssertEqSyntaxTokens(std::vector<SyntaxToken> expected_output, std::vector<SyntaxToken> lexer_output)
+{
+	ASSERT_EQ(lexer_output.size(), expected_output.size());
+	for (int i = 0; i < lexer_output.size(); i++)
+	{
+		SyntaxToken expected_syntaxtoken = expected_output.at(i);
+		SyntaxToken lexer_syntaxtoken = lexer_output.at(i);
+
+		ASSERT_EQ(expected_syntaxtoken.GetLen(), lexer_syntaxtoken.GetLen());
+		ASSERT_EQ(expected_syntaxtoken.GetPos(), lexer_syntaxtoken.GetPos());
+		ASSERT_EQ(expected_syntaxtoken.GetRow(), lexer_syntaxtoken.GetRow());
+		ASSERT_EQ(expected_syntaxtoken.GetToken_t(), lexer_syntaxtoken.GetToken_t());
+		ASSERT_EQ(expected_syntaxtoken.GetValue(), lexer_syntaxtoken.GetValue());
+	}
+}
 
 class LexerTest : public testing::Test
 {
@@ -18,29 +34,120 @@ protected:
 	Lexer lexer = Lexer("");
 };
 
-TEST_F(LexerTest, FunctionDeclaration)
+TEST_F(LexerTest, OperatorsLexer)
 {
-	//(int a, int b){print a + b;}f(2, 52); 
-	program = "int f";
+	program = "+ - * / ++ +++ -- += -= *= /= = == != && ||";
+	SetUp();
+	int row = 0;
+	std::vector<SyntaxToken> expected_output = {
+		SyntaxToken(PLUS_TOKEN, "+", 0, row, 1),
+		SyntaxToken(MINUS_TOKEN, "-", 2, row, 1),
+		SyntaxToken(STAR_TOKEN, "*", 4, row, 1),
+		SyntaxToken(SLASH_TOKEN, "/", 6, row, 1),
+		SyntaxToken(PLUS_PLUS_TOKEN, "++", 9, row, 2),
+		SyntaxToken(TRIPLE_PLUS_TOKEN, "+++", 12, row, 3),
+		SyntaxToken(MINUS_MINUS_TOKEN, "--", )
+	}
+}
+
+TEST_F(LexerTest, BoolTokensLexer)
+{
+	program = "true false true true";
+	SetUp();
+	int row = 0;
+	std::vector<SyntaxToken> expected_output = {
+		SyntaxToken(TRUE_TOKEN, "true", 0, row, 4),
+		SyntaxToken(FALSE_TOKEN, "false", 5, row, 5),
+		SyntaxToken(TRUE_TOKEN, "true", 11, row, 4),
+		SyntaxToken(TRUE_TOKEN, "true", 16, row, 4),
+		SyntaxToken(END_OF_FILE_TOKEN, "", 20, row, 0)
+	};
+	std::vector<SyntaxToken> lexer_output = lexer.LexAll();
+	AssertEqSyntaxTokens(expected_output, lexer_output);
+}
+
+TEST_F(LexerTest, IdentifierLiteralsLexer)
+{
+	program = "var1 _vs2 VARIA __MALO__";
+	SetUp();
+	int row = 0;
+	std::vector<SyntaxToken> expected_output = {
+		SyntaxToken(IDENTIFIER_TOKEN, "var1", 0, row, 4),
+		SyntaxToken(IDENTIFIER_TOKEN, "_vs2", 5, row, 4),
+		SyntaxToken(IDENTIFIER_TOKEN, "VARIA", 10, row, 5),
+		SyntaxToken(IDENTIFIER_TOKEN, "__MALO__", 16, row, 8),
+		SyntaxToken(END_OF_FILE_TOKEN, "", 24, row, 0)
+	};
+	std::vector<SyntaxToken> lexer_output = lexer.LexAll();
+	AssertEqSyntaxTokens(expected_output, lexer_output);
+}
+
+TEST_F(LexerTest, StringLiteralsLexer)
+{
+	program = "\"hello\" \"world\"";
+	SetUp();
+	int row = 0;
+	std::vector<SyntaxToken> expected_output = {
+		SyntaxToken(STRING_LITERAL_TOKEN, "hello", 1, row, 5),
+		SyntaxToken(STRING_LITERAL_TOKEN, "world", 9, row, 5),
+		SyntaxToken(END_OF_FILE_TOKEN, "", 15, row, 0)
+	};
+	std::vector<SyntaxToken> lexer_output = lexer.LexAll();
+	AssertEqSyntaxTokens(expected_output, lexer_output);
+}
+
+TEST_F(LexerTest, NumberLiteralsLexer)
+{
+	program = "2 123 1465 94";
+	SetUp();
+	int row = 0;
+	std::vector<SyntaxToken> expected_output = {
+		SyntaxToken(NUMBER_LITERAL_TOKEN, "2", 0, row, 1),
+		SyntaxToken(NUMBER_LITERAL_TOKEN, "123", 2, row, 3),
+		SyntaxToken(NUMBER_LITERAL_TOKEN, "1465", 6, row, 4),
+		SyntaxToken(NUMBER_LITERAL_TOKEN, "94", 11, row, 2),
+		SyntaxToken(END_OF_FILE_TOKEN, "", 13, row, 0)
+	};
+	std::vector<SyntaxToken> lexer_output = lexer.LexAll();
+	AssertEqSyntaxTokens(expected_output, lexer_output);
+}
+
+TEST_F(LexerTest, FunctionDeclarationLexer)
+{
+	program = "int f(int a, int b){print a + b;}f(2, 52);";
 	SetUp();
 	int row = 0;
 
 	std::vector<SyntaxToken> expected_output = {
-		SyntaxToken(INT_TYPE, display_vartype(INT_TYPE), 0, row, 3),
-		SyntaxToken(IDENTIFIER_TOKEN, "f", 4, row, 1)
+		SyntaxToken(INT_TYPE, DisplayToken(INT_TYPE), 0, row, 3),
+		SyntaxToken(IDENTIFIER_TOKEN, "f", 4, row, 1),
+		SyntaxToken(OPEN_PAREN, "(", 5, row, 1),
+		SyntaxToken(INT_TYPE, DisplayToken(INT_TYPE), 6, row, 3),
+		SyntaxToken(IDENTIFIER_TOKEN, "a", 10, row, 1),
+		SyntaxToken(COMMA_TOKEN, ",", 11, row, 1),
+		SyntaxToken(INT_TYPE, DisplayToken(INT_TYPE), 13, row, 3),
+		SyntaxToken(IDENTIFIER_TOKEN, "b", 17, row, 1),
+		SyntaxToken(CLOSE_PAREN, ")", 18, row, 1),
+		SyntaxToken(OPEN_CURLY_BRACKET, "{", 19, row, 1),
+		SyntaxToken(PRINT_KW, DisplayToken(PRINT_KW), 20, row, 5),
+		SyntaxToken(IDENTIFIER_TOKEN, "a", 26, row, 1),
+		SyntaxToken(PLUS_TOKEN, "+", 28, row, 1),
+		SyntaxToken(IDENTIFIER_TOKEN, "b", 30, row, 1),
+		SyntaxToken(SEMICOLON_TOKEN, ";", 31, row, 1),
+		SyntaxToken(CLOSE_CURLY_BRACKET, "}", 32, row ,1),
+		SyntaxToken(IDENTIFIER_TOKEN, "f", 33, row, 1),
+		SyntaxToken(OPEN_PAREN, "(", 34, row, 1),
+		SyntaxToken(NUMBER_LITERAL_TOKEN, "2", 35, row, 1),
+		SyntaxToken(COMMA_TOKEN, ",", 36, row, 1),
+		SyntaxToken(NUMBER_LITERAL_TOKEN, "52", 38, row, 2),
+		SyntaxToken(CLOSE_PAREN, ")", 40, row, 1),
+		SyntaxToken(SEMICOLON_TOKEN, ";", 41, row ,1),
+
+		SyntaxToken(END_OF_FILE_TOKEN, "", 42, row, 0)
 	};
 
-	std::vector<SyntaxToken> lexer_output;
-	while (true)
-	{
-		SyntaxToken token = lexer.lex();
-		if (token.get_token_t() == END_OF_FILE_TOKEN || token.get_token_t() == BAD_TOKEN)
-		{
-			break;
-		}
-		lexer_output.push_back(token);
-	}
-	
-	
+	std::vector<SyntaxToken> lexer_output = lexer.LexAll();
+
+	AssertEqSyntaxTokens(expected_output, lexer_output);
 }
 

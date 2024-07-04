@@ -15,12 +15,12 @@
 
 std::string tab = "|";
 
-void add_space_tab()
+void AddSpaceTab()
 {
     tab += "   ";
 }
 
-void delete_space_tab()
+void DeleteSpaceTab()
 {
     if (tab.size() < 4)
     {
@@ -29,25 +29,25 @@ void delete_space_tab()
     tab = tab.substr(0, tab.size() - 4);
 }
 
-void Traverse::traverse(std::unique_ptr<AstNode>& statement)
+void Traverser::Traverse(std::unique_ptr<AstNode>& statement)
 {
-    statement->accept(*this);
+    statement->Accept(*this);
 }
 
-std::any Traverse::visitFunctionCallNode(FunctionCallExpr& functionCallExpr)
+std::any Traverser::VisitFunctionCallNode(FunctionCallExpr& functionCallExpr)
 {
     std::cout << tab + "FunctionCallExprNode (" + functionCallExpr.identifier + ")" << std::endl;
     std::cout << tab + "└─── Arguments" << std::endl;
-    add_space_tab();
+    AddSpaceTab();
     for (auto& arg : functionCallExpr.arguments)
     {
-        arg->accept(*this);
+        arg->Accept(*this);
     }
-    delete_space_tab();
+    DeleteSpaceTab();
     return std::any();
 }
 
-std::any Traverse::visitBlockStmtNode(BlockStmtNode& blockStmtNode)
+std::any Traverser::VisitBlockStmtNode(BlockStmtNode& blockStmtNode)
 {
     std::cout << tab + "BlockStatementNode" << std::endl;
     size_t stmt_counter = 0;
@@ -62,15 +62,15 @@ std::any Traverse::visitBlockStmtNode(BlockStmtNode& blockStmtNode)
             std::cout << tab + "├───";
         }
         stmt_counter++;
-        stmt->accept(*this);
+        stmt->Accept(*this);
         std::cout << std::endl;
     }
     return std::any();
 }
 
-std::any Traverse::visitBinaryExpression(BinaryExpression& binaryExpression)
+std::any Traverser::VisitBinaryExpression(BinaryExpression& binaryExpression)
 {
-    std::cout << tab + "BinaryExpressionNode (" + token_name(binaryExpression.op) + ")" << std::endl;
+    std::cout << tab + "BinaryExpressionNode (" + TokenName(binaryExpression.op) + ")" << std::endl;
 
     std::string character = "├─── ";
     if (binaryExpression.right == nullptr)
@@ -78,77 +78,77 @@ std::any Traverse::visitBinaryExpression(BinaryExpression& binaryExpression)
         character = "└─── ";
     }
     std::cout << tab + character;
-    add_space_tab();
-    binaryExpression.left->accept(*this);
-    delete_space_tab();
+    AddSpaceTab();
+    binaryExpression.left->Accept(*this);
+    DeleteSpaceTab();
     std::cout << tab + "└─── ";
-    add_space_tab();
-    binaryExpression.right->accept(*this);
-    delete_space_tab();
+    AddSpaceTab();
+    binaryExpression.right->Accept(*this);
+    DeleteSpaceTab();
     return std::any();
 }
 
-std::any Traverse::visitBoolNode(BoolNode& boolNode)
+std::any Traverser::VisitBoolNode(BoolNode& boolNode)
 {
     std::cout << tab + "BoolNode" << std::endl;
     return std::any();
 }
 
-std::any Traverse::visitNumberNode(NumberNode& numberNode)
+std::any Traverser::VisitNumberNode(NumberNode& numberNode)
 {
     std::cout << tab + "NumberNode" << std::endl;
     return std::any();
 }
 
-std::any Traverse::visitStringNode(StringNode& stringNode)
+std::any Traverser::VisitStringNode(StringNode& stringNode)
 {
     std::cout << tab + "StringNode" << std::endl;
     return std::any();
 }
 
-std::any Traverse::visitIdentifierNode(IdentifierNode& identifierNode)
+std::any Traverser::VisitIdentifierNode(IdentifierNode& identifierNode)
 {
     std::cout << tab + "IdentifierNode" << std::endl;
     return std::any();
 }
 
-std::any Traverse::visitUnaryNode(UnaryNode& unaryNode)
+std::any Traverser::VisitUnaryNode(UnaryNode& unaryNode)
 {
     std::cout << tab + "UnaryNode" << std::endl;
     return std::any();
 }
 
-std::any Traverse::visitIfStmtNode(IfStmtNode& ifStmtNode)
+std::any Traverser::VisitIfStmtNode(IfStmtNode& ifStmtNode)
 {
     std::cout << tab + "IfStatmentNode" << std::endl;
     std::cout << tab + "├───";
-    add_space_tab();
-    ifStmtNode.expression->accept(*this);
-    delete_space_tab();
+    AddSpaceTab();
+    ifStmtNode.expression->Accept(*this);
+    DeleteSpaceTab();
     std::cout << tab + "└───";
-    add_space_tab();
-    ifStmtNode.blockStmt->accept(*this);
-    delete_space_tab();
+    AddSpaceTab();
+    ifStmtNode.blockStmt->Accept(*this);
+    DeleteSpaceTab();
     return std::any();
 }
 
-std::any Traverse::visitPrintStmt(PrintStmtNode& printStmtNode)
+std::any Traverser::VisitPrintStmt(PrintStmtNode& printStmtNode)
 {
     std::cout << tab + "PrintStatementNode" << std::endl;
     std::cout << tab + "└───";
-    add_space_tab();
-    printStmtNode.expression->accept(*this);
-    delete_space_tab();
+    AddSpaceTab();
+    printStmtNode.expression->Accept(*this);
+    DeleteSpaceTab();
     return std::any();
 }
 
-std::any Traverse::visitVarDeclarationStmt(VarDeclarationNode& varDeclarationNode)
+std::any Traverser::VisitVarDeclarationStmt(VarDeclarationNode& varDeclarationNode)
 {
     std::cout << tab + "VarDeclarationNode";
     return std::any();
 }
 
-std::any Traverse::visitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmentNode)
+std::any Traverser::VisitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmentNode)
 {
     std::cout << tab + "VarAssignmentNode";
     return std::any();

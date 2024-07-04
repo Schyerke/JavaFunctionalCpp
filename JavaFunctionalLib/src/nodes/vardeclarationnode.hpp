@@ -10,7 +10,7 @@ public:
 	std::unique_ptr<AstNode> expression;
 	VarDeclarationNode(Token_t variableType, std::string identifier, std::unique_ptr<AstNode> expression);
 
-	std::any accept(Visitor& visitor);
+	std::any Accept(Visitor& visitor);
 
 };
 

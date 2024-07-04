@@ -8,7 +8,7 @@ FunctionCallExpr::FunctionCallExpr(std::string identifier, std::vector<std::uniq
     this->identifier = identifier;
 }
 
-std::any FunctionCallExpr::accept(Visitor& visitor)
+std::any FunctionCallExpr::Accept(Visitor& visitor)
 {
-    return visitor.visitFunctionCallNode(*this);
+    return visitor.VisitFunctionCallNode(*this);
 }

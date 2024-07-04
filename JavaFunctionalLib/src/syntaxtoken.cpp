@@ -14,27 +14,27 @@ SyntaxToken::SyntaxToken(Token_t token_t, std::string value, size_t pos, unsigne
 	this->row = row;
 }
 
-Token_t SyntaxToken::get_token_t()
+Token_t SyntaxToken::GetToken_t()
 {
 	return this->token_t;
 }
 
-std::string SyntaxToken::get_value()
+std::string SyntaxToken::GetValue()
 {
 	return this->value;
 }
 
-size_t SyntaxToken::get_pos()
+size_t SyntaxToken::GetPos()
 {
 	return this->pos;
 }
 
-size_t SyntaxToken::get_len()
+size_t SyntaxToken::GetLen()
 {
 	return this->len;
 }
 
-unsigned int SyntaxToken::get_row()
+unsigned int SyntaxToken::GetRow()
 {
 	return this->row;
 }

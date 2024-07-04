@@ -7,7 +7,7 @@ public:
 	std::unique_ptr<AstNode> expression;
 
 	PrintStmtNode(std::unique_ptr<AstNode> expression);
-	std::any accept(Visitor& visitor);
+	std::any Accept(Visitor& visitor);
 };
 
 

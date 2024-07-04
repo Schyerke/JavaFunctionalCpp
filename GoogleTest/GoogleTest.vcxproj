@@ -43,7 +43,8 @@
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>$(SolutionDir)JavaFunctionalLib/src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)JavaFunctionalLib/src;$(SolutionDir)JavaFunctionalLib/src/utils</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -59,7 +60,8 @@
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>$(SolutionDir)JavaFunctionalLib/src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)JavaFunctionalLib/src;$(SolutionDir)JavaFunctionalLib/src/utils</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

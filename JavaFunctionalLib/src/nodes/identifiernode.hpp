@@ -6,5 +6,5 @@ class IdentifierNode : public AstNode
 public:
 	std::string identifier;
 	IdentifierNode(std::string identifier);
-	std::any accept(Visitor& visitor);
+	std::any Accept(Visitor& visitor);
 };

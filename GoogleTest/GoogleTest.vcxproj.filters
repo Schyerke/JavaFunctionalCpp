@@ -4,7 +4,7 @@
     <ClCompile Include="test.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="lexer_test.cpp">
-      <Filter>IO</Filter>
+      <Filter>test</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -16,9 +16,6 @@
   <ItemGroup>
     <Filter Include="test">
       <UniqueIdentifier>{c8ca7842-6990-4d9f-8b0d-d1956f2f64e4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="IO">
-      <UniqueIdentifier>{092ddf3b-bfc8-41c3-bb4f-838abff1fbce}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

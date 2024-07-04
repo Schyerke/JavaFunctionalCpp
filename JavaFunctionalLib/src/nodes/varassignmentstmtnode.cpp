@@ -6,7 +6,7 @@ VarAssignmentStmtNode::VarAssignmentStmtNode(std::string identifier, std::unique
 	this->expression = std::move(expression);
 }
 
-std::any VarAssignmentStmtNode::accept(Visitor& visitor)
+std::any VarAssignmentStmtNode::Accept(Visitor& visitor)
 {
-	return visitor.visitVarAssignmentStmt(*this);
+	return visitor.VisitVarAssignmentStmt(*this);
 }

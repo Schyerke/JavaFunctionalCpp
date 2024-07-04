@@ -15,50 +15,50 @@ class Parser
 public:
 	Parser(std::string program, EnvStack env, FunctionMemory& function_memory);
 
-	std::vector<std::unique_ptr<AstNode>> parse();
-	std::vector<std::string> get_error_reports();
+	std::vector<std::unique_ptr<AstNode>> Parse();
+	std::vector<std::string> GetErrorReports();
 private:
 	EnvStack env_stack;
 	FunctionMemory& function_memory;
 	std::vector<SyntaxToken> tokens;
 	int index;
 
-	void report(std::string error);
+	void Report(std::string error);
 	std::vector<std::string> error_reports;
 
 
-	SyntaxToken next_token();
-	bool is_at_end();
-	void advance();
-	SyntaxToken peek_next_next();
-	SyntaxToken peek_next();
-	SyntaxToken peek();
-	SyntaxToken previous();
-	SyntaxToken previous_previous();
-	void back();
-	SyntaxToken expect(Token_t match);
-	std::optional<SyntaxToken> expect_optional(Token_t expect);
-	std::optional<SyntaxToken> find_var_type();
-	bool match(Token_t match);
-	bool matchany(std::vector<Token_t> tokens);
-	SyntaxToken look_ahead(int offset);
-	std::unique_ptr<AstNode> parseStatement();
-	std::unique_ptr<AstNode> parseIfStatement();
-	std::unique_ptr<AstNode> parsePrintStatement();
-	std::unique_ptr<AstNode> declarationStatement();
-	std::unique_ptr<AstNode> functionDeclarationStatement();
-	std::unique_ptr<AstNode> functionCall();
-	std::vector<Variable> parameters();
-	std::vector<std::unique_ptr<AstNode>> arguments();
-	std::unique_ptr<AstNode> parseBlockStatement(std::vector<Variable> pre_vars = {}, std::string func_id = "main");
-	std::unique_ptr<AstNode> varDeclarationStatement();
-	std::unique_ptr<AstNode> varAssignmentStatement();
-	std::unique_ptr<AstNode> parseExpression();
-	std::unique_ptr<AstNode> parseBinaryExpression(int precedence = 0);
-	std::unique_ptr<AstNode> parseTerm();
-	std::unique_ptr<AstNode> parseFactor();
-	std::unique_ptr<AstNode> parseUnary();
-	std::unique_ptr<AstNode> parsePrimary();
+	SyntaxToken NextToken();
+	bool IsAtEnd();
+	void Advance();
+	SyntaxToken PeekNextNext();
+	SyntaxToken PeekNext();
+	SyntaxToken Peek();
+	SyntaxToken Previous();
+	SyntaxToken PreviousPrevious();
+	void Back();
+	SyntaxToken Expect(Token_t match);
+	std::optional<SyntaxToken> ExpectOptional(Token_t expect);
+	std::optional<SyntaxToken> FindVarType();
+	bool Match(Token_t match);
+	bool MatchAny(std::vector<Token_t> tokens);
+	SyntaxToken LookAhead(int offset);
+	std::unique_ptr<AstNode> ParseStatement();
+	std::unique_ptr<AstNode> ParseIfStatement();
+	std::unique_ptr<AstNode> ParsePrintStatement();
+	std::unique_ptr<AstNode> DeclarationStatement();
+	std::unique_ptr<AstNode> FunctionDeclarationStatement();
+	std::unique_ptr<AstNode> FunctionCall();
+	std::vector<Variable> Parameters();
+	std::vector<std::unique_ptr<AstNode>> Arguments();
+	std::unique_ptr<AstNode> ParseBlockStatement(std::vector<Variable> pre_vars = {}, std::string func_id = "main");
+	std::unique_ptr<AstNode> VarDeclarationStatement();
+	std::unique_ptr<AstNode> VarAssignmentStatement();
+	std::unique_ptr<AstNode> ParseExpression();
+	std::unique_ptr<AstNode> ParseBinaryExpression(int precedence = 0);
+	std::unique_ptr<AstNode> ParseTerm();
+	std::unique_ptr<AstNode> ParseFactor();
+	std::unique_ptr<AstNode> ParseUnary();
+	std::unique_ptr<AstNode> ParsePrimary();
 
 };
 

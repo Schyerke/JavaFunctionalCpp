@@ -8,5 +8,5 @@ public:
 	std::unique_ptr<AstNode> blockStmt;
 
 	IfStmtNode(std::unique_ptr<AstNode> expression, std::unique_ptr<AstNode> blockStmt);
-	std::any accept(Visitor& visitor);
+	std::any Accept(Visitor& visitor);
 };

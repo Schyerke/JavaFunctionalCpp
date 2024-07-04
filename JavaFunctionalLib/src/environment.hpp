@@ -17,9 +17,9 @@ public:
 	class EnvrionmentVariable
 	{
 	public:
-		std::optional<Variable> get(std::string identifier);
-		void set(Variable variable);
-		void assign(std::string identifier, std::any value);
+		std::optional<Variable> Get(std::string identifier);
+		void Set(Variable variable);
+		void Assign(std::string identifier, std::any value);
 	private:
 		std::unordered_map<std::string, Variable> variables;
 	};

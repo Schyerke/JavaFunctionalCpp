@@ -8,7 +8,7 @@ class BlockStmtNode : public AstNode
 {
 public:
 	BlockStmtNode(std::vector<std::unique_ptr<AstNode>> stmts);
-	std::any accept(Visitor& visitor);
+	std::any Accept(Visitor& visitor);
 
 	std::vector<std::unique_ptr<AstNode>> stmts;
 };

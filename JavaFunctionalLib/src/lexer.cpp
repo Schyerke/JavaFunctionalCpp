@@ -10,17 +10,17 @@ Lexer::Lexer(std::string program)
 	this->program = program;
 }
 
-char Lexer::current()
+char Lexer::Current()
 {
-	return lookAhead(0);
+	return LookAhead(0);
 }
 
-char Lexer::peekNext()
+char Lexer::PeekNext()
 {
-	return lookAhead(1);
+	return LookAhead(1);
 }
 
-char Lexer::lookAhead(int offset)
+char Lexer::LookAhead(int offset)
 {
 	size_t size = this->program.size();
 	size_t index = this->index + offset;
@@ -40,155 +40,177 @@ void Lexer::advance()
 	}
 }
 
-SyntaxToken Lexer::lex()
+std::vector<SyntaxToken> Lexer::LexAll()
 {
-	if (current() == '\0')
+	std::vector<SyntaxToken> tokens;
+	//temp 'token' will be overwritten.
+	SyntaxToken token = SyntaxToken::SyntaxToken(END_OF_FILE_TOKEN, "", 0, 0, 0);
+	while (token.GetToken_t() != BAD_TOKEN)
+	{
+		token = Lex();
+		if (token.GetToken_t() == END_OF_FILE_TOKEN)
+		{
+			tokens.push_back(token); // pushing END_OF_FILE_TOKEN
+			break;
+		}
+		tokens.push_back(token);
+	}
+	return tokens;
+}
+
+SyntaxToken Lexer::Lex()
+{
+	if (Current() == '\0')
 	{
 		return SyntaxToken(END_OF_FILE_TOKEN, "", this->index, 0, this->row);
 	}
-	while (current() == '\n')
+	while (Current() == '\n')
 	{
 		this->row++;
 		advance();
 	}
-	while (isspace(current()))
+	while (isspace(Current()))
 	{
 		advance();
 	}
-	if (isdigit(current()))
+	if (isdigit(Current()))
 	{
 		size_t start = this->index;
-		while (isdigit(current()))
+		while (isdigit(Current()))
 		{
 			advance();
 		}
-		if (current() == '.')
+		if (Current() == '.')
 		{
 			advance();
-			while (isdigit(current()))
+			while (isdigit(Current()))
 			{
 				advance();
 			}
 		}
 		size_t length = this->index - start;
 		std::string text = this->program.substr(start, length);
-		return SyntaxToken(NUMBER_TOKEN, text, start, this->row, length);
+		return SyntaxToken(NUMBER_LITERAL_TOKEN, text, start, this->row, length);
 	}
-	if (isalpha(current()))
+	if (isalpha(Current()) || Current() == '_')
 	{
 		size_t start = this->index;
-		while (isalpha(current()))
+		while (Current() == '_' || isalpha(Current()))
 		{
 			advance();
+			while (isdigit(Current()))
+			{
+				advance();
+			}
 		}
 		size_t length = this->index - start;
 		std::string text = this->program.substr(start, length);
-		if (text == display_stmts(PRINT_STMT))
+		if (text == DisplayToken(PRINT_KW))
 		{
-			return SyntaxToken(PRINT_STMT, "", start, this->row, length);
+			return SyntaxToken(PRINT_KW, DisplayToken(PRINT_KW), start, this->row, length);
 		}
-		if (text == display_stmts(FALSE_TOKEN))
+		if (text == DisplayToken(FALSE_TOKEN))
 		{
-			return SyntaxToken(FALSE_TOKEN, display_stmts(FALSE_TOKEN), start, this->row, length);
+			return SyntaxToken(FALSE_TOKEN, DisplayToken(FALSE_TOKEN), start, this->row, length);
 		}
-		if (text == display_stmts(TRUE_TOKEN))
+		if (text == DisplayToken(TRUE_TOKEN))
 		{
-			return SyntaxToken(TRUE_TOKEN, display_stmts(TRUE_TOKEN), start, this->row, length);
-		}
-
-		if (text == display_vartype(BOOL_TYPE))
-		{
-			return SyntaxToken(BOOL_TYPE, display_vartype(BOOL_TYPE), start, this->row, length);
-		}
-		if (text == display_vartype(SHORT_TYPE))
-		{
-			return SyntaxToken(SHORT_TYPE, display_vartype(SHORT_TYPE), start, this->row, length);
-		}
-		if (text == display_vartype(INT_TYPE))
-		{
-			return SyntaxToken(INT_TYPE, display_vartype(INT_TYPE), start, this->row, length);
-		}
-		if (text == display_vartype(LONG_TYPE))
-		{
-			return SyntaxToken(LONG_TYPE, display_vartype(LONG_TYPE), start, this->row, length);
-		}
-		if (text == display_vartype(FLOAT_TYPE))
-		{
-			return SyntaxToken(FLOAT_TYPE, display_vartype(FLOAT_TYPE), start, this->row, length);
-		}
-		if (text == display_vartype(DOUBLE_TYPE))
-		{
-			return SyntaxToken(DOUBLE_TYPE, display_vartype(DOUBLE_TYPE), start, this->row, length);
+			return SyntaxToken(TRUE_TOKEN, DisplayToken(TRUE_TOKEN), start, this->row, length);
 		}
 
-		if (text == display_keyword(IF_KW))
+		if (text == DisplayToken(BOOL_TYPE))
 		{
-			return SyntaxToken(IF_KW, display_keyword(IF_KW), start, this->row, length);
+			return SyntaxToken(BOOL_TYPE, DisplayToken(BOOL_TYPE), start, this->row, length);
 		}
-		if (text == display_keyword(RETURN_KW))
+		if (text == DisplayToken(SHORT_TYPE))
 		{
-			return SyntaxToken(RETURN_KW, display_keyword(RETURN_KW), start, this->row, length);
+			return SyntaxToken(SHORT_TYPE, DisplayToken(SHORT_TYPE), start, this->row, length);
+		}
+		if (text == DisplayToken(INT_TYPE))
+		{
+			return SyntaxToken(INT_TYPE, DisplayToken(INT_TYPE), start, this->row, length);
+		}
+		if (text == DisplayToken(LONG_TYPE))
+		{
+			return SyntaxToken(LONG_TYPE, DisplayToken(LONG_TYPE), start, this->row, length);
+		}
+		if (text == DisplayToken(FLOAT_TYPE))
+		{
+			return SyntaxToken(FLOAT_TYPE, DisplayToken(FLOAT_TYPE), start, this->row, length);
+		}
+		if (text == DisplayToken(DOUBLE_TYPE))
+		{
+			return SyntaxToken(DOUBLE_TYPE, DisplayToken(DOUBLE_TYPE), start, this->row, length);
+		}
+
+		if (text == DisplayToken(IF_KW))
+		{
+			return SyntaxToken(IF_KW, DisplayToken(IF_KW), start, this->row, length);
+		}
+		if (text == DisplayToken(RETURN_KW))
+		{
+			return SyntaxToken(RETURN_KW, DisplayToken(RETURN_KW), start, this->row, length);
 		}
 
 		return SyntaxToken(IDENTIFIER_TOKEN, text, start, this->row, length);
 	}
 
-	switch (current())
+	switch (Current())
 	{
 	case '+':
-		if (peekNext() == '+' && lookAhead(2) == '+')
+		if (PeekNext() == '+' && LookAhead(2) == '+')
 		{
 			this->index += 3;
 			return SyntaxToken(TRIPLE_PLUS_TOKEN, "+++", this->index - 3, 3, this->row);
 		}
-		if (peekNext() == '+')
+		if (PeekNext() == '+')
 		{
 			this->index += 2;
 			return SyntaxToken(PLUS_PLUS_TOKEN, "++", this->index - 2, this->row, 2);
 		}
-		if (peekNext() == '=')
+		if (PeekNext() == '=')
 		{
 			this->index += 2;
 			return SyntaxToken(PLUS_EQUAL_TOKEN, "+=", this->index - 2, this->row, 2);
 		}
 		return SyntaxToken(PLUS_TOKEN, "+", this->index++, this->row, 1);
 	case '-':
-		if (peekNext() == '-')
+		if (PeekNext() == '-')
 		{
 			this->index += 2;
 			return SyntaxToken(MINUS_MINUS_TOKEN, "--", this->index - 2, this->row, 2);
 		}
-		if (peekNext() == '=')
+		if (PeekNext() == '=')
 		{
 			this->index += 2;
 			return SyntaxToken(MINUS_EQUAL_TOKEN, "-=", this->index - 2, this->row, 2);
 		}
 		return SyntaxToken(MINUS_TOKEN, "-", this->index++, this->row, 1);
 	case '*':
-		if (peekNext() == '=')
+		if (PeekNext() == '=')
 		{
 			this->index += 2;
 			return SyntaxToken(STAR_EQUAL_TOKEN, "*=", this->index - 2, this->row, 2);
 		}
 		return SyntaxToken(STAR_TOKEN, "*", this->index++, this->row, 1);
 	case '/':
-		if (peekNext() == '=')
+		if (PeekNext() == '=')
 		{
 			this->index += 2;
 			return SyntaxToken(SLASH_EQUAL_TOKEN, "/=", this->index - 2, this->row, 2);
 		}
-		if (peekNext() == '*')
+		if (PeekNext() == '*')
 		{
 			advance();
 			advance();
 
-			while (current() != '*' || peekNext() != '/')
+			while (Current() != '*' || PeekNext() != '/')
 			{
 				advance();
 			}
 			advance();
 			advance();
-			return lex();
+			return Lex();
 		}
 		return SyntaxToken(SLASH_TOKEN, "/", this->index++, this->row, 1);
 
@@ -205,28 +227,28 @@ SyntaxToken Lexer::lex()
 		return SyntaxToken(CLOSE_CURLY_BRACKET, "}", this->index++, this->row, 1);
 
 	case '=':
-		if (peekNext() == '=')
+		if (PeekNext() == '=')
 		{
 			this->index += 2;
 			return SyntaxToken(EQUAL_EQUAL_TOKEN, "==", this->index - 2, this->row, 2);
 		}
 		return SyntaxToken(EQUAL_TOKEN, "=", this->index++, this->row, 1);
 	case '!':
-		if (peekNext() == '=')
+		if (PeekNext() == '=')
 		{
 			this->index += 2;
 			return SyntaxToken(BANG_EQUAL_TOKEN, "!=", this->index - 2, this->row, 2);
 		}
 		break;
 	case '&':
-		if (peekNext() == '&')
+		if (PeekNext() == '&')
 		{
 			this->index += 2;
 			return SyntaxToken(AMPERSAND_AMPERSAND_TOKEN, "&&", this->index - 2, this->row, 2);
 		}
 		break;
 	case '|':
-		if (peekNext() == '|')
+		if (PeekNext() == '|')
 		{
 			this->index += 2;
 			return SyntaxToken(PIPE_PIPE_TOKEN, "||", this->index - 2, this->row, 2);
@@ -237,7 +259,7 @@ SyntaxToken Lexer::lex()
 	{
 		advance();
 		size_t start = this->index;
-		while (current() != '"')
+		while (Current() != '"')
 		{
 			advance();
 		}

@@ -4,6 +4,6 @@ class BoolNode : public AstNode {
 public:
 	bool value;
 	BoolNode(bool value);
-	std::any accept(Visitor& visitor);
+	std::any Accept(Visitor& visitor);
 };
 

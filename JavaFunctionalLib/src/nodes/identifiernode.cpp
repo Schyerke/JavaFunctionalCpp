@@ -7,7 +7,7 @@ IdentifierNode::IdentifierNode(std::string identifier)
 	this->identifier = identifier;
 }
 
-std::any IdentifierNode::accept(Visitor& visitor)
+std::any IdentifierNode::Accept(Visitor& visitor)
 {
-	return visitor.visitIdentifierNode(*this);
+	return visitor.VisitIdentifierNode(*this);
 }

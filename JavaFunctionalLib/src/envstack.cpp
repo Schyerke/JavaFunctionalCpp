@@ -4,7 +4,7 @@ EnvStack::EnvStack()
 {
 }
 
-std::optional<Environment> EnvStack::get()
+std::optional<Environment> EnvStack::Get()
 {
     if (not this->envs.empty() && this->current >= 0)
     {
@@ -13,7 +13,7 @@ std::optional<Environment> EnvStack::get()
     return std::nullopt;
 }
 
-Environment& EnvStack::get_ref()
+Environment& EnvStack::GetRef()
 {
     if (not this->envs.empty() && this->current >= 0)
     {
@@ -22,30 +22,30 @@ Environment& EnvStack::get_ref()
     throw new std::invalid_argument("No Environment Found.");
 }
 
-std::pair<Variable, Environment> EnvStack::get(std::string identifier)
+std::pair<Variable, Environment> EnvStack::Get(std::string identifier)
 {
-    std::optional<Environment> env_op = get();
+    std::optional<Environment> env_op = Get();
     if (env_op == std::nullopt)
     {
         throw std::invalid_argument("Variable Identifier '" + identifier + "' not found.");
     }
     Environment env = env_op.value();
-    if (env.env_var.get(identifier) == std::nullopt)
+    if (env.env_var.Get(identifier) == std::nullopt)
     {
-        return get(identifier);
+        return Get(identifier);
     }
-    reset();
-    return { env.env_var.get(identifier).value(), env};
+    Reset();
+    return { env.env_var.Get(identifier).value(), env};
 }
 
-void EnvStack::push(Environment env)
+void EnvStack::Push(Environment env)
 {
     this->envs.push_back(std::move(env));
     this->last_index++;
-    reset();
+    Reset();
 }
 
-std::optional<Environment> EnvStack::pop()
+std::optional<Environment> EnvStack::Pop()
 {
     if (this->envs.empty())
     {
@@ -54,32 +54,32 @@ std::optional<Environment> EnvStack::pop()
     Environment deleted_env = this->envs.at(last_index);
     this->last_index--;
     this->envs.pop_back();
-    reset();
+    Reset();
     return std::make_optional<Environment>(deleted_env);
 }
 
-void EnvStack::add(Variable var)
+void EnvStack::Add(Variable var)
 {
     try
     {
-        Environment& env = get_ref();
-        env.env_var.set(var);
+        Environment& env = GetRef();
+        env.env_var.Set(var);
     }
     catch (std::invalid_argument e)
     {
         std::cout << e.what() << std::endl;
     }
 
-     reset();
+     Reset();
 }
 
-void EnvStack::assign(std::string identifier, std::any value)
+void EnvStack::Assign(std::string identifier, std::any value)
 {
-    std::pair<Variable, Environment> var_op = std::move(get(identifier));
-    var_op.second.env_var.assign(identifier, std::move(var_op.first));
+    std::pair<Variable, Environment> var_op = std::move(Get(identifier));
+    var_op.second.env_var.Assign(identifier, std::move(var_op.first));
 }
 
-void EnvStack::reset()
+void EnvStack::Reset()
 {
     this->current = this->last_index;
 }

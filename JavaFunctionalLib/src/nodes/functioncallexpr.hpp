@@ -10,5 +10,5 @@ public:
 
 	FunctionCallExpr(std::string identifier, std::vector<std::unique_ptr<AstNode>> arguments);
 
-	std::any accept(Visitor& visitor);
+	std::any Accept(Visitor& visitor);
 };

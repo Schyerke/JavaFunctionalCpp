@@ -197,9 +197,6 @@
     <ClInclude Include="src\variable.hpp" />
     <ClInclude Include="src\visitor.hpp" />
   </ItemGroup>
-  <ItemGroup>
-    <Text Include="src\todo.txt" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -3,13 +3,12 @@
 
 enum Token_t
 {
-	NUMBER_TOKEN,
+	NUMBER_LITERAL_TOKEN,
 	STRING_LITERAL_TOKEN, // something like "hello world" (with "")
 	IDENTIFIER_TOKEN,
 	FALSE_TOKEN,
 	TRUE_TOKEN,
-
-	NO_OPERATOR_TOKEN,
+	
 	PLUS_TOKEN,
 	MINUS_TOKEN,
 	STAR_TOKEN,
@@ -23,6 +22,13 @@ enum Token_t
 	STAR_EQUAL_TOKEN,
 	SLASH_EQUAL_TOKEN,
 
+	EQUAL_TOKEN,
+
+	EQUAL_EQUAL_TOKEN,
+	BANG_EQUAL_TOKEN,
+	AMPERSAND_AMPERSAND_TOKEN,
+	PIPE_PIPE_TOKEN,
+
 	COMMA_TOKEN,
 
 	OPEN_PAREN,
@@ -30,13 +36,6 @@ enum Token_t
 
 	OPEN_CURLY_BRACKET,
 	CLOSE_CURLY_BRACKET,
-
-	EQUAL_TOKEN,
-
-	EQUAL_EQUAL_TOKEN,
-	BANG_EQUAL_TOKEN,
-	AMPERSAND_AMPERSAND_TOKEN,
-	PIPE_PIPE_TOKEN,
 
 	SEMICOLON_TOKEN,
 
@@ -48,10 +47,8 @@ enum Token_t
 	FLOAT_TYPE,
 	DOUBLE_TYPE,
 
-	//statements
-	PRINT_STMT,
-
 	//keywords
+	PRINT_KW,
 	IF_KW,
 	RETURN_KW,
 
@@ -59,10 +56,8 @@ enum Token_t
 	END_OF_FILE_TOKEN
 };
 
-std::string token_name(Token_t token);
-std::string display_vartype(Token_t varType);
-std::string display_stmts(Token_t stmt);
-std::string display_keyword(Token_t kw);
+std::string TokenName(Token_t token);
+std::string DisplayToken(Token_t token);
 
-unsigned short get_unary_operator_precedence(Token_t unary_op);
-unsigned short get_binary_operator_precedence(Token_t binary_op);
+unsigned short GetUnaryOperatorPrecedence(Token_t unary_op);
+unsigned short GetBinaryOperatorPrecedence(Token_t binary_op);

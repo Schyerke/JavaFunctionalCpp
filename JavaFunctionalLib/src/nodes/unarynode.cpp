@@ -6,7 +6,7 @@ UnaryNode::UnaryNode(Token_t token, std::unique_ptr<AstNode> left)
 	this->left = std::move(left);
 }
 
-std::any UnaryNode::accept(Visitor& visitor)
+std::any UnaryNode::Accept(Visitor& visitor)
 {
-	return visitor.visitUnaryNode(*this);
+	return visitor.VisitUnaryNode(*this);
 }

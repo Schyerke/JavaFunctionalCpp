@@ -23,19 +23,19 @@ struct Variable;
 
 class Visitor {
 public:
-	virtual std::any visitBinaryExpression(BinaryExpression& binaryExpression) = 0;
-	virtual std::any visitBoolNode(BoolNode& boolNode) = 0;
-	virtual std::any visitNumberNode(NumberNode& numberNode) = 0;
-	virtual std::any visitStringNode(StringNode& stringNode) = 0;
-	virtual std::any visitIdentifierNode(IdentifierNode& identifierNode) = 0;
-	virtual std::any visitUnaryNode(UnaryNode& unaryNode) = 0;
+	virtual std::any VisitBinaryExpression(BinaryExpression& binaryExpression) = 0;
+	virtual std::any VisitBoolNode(BoolNode& boolNode) = 0;
+	virtual std::any VisitNumberNode(NumberNode& numberNode) = 0;
+	virtual std::any VisitStringNode(StringNode& stringNode) = 0;
+	virtual std::any VisitIdentifierNode(IdentifierNode& identifierNode) = 0;
+	virtual std::any VisitUnaryNode(UnaryNode& unaryNode) = 0;
 
-	virtual std::any visitIfStmtNode(IfStmtNode& ifStmtNode) = 0;
-	virtual std::any visitPrintStmt(PrintStmtNode& printStmtNode) = 0;
-	virtual std::any visitVarDeclarationStmt(VarDeclarationNode& varDeclarationNode) = 0;
-	virtual std::any visitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmentNode) = 0;
+	virtual std::any VisitIfStmtNode(IfStmtNode& ifStmtNode) = 0;
+	virtual std::any VisitPrintStmt(PrintStmtNode& printStmtNode) = 0;
+	virtual std::any VisitVarDeclarationStmt(VarDeclarationNode& varDeclarationNode) = 0;
+	virtual std::any VisitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmentNode) = 0;
 
-	virtual std::any visitFunctionCallNode(FunctionCallExpr& functionCallExpr) = 0;
-	virtual std::any visitBlockStmtNode(BlockStmtNode& blockStmtNode) = 0;
+	virtual std::any VisitFunctionCallNode(FunctionCallExpr& functionCallExpr) = 0;
+	virtual std::any VisitBlockStmtNode(BlockStmtNode& blockStmtNode) = 0;
 };
 

@@ -16,12 +16,12 @@ public:
 	int last_index = -1;
 	int current = last_index;
 
-	std::optional<Environment> get();
-	Environment& get_ref();
-	std::pair<Variable, Environment> get(std::string identifier);
-	void push(Environment env);
-	std::optional<Environment> pop();
-	void add(Variable var);
-	void assign(std::string identifier, std::any value);
-	void reset();
+	std::optional<Environment> Get();
+	Environment& GetRef();
+	std::pair<Variable, Environment> Get(std::string identifier);
+	void Push(Environment env);
+	std::optional<Environment> Pop();
+	void Add(Variable var);
+	void Assign(std::string identifier, std::any value);
+	void Reset();
 };

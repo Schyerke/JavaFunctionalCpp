@@ -5,7 +5,7 @@ PrintStmtNode::PrintStmtNode(std::unique_ptr<AstNode> expression)
 	this->expression = std::move(expression);
 }
 
-std::any PrintStmtNode::accept(Visitor& visitor)
+std::any PrintStmtNode::Accept(Visitor& visitor)
 {
-	return visitor.visitPrintStmt(*this);
+	return visitor.VisitPrintStmt(*this);
 }

@@ -9,12 +9,7 @@ BinaryExpression::BinaryExpression(std::unique_ptr<AstNode> left, Token_t op, st
 	this->right = std::move(right);
 }
 
-BinaryExpression::BinaryExpression(std::unique_ptr<AstNode> left) {
-	this->left = std::move(left);
-	this->op = NO_OPERATOR_TOKEN;
-}
-
-std::any BinaryExpression::accept(Visitor& visitor)
+std::any BinaryExpression::Accept(Visitor& visitor)
 {
-	return visitor.visitBinaryExpression(*this);
+	return visitor.VisitBinaryExpression(*this);
 }

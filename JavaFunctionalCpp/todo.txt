@@ -19,6 +19,8 @@
 
 writing tests
 
+bang token (not)
+
 else if statement
 else statement
 

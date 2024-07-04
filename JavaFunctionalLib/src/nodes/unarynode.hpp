@@ -8,7 +8,7 @@ class UnaryNode : public AstNode {
 public:
 	UnaryNode(Token_t token, std::unique_ptr<AstNode> left);
 
-	std::any accept(Visitor& visitor);
+	std::any Accept(Visitor& visitor);
 
 	std::unique_ptr<AstNode> left;
 	Token_t token;

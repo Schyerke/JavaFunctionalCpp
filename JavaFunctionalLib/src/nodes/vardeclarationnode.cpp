@@ -7,8 +7,8 @@ VarDeclarationNode::VarDeclarationNode(Token_t variableType, std::string identif
 	this->expression = std::move(expression);
 }
 
-std::any VarDeclarationNode::accept(Visitor& visitor)
+std::any VarDeclarationNode::Accept(Visitor& visitor)
 {
-	return visitor.visitVarDeclarationStmt(*this);
+	return visitor.VisitVarDeclarationStmt(*this);
 }
 

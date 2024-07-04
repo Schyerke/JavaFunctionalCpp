@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "astnode.hpp"
+#include "nodes/astnode.hpp"
 #include "environment.hpp"
 #include "envstack.hpp"
 #include "variable.hpp"
@@ -13,25 +13,25 @@ public:
 	FunctionMemory& function_memory;
 	Semantic(EnvStack env, FunctionMemory& function_memory);
 
-	std::vector<std::string> analyse(std::vector<std::unique_ptr<AstNode>>& statements);
+	std::vector<std::string> Analyse(std::vector<std::unique_ptr<AstNode>>& statements);
 
 
 private:
 	std::vector<std::string> errors;
-	void add_err(std::string error);
+	void Report(std::string error);
 
-	std::any visitBinaryExpression(BinaryExpression& binaryExpression);
-	std::any visitBoolNode(BoolNode& boolNode);
-	std::any visitNumberNode(NumberNode& numberNode);
-	std::any visitStringNode(StringNode& stringNode);
-	std::any visitIdentifierNode(IdentifierNode& identifierNode);
-	std::any visitUnaryNode(UnaryNode& unaryNode);
+	std::any VisitBinaryExpression(BinaryExpression& binaryExpression);
+	std::any VisitBoolNode(BoolNode& boolNode);
+	std::any VisitNumberNode(NumberNode& numberNode);
+	std::any VisitStringNode(StringNode& stringNode);
+	std::any VisitIdentifierNode(IdentifierNode& identifierNode);
+	std::any VisitUnaryNode(UnaryNode& unaryNode);
 
-	std::any visitIfStmtNode(IfStmtNode& ifStmtNode);
-	std::any visitPrintStmt(PrintStmtNode& printStmtNode);
-	std::any visitVarDeclarationStmt(VarDeclarationNode& varDeclarationNode);
-	std::any visitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmentNode);
+	std::any VisitIfStmtNode(IfStmtNode& ifStmtNode);
+	std::any VisitPrintStmt(PrintStmtNode& printStmtNode);
+	std::any VisitVarDeclarationStmt(VarDeclarationNode& varDeclarationNode);
+	std::any VisitVarAssignmentStmt(VarAssignmentStmtNode& varAssignmentNode);
 
-	std::any visitFunctionCallNode(FunctionCallExpr& functionCallExpr);
-	std::any visitBlockStmtNode(BlockStmtNode& blockStmtNode);
+	std::any VisitFunctionCallNode(FunctionCallExpr& functionCallExpr);
+	std::any VisitBlockStmtNode(BlockStmtNode& blockStmtNode);
 };

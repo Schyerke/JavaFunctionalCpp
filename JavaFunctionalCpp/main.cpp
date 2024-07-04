@@ -10,11 +10,11 @@
 
 #include "lexer.hpp"
 #include "parser.hpp"
-#include "astnode.hpp"
-#include "numbernode.hpp"
-#include "binaryexpression.hpp"
+#include "nodes/astnode.hpp"
+#include "nodes/numbernode.hpp"
+#include "nodes/binaryexpression.hpp"
+#include "nodes/unarynode.hpp"
 #include "syntaxtoken.hpp"
-#include "unarynode.hpp"
 #include "semantic.hpp"
 #include "interpret.hpp"
 
@@ -63,9 +63,9 @@ int main()
 	EnvStack p_env;
 	FunctionMemory function_memory;
 	Parser parser(program, std::move(p_env), function_memory);
-	std::vector<std::unique_ptr<AstNode>> statements = std::move(parser.parse());
+	std::vector<std::unique_ptr<AstNode>> statements = std::move(parser.Parse());
 
-	std::vector<std::string> error_reports = parser.get_error_reports();
+	std::vector<std::string> error_reports = parser.GetErrorReports();
 
 	if (not error_reports.empty())
 	{
@@ -78,8 +78,8 @@ int main()
 	{
 		for (auto& stmt : statements)
 		{
-			std::unique_ptr<Traverse> traverse = std::make_unique<Traverse>();
-			traverse->traverse(stmt);
+			std::unique_ptr<Traverser> traverse = std::make_unique<Traverser>();
+			traverse->Traverser(stmt);
 			break;
 		}
 	}
@@ -87,7 +87,7 @@ int main()
 	
 	EnvStack sem_env;
 	Semantic semantic = Semantic(std::move(sem_env), function_memory);
-	std::vector<std::string> semantic_errors = semantic.analyse(statements);
+	std::vector<std::string> semantic_errors = semantic.Analyse(statements);
 	if (not semantic_errors.empty())
 	{
 		std::cout << "Semantic Analysis Error:" << std::endl;
@@ -103,11 +103,11 @@ int main()
 		{
 			continue;
 		}
-		interpreter.interpret(std::move(stmt));
-		if (not interpreter.get_runtime_errors().empty())
+		interpreter.Interpret(std::move(stmt));
+		if (not interpreter.GetRuntimeErrors().empty())
 		{	
 			std::cout << "Runtime Errors" << std::endl;
-			print_errors(interpreter.get_runtime_errors());
+			print_errors(interpreter.GetRuntimeErrors());
 			break;
 		}
 	}

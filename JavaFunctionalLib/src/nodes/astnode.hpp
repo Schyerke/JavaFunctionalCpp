@@ -4,6 +4,6 @@
 class AstNode
 {
 public:
-	virtual	std::any accept(Visitor& visitor) = 0;
+	virtual	std::any Accept(Visitor& visitor) = 0;
 };
 

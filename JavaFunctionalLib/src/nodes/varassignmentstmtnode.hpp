@@ -8,5 +8,5 @@ public:
 	std::unique_ptr<AstNode> expression;
 	
 	VarAssignmentStmtNode(std::string identifier, std::unique_ptr<AstNode> expression);
-	std::any accept(Visitor& visitor);
+	std::any Accept(Visitor& visitor);
 };
