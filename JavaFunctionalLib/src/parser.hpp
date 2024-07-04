@@ -4,7 +4,7 @@
 #include <optional>
 
 #include "lexer.hpp"
-#include "astnode.hpp"
+#include "nodes/astnode.hpp"
 #include "environment.hpp"
 #include "envstack.hpp"
 

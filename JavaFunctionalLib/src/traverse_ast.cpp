@@ -1,6 +1,9 @@
-﻿﻿#include "ast_node_headers.hpp"
+﻿
+
 #include "traverse_ast.hpp"
 #include "token.hpp"
+
+#include "ast_node_headers.hpp"
 
 
 #pragma execution_character_set( "utf-8" )

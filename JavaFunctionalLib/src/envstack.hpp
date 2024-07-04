@@ -25,4 +25,3 @@ public:
 	void assign(std::string identifier, std::any value);
 	void reset();
 };
-#include "../JavaFunctionalLib/pch.h"

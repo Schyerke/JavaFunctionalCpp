@@ -78,6 +78,7 @@
       <ConformanceMode>true</ConformanceMode>
       <BuildStlModules>true</BuildStlModules>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)JavaFunctionalLib/src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -108,6 +109,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <BuildStlModules>true</BuildStlModules>
+      <AdditionalIncludeDirectories>$(SolutionDir)JavaFunctionalLib/src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -141,6 +143,11 @@
   <ItemGroup>
     <None Include="cool_code.jpp" />
     <None Include="main.jpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JavaFunctionalLib\JavaFunctionalLib.vcxproj">
+      <Project>{b63cab6c-7462-41a5-a8eb-b31dbaf3ef93}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

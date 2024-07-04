@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "../JavaFunctionalCpp/lexer.hpp"
+#include "lexer.hpp"
 
 class LexerTest : public testing::Test
 {
@@ -42,3 +42,4 @@ TEST_F(LexerTest, FunctionDeclaration)
 	}
 
 }
+

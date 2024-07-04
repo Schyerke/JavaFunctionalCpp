@@ -3,7 +3,6 @@
 #include <fstream>
 #include <vector>
 #include <string>
-#include <print>
 
 #include "traverse_ast.hpp"
 
@@ -16,7 +15,6 @@
 #include "binaryexpression.hpp"
 #include "syntaxtoken.hpp"
 #include "unarynode.hpp"
-
 #include "semantic.hpp"
 #include "interpret.hpp"
 

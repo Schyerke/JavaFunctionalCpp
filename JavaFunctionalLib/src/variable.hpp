@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 #include "token.hpp"
-#include "astnode.hpp"
+#include "nodes/astnode.hpp"
 
 enum DataType
 {

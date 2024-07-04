@@ -5,7 +5,7 @@
 #include <optional>
 #include <vector>
 
-#include "vardeclarationnode.hpp"
+#include "nodes/vardeclarationnode.hpp"
 
 class Environment {
 public:
