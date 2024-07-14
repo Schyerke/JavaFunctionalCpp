@@ -34,9 +34,73 @@ protected:
 	Lexer lexer = Lexer("");
 };
 
+TEST_F(LexerTest, EndOfFileLexer)
+{
+	program = "";
+	SetUp();
+	int row = 0;
+	std::vector<SyntaxToken> expected_output = {
+		SyntaxToken(END_OF_FILE_TOKEN, "", 0, row, 0)
+	};
+	std::vector<SyntaxToken> lexer_output = lexer.LexAll();
+	AssertEqSyntaxTokens(expected_output, lexer_output);
+}
+
+TEST_F(LexerTest, KeywordsLexer)
+{
+	program = "print if return printifreturn";
+	SetUp();
+	int row = 0;
+	std::vector<SyntaxToken> expected_output = {
+		SyntaxToken(PRINT_KW, DisplayToken(PRINT_KW), 0, row, 5),
+		SyntaxToken(IF_KW, DisplayToken(IF_KW), 6, row, 2),
+		SyntaxToken(RETURN_KW, DisplayToken(RETURN_KW), 9, row, 6),
+		SyntaxToken(IDENTIFIER_TOKEN, "printifreturn", 16, row, 13),
+		SyntaxToken(END_OF_FILE_TOKEN, "", 16+13, row, 0)
+	};
+	std::vector<SyntaxToken> lexer_output = lexer.LexAll();
+	AssertEqSyntaxTokens(expected_output, lexer_output);
+}
+
+TEST_F(LexerTest, VariableTypesLexer)
+{
+	program = "bool short int long float double boolshortintlongfloatdouble";
+	SetUp();
+	int row = 0;
+	std::vector<SyntaxToken> expected_output = {
+		SyntaxToken(BOOL_TYPE, DisplayToken(BOOL_TYPE), 0, row, 4),
+		SyntaxToken(SHORT_TYPE, DisplayToken(SHORT_TYPE), 5, row, 5),
+		SyntaxToken(INT_TYPE, DisplayToken(INT_TYPE), 11, row, 3),
+		SyntaxToken(LONG_TYPE, DisplayToken(LONG_TYPE), 15, row, 4),
+		SyntaxToken(FLOAT_TYPE, DisplayToken(FLOAT_TYPE), 20, row, 5),
+		SyntaxToken(DOUBLE_TYPE, DisplayToken(DOUBLE_TYPE), 26, row, 6),
+		SyntaxToken(IDENTIFIER_TOKEN, "boolshortintlongfloatdouble", 33, row, strlen("boolshortintlongfloatdouble")),
+		SyntaxToken(END_OF_FILE_TOKEN, "", 33 + strlen("boolshortintlongfloatdouble"), row, 0)
+	};
+	std::vector<SyntaxToken> lexer_output = lexer.LexAll();
+	AssertEqSyntaxTokens(expected_output, lexer_output);
+}
+
+TEST_F(LexerTest, ParenLexer)
+{
+	program = "(){}}";
+	SetUp();
+	int row = 0;
+	std::vector<SyntaxToken> expected_output = {
+		SyntaxToken(OPEN_PAREN, "(", 0, row, 1),
+		SyntaxToken(CLOSE_PAREN, ")", 1, row, 1),
+		SyntaxToken(OPEN_CURLY_BRACKET, "{", 2, row, 1),
+		SyntaxToken(CLOSE_CURLY_BRACKET, "}", 3, row, 1),
+		SyntaxToken(CLOSE_CURLY_BRACKET, "}", 4, row, 1),
+		SyntaxToken(END_OF_FILE_TOKEN, "", 5, row, 0)
+	};
+	std::vector<SyntaxToken> lexer_output = lexer.LexAll();
+	AssertEqSyntaxTokens(expected_output, lexer_output);
+}
+
 TEST_F(LexerTest, OperatorsLexer)
 {
-	program = "+ - * / ++ +++ -- += -= *= /= = == != && ||";
+	program = "+ - * / ++ +++ -- += -= *= /= = == != && || ,";
 	SetUp();
 	int row = 0;
 	std::vector<SyntaxToken> expected_output = {
@@ -44,10 +108,23 @@ TEST_F(LexerTest, OperatorsLexer)
 		SyntaxToken(MINUS_TOKEN, "-", 2, row, 1),
 		SyntaxToken(STAR_TOKEN, "*", 4, row, 1),
 		SyntaxToken(SLASH_TOKEN, "/", 6, row, 1),
-		SyntaxToken(PLUS_PLUS_TOKEN, "++", 9, row, 2),
-		SyntaxToken(TRIPLE_PLUS_TOKEN, "+++", 12, row, 3),
-		SyntaxToken(MINUS_MINUS_TOKEN, "--", )
-	}
+		SyntaxToken(PLUS_PLUS_TOKEN, "++", 8, row, 2),
+		SyntaxToken(TRIPLE_PLUS_TOKEN, "+++", 11, row, 3),
+		SyntaxToken(MINUS_MINUS_TOKEN, "--", 15, row, 2),
+		SyntaxToken(PLUS_EQUAL_TOKEN, "+=", 18, row, 2),
+		SyntaxToken(MINUS_EQUAL_TOKEN, "-=", 21, row, 2),
+		SyntaxToken(STAR_EQUAL_TOKEN, "*=", 24, row, 2),
+		SyntaxToken(SLASH_EQUAL_TOKEN, "/=", 27, row, 2),
+		SyntaxToken(EQUAL_TOKEN, "=", 30, row, 1),
+		SyntaxToken(EQUAL_EQUAL_TOKEN, "==", 32, row, 2),
+		SyntaxToken(BANG_EQUAL_TOKEN, "!=", 35, row, 2),
+		SyntaxToken(AMPERSAND_AMPERSAND_TOKEN, "&&", 38, row, 2),
+		SyntaxToken(PIPE_PIPE_TOKEN, "||", 41, row, 2),
+		SyntaxToken(COMMA_TOKEN, ",", 44, row, 1),
+		SyntaxToken(END_OF_FILE_TOKEN, "", 45, row, 0)
+	};
+	std::vector<SyntaxToken> lexer_output = lexer.LexAll();
+	AssertEqSyntaxTokens(expected_output, lexer_output);
 }
 
 TEST_F(LexerTest, BoolTokensLexer)

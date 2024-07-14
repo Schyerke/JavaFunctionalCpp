@@ -60,6 +60,15 @@ std::any Interpreter::VisitUnaryNode(UnaryNode& unaryNode)
             return -(T)var;
         }, expr_unary);
     }
+    if (unary_expr.type() == typeid(bool))
+    {
+        bool expr_bool_result = std::any_cast<bool>(unary_expr);
+        if (unaryNode.token == BANG_TOKEN)
+        {
+            return !expr_bool_result;
+        }
+        throw std::invalid_argument("Runtime Error: Expected BANG TOKEN.");
+    }
     std::string unary_err = unary_expr.type().name();
     throw std::invalid_argument("Runtime Error: Invalid unary value type (found type '" + unary_err + "')");
 }

@@ -6,6 +6,9 @@
     <ClCompile Include="lexer_test.cpp">
       <Filter>test</Filter>
     </ClCompile>
+    <ClCompile Include="parser_test.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />

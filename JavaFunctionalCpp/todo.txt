@@ -19,7 +19,10 @@
 
 writing tests
 
+group statements
 bang token (not)
+
+panic mode for error handling
 
 else if statement
 else statement

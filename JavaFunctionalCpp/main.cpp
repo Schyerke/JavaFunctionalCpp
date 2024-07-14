@@ -63,6 +63,7 @@ int main()
 	EnvStack p_env;
 	FunctionMemory function_memory;
 	Parser parser(program, std::move(p_env), function_memory);
+
 	std::vector<std::unique_ptr<AstNode>> statements = std::move(parser.Parse());
 
 	std::vector<std::string> error_reports = parser.GetErrorReports();
@@ -79,7 +80,7 @@ int main()
 		for (auto& stmt : statements)
 		{
 			std::unique_ptr<Traverser> traverse = std::make_unique<Traverser>();
-			traverse->Traverser(stmt);
+			traverse->Traverse(stmt);
 			break;
 		}
 	}

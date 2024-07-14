@@ -33,11 +33,12 @@ varType => "short"  |
 		   "float"	|
 		   "double"
 
-expression => binary | unary | literal
+expression => binary | unary | literal | group
 
 binary  => expression operator expression
 unary   => "-" unary | primary
 primary => NUMBER | STRING | IDENTIFIER | "true" | "false"
+group   => "(" expression ")"
 
 operator => "+" | "-" | "*" | "/" | "==" | "!=" | "&&" | "||" 
 

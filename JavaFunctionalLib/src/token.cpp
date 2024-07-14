@@ -58,6 +58,8 @@ std::string DisplayToken(Token_t token)
 
 		case EQUAL_TOKEN:
 			return "=";
+		case BANG_TOKEN:
+			return "!";
 
 		case EQUAL_EQUAL_TOKEN:
 			return "==";

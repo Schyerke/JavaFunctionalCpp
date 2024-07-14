@@ -7,20 +7,7 @@
 #include "syntaxtoken.hpp"
 #include "token.hpp"
 
-#include "nodes/astnode.hpp"
-#include "nodes/binaryexpression.hpp"
-#include "nodes/boolnode.hpp"
-#include "nodes/identifiernode.hpp"
-#include "nodes/numbernode.hpp"
-#include "nodes/stringnode.hpp"
-#include "nodes/ifstmtnode.hpp"
-#include "nodes/unarynode.hpp"
-#include "nodes/varassignmentstmtnode.hpp"
-#include "nodes/vardeclarationnode.hpp"
-#include "nodes/functioncallexpr.hpp"
-#include "nodes/blockstmtnode.hpp"
-
-#include "nodes/printstmtnode.hpp"
+#include "ast_node_headers.hpp"
 
 #include "parser.hpp"
 
@@ -378,7 +365,12 @@ std::unique_ptr<AstNode> Parser::ParseBlockStatement(std::vector<Variable> pre_v
 	std::vector<std::unique_ptr<AstNode>> stmts;
 	while (not Match(CLOSE_CURLY_BRACKET))
 	{
-		stmts.push_back(std::move(ParseStatement()));
+		std::unique_ptr<AstNode> stmt = ParseStatement();
+		if (!stmt)
+		{
+			break;
+		}
+		stmts.push_back(std::move(stmt));
 	}
 	Expect(CLOSE_CURLY_BRACKET);
 	return std::make_unique<BlockStmtNode>(std::move(stmts));
@@ -468,6 +460,10 @@ std::unique_ptr<AstNode> Parser::VarAssignmentStatement()
 
 std::unique_ptr<AstNode> Parser::ParseExpression()
 {
+	if (Match(OPEN_PAREN))
+	{
+		return Group();
+	}
 	if (Match(IDENTIFIER_TOKEN) && PeekNext().GetToken_t() == OPEN_PAREN)
 	{
 		return FunctionCall();
@@ -477,6 +473,14 @@ std::unique_ptr<AstNode> Parser::ParseExpression()
 		return VarAssignmentStatement();
 	}
 	return ParseBinaryExpression();
+}
+
+std::unique_ptr<AstNode> Parser::Group()
+{
+	Expect(OPEN_PAREN);
+	std::unique_ptr<AstNode> expression = ParseExpression();
+	Expect(CLOSE_PAREN);
+	return expression;
 }
 
 std::unique_ptr<AstNode> Parser::ParseBinaryExpression(int parentPrecedence)
@@ -513,10 +517,7 @@ std::unique_ptr<AstNode> Parser::ParseBinaryExpression(int parentPrecedence)
 std::unique_ptr<AstNode> Parser::ParseTerm()
 {
 	std::unique_ptr<AstNode> left = ParseFactor();
-	while (MatchAny({
-		PLUS_TOKEN,
-		MINUS_TOKEN, EQUAL_EQUAL_TOKEN, AMPERSAND_AMPERSAND_TOKEN, BANG_EQUAL_TOKEN, PIPE_PIPE_TOKEN
-					}))
+	while (MatchAny({ PLUS_TOKEN, MINUS_TOKEN, EQUAL_EQUAL_TOKEN, AMPERSAND_AMPERSAND_TOKEN, BANG_EQUAL_TOKEN, PIPE_PIPE_TOKEN }))
 	{
 		SyntaxToken op = NextToken();
 		std::unique_ptr<AstNode> right = ParseFactor();
@@ -541,7 +542,7 @@ std::unique_ptr<AstNode> Parser::ParseFactor()
 
 std::unique_ptr<AstNode> Parser::ParseUnary()
 {
-	if (Match(MINUS_TOKEN))
+	if (MatchAny({ MINUS_TOKEN, BANG_TOKEN }))
 	{
 		SyntaxToken token = NextToken();
 		std::unique_ptr<AstNode> unary = ParseUnary();

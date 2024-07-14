@@ -161,7 +161,7 @@ SyntaxToken Lexer::Lex()
 		if (PeekNext() == '+' && LookAhead(2) == '+')
 		{
 			this->index += 3;
-			return SyntaxToken(TRIPLE_PLUS_TOKEN, "+++", this->index - 3, 3, this->row);
+			return SyntaxToken(TRIPLE_PLUS_TOKEN, "+++", this->index - 3, this->row, 3);
 		}
 		if (PeekNext() == '+')
 		{
@@ -239,7 +239,7 @@ SyntaxToken Lexer::Lex()
 			this->index += 2;
 			return SyntaxToken(BANG_EQUAL_TOKEN, "!=", this->index - 2, this->row, 2);
 		}
-		break;
+		return SyntaxToken(BANG_TOKEN, "!", this->index - 1, this->row, 1);
 	case '&':
 		if (PeekNext() == '&')
 		{
